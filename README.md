@@ -25,3 +25,65 @@ Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protrac
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+
+
+
+## 1. Cài đặt cho lệnh ng:
+npm install -g @angular/cli
+
+## 2. Tạo thư viện:
+ng new ngxi4-dynamic-service --createApplication=false
+
+## 3. Vào thư mục của dự án:
+cd ./ngxi4-dynamic-service
+
+# 4. Tạo một thư viện dự án (projects) ngxi4-dynamic-service:
+ng g library ngxi4-dynamic-service --prefix=ngxi4 --entryFile=ngx-i4
+
+# Thêm một service cho dự án lib:
+ng g service services/Ngxi4Auth --project ngxi4-dynamic-service
+
+## Chỉnh sửa thư viện để khai báo các thành phần của ionic4:
+npm i @ionic/angular
+
+# Thêm một thành phần cho dự án lib:
+ng g component cards/Ngxi4CardDynamicForm --project ngxi4-dynamic-service
+
+## 5. Xây dựng thư viện
+ng build
+
+## --- Tạo liên kết với npm để cài đặt cho máy nôi bộ ---
+cd dist/ngxi4-dynamic-service
+
+# liên kết cài nội bộ
+npm link
+
+# publish lên npm
+npm publish
+
+## Lệnh npm link sẽ tạo liên kết lệnh trong máy này thôi.
+## Và sẽ cho phép các dự án khác dùng lệnh:
+npm link ngxi4-dynamic-service
+# kết quả như lệnh npm i ngxi4-dynamic-service
+# do thư viện chưa publish
+
+
+# Sửa ngxi4-dynamic-service.module.ts thêm các import và export cho thư viện
+
+# Sửa các component, service, module để thực thi ok
+
+
+## Tạo một dự án mới, import thư viện này như sau:
+npm link ngxi4-dynamic-service
+
+# Mở file : angular.json bổ sung dòng cuối để có thể import được thư viện:
+
+  "projects": {
+    "app": {
+      "architect": {
+        "build": {
+          "options": {
+            "preserveSymlinks": true,
+
+
+## -- Xuất bản npm publish

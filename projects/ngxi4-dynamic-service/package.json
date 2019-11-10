@@ -1,0 +1,25 @@
+{
+  "name": "ngxi4-dynamic-service",
+  "version": "0.0.1",
+  "author": "Đoàn Quốc Cường",
+  "homepage": "https://github.com/cuongdqpayment",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cuongdqpayment/ngxi4-dynamic-service.git"
+  },
+  "peerDependencies": {
+    "@angular/animations": "~8.2.13",
+    "@angular/common": "^8.2.13",
+    "@angular/compiler": "~8.2.13",
+    "@angular/core": "^8.2.13",
+    "@angular/forms": "~8.2.13",
+    "@angular/platform-browser": "~8.2.13",
+    "@angular/platform-browser-dynamic": "~8.2.13",
+    "@angular/router": "~8.2.13",
+    "@ionic/angular": "^4.11.4",
+    "rxjs": "~6.4.0",
+    "tslib": "^1.10.0",
+    "typescript": ">=2.7",
+    "zone.js": "~0.9.1"
+  }
+}

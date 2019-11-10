@@ -1,0 +1,7 @@
+{
+  "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
+  "dest": "../../dist/ngxi4-dynamic-service",
+  "lib": {
+    "entryFile": "src/ngx-i4.ts"
+  }
+}
