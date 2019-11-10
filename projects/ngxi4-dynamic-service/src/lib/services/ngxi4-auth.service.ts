@@ -15,7 +15,7 @@ export class Ngxi4AuthService {
    * Hoặc khai lại đường dẫn lấy từ csdl
    */
   public serviceUrls: any = {
-    AUTH_SERVER: this.config.authServerUrl  // api xác thực user, pass và token, api
+    AUTH_SERVER: this.config?this.config.authServerUrl:'/'  // api xác thực user, pass và token, api
   }
 
   constructor(
