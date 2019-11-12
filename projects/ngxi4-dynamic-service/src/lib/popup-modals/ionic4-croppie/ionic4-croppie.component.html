@@ -1,0 +1,58 @@
+<ion-header>
+  <ion-toolbar color="tertiary">
+
+    <ion-title>Cắt Ảnh</ion-title>
+
+    <ion-buttons slot="primary">
+      <ion-button color="danger" (click)="onClickClose()">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+
+  <ion-toolbar *ngIf="isRotator" translucent>
+
+    <ion-buttons slot="start">
+      <ion-button (click)="onClickRotate('LEFT')">
+        <ion-icon slot="icon-only" name="md-undo"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
+    <ion-title style="text-align: center;">Xoay ảnh</ion-title>
+
+    <ion-buttons slot="end">
+      <ion-button (click)="onClickRotate('RIGHT')">
+        <ion-icon slot="icon-only" name="md-redo"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
+  </ion-toolbar>
+
+  <ion-card style="text-align: center;">
+
+    <!-- [roundCropper]="true" -->
+    <image-cropper *ngIf="imageChangedEvent?.target?.files?.length>0 || imageFile || imageBase64"
+      [imageChangedEvent]="imageChangedEvent" [imageBase64]="imageBase64"
+      [maintainAspectRatio]="(croppieOptions?.ratio?true:false)"
+      [aspectRatio]="(croppieOptions?.ratio?croppieOptions.ratio:1/1)" [onlyScaleDown]="true"
+      [resizeToWidth]="(croppieOptions?.max_width?croppieOptions.max_width:600)" format="png"
+      (imageCropped)="imageCropped($event)" (imageLoaded)="imageLoaded()" (cropperReady)="cropperReady()"
+      (loadImageFailed)="loadImageFailed()"></image-cropper>
+
+    <img *ngIf="item.croppied" [src]="item.croppied">
+    <!-- <div *ngIf="item.croppied" class="card-image-height" [style.background-image]="'url('+item.croppied+')'"></div> -->
+
+  </ion-card>
+
+  <ion-row>
+    <ion-col style="text-align: center;">
+      <ion-button class="form-button-item" shape="round" (click)="onClickCroppied()" [disabled]="!item.croppied">
+        <ion-icon name="image"></ion-icon>
+        Cắt lấy
+      </ion-button>
+    </ion-col>
+  </ion-row>
+</ion-content>

@@ -1,0 +1,32 @@
+ion-list {
+    &.list-ios {
+        margin-bottom: 0;
+    }
+}
+
+//ionic 4 phải đổi backgroud color theo thuộc tính css sau
+.item-selected:hover{
+    --ion-background-color: #327eff; //muốn đổi của ionic 4 là như này
+    opacity: 0.7;
+    color: #011536;
+    //font-size: 1.1em;
+}
+
+
+// Cỡ ảnh thực không được vượt quá chiều cao sau
+// Sẽ méo ảnh nếu chiều cao của ảnh cao hơn giá trị dưới
+// card này rất xấu hình
+.people-card img {
+    max-height: 100px;
+    overflow: hidden;
+}
+  
+// Vùng ảnh có độ cao tối thiểu phải theo con số ở dưới
+// Các ảnh sẽ lưu ở nền và không bị méo,
+// Được canh chỉnh image nằm giữa
+.people-card .people-card-image-height {
+    min-height: 100px;
+    background-repeat:no-repeat;
+    background-position: center center;
+    background-size: cover;
+}

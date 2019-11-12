@@ -1,0 +1,75 @@
+<ion-header>
+  <ion-toolbar color="primary">
+
+    <ion-title>{{(postData?.title?postData?.title:'Tạo bài viết')}}</ion-title>
+    
+    <ion-buttons *ngIf="!postData?.disable_close" slot="primary" (click)="onClickCancel()">
+      <ion-button>Bỏ qua</ion-button>
+    </ion-buttons>
+
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <!-- Thanh thông tin người dùng ở đây -->
+  <ion-item *ngIf="userInfo">
+    <ion-avatar slot="start">
+      <img
+        src="{{postData?.croppied?postData?.croppied:postData?.options?.func==='avatar'?userInfo?.data?.avatar?userInfo?.data?.avatar:'/assets/imgs/avatar.jpg':userInfo?.data?.background?userInfo?.data?.background:'/assets/imgs/background.jpg'}}">
+    </ion-avatar>
+    <ion-title>{{userInfo?.data?.full_name?userInfo?.data?.full_name:userInfo?.username}}</ion-title>
+    <ion-icon slot="end" name="{{(statusIcon[postData?.status]?statusIcon[postData?.status]:'md-globe')}}"></ion-icon>
+  </ion-item>
+
+
+  <!-- Các lệnh upload ảnh / video / file bất kỳ ở đây -->
+  <!-- *ngIf="!((postData?.content | linkify:'links')?.length>0)" -->
+  <ion-grid>
+  
+    <ion-row>
+
+      <!-- Nếu chưa có ảnh thì mới hiển thị nút upload này -->
+      <ion-col *ngIf="!postData?.image" style="text-align: center;">
+        <ion-button class="form-button-item card-button" shape="round">
+          <input class="file-over" type="file" id="fileupload" #imageUpload (change)="imageUploadEvent($event)"
+            accept="image/gif, image/jpeg, image/png" />
+          <ion-icon name="{{(postData?.is_face?'md-person':'image')}}"></ion-icon>
+          +{{(postData?.is_face?'Face':'Photo')}}
+        </ion-button>
+      </ion-col>
+
+      <!-- Nút đăng ảnh sau khi crop nội dung sẽ hiển thị nếu có kết quả crop -->
+      <ion-col *ngIf="postData?.image" style="text-align: center;">
+        <ion-button class="form-button-item" shape="round" (click)="onClickPost(postData?.action)" [disabled]="!postData?.croppied">
+          {{(postData?.action && postData?.action.name?postData?.action.name:'Đăng')}}
+        </ion-button>
+      </ion-col>
+
+    </ion-row>
+  </ion-grid>
+
+  <!-- Hiển thị trước để cắt ảnh đại diện trong vùng nhìn rõ nhất hoặc nhận diện khuông mặt -->
+ <!--  <cng-croppie *ngIf="postData?.image" #ngxCroppie [croppieOptions]="croppieOptions" [imageUrl]="postData?.image"
+    [points]="croppiePoints" [isRotator]="true" (result)="newImageResultFromCroppie($event)"></cng-croppie>
+ -->
+  <!-- Hiển thị hình ảnh đã croppied trước -->
+  <!-- <img *ngIf="postData?.croppied" [src]="postData?.croppied"/> -->
+
+
+
+  <!-- Dùng npm install ngx-image-cropper --save -->
+  <image-cropper
+    [imageChangedEvent]="imageChangedEvent"
+    [maintainAspectRatio]="true"
+    [aspectRatio]="(postData?.options?.func==='background'? 16/9 : 1/1)"
+    [resizeToWidth]="(postData?.crop_area?.width?postData?.crop_area?.width:300)"
+    format="png"
+    (imageCropped)="imageCropped($event)"
+    (imageLoaded)="imageLoaded()"
+    (cropperReady)="cropperReady()"
+    (loadImageFailed)="loadImageFailed()"
+></image-cropper>
+
+<img [src]="croppedImage" />
+
+</ion-content>

@@ -1,0 +1,26 @@
+  .actionBtn {
+    font-size: 4em;
+    cursor: pointer;
+  }
+  
+  .snapshot {
+    text-align: center;
+    img {
+      max-width: 800px;
+      max-height: 800px;
+    }
+  }
+  
+  ul.links {
+    padding-bottom: 20px;
+  }
+
+  .wrapper {
+    display: flex;
+    //background: #383838;
+    max-height: 400px;
+    align-items: center;
+    justify-content: center;
+    // inexplicable/unknown extra space is rendered, causing scrollbars to show up 
+    overflow: hidden;
+  }

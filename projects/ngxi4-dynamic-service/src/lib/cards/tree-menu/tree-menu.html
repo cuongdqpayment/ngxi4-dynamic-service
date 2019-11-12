@@ -1,0 +1,31 @@
+<!-- Kiểu menu mẫu ionic 4 -->
+<div *ngFor="let item of treeData; let idx = index" [style.padding-left]="level>0?'15px':'0px'">
+    <!-- Nếu là lá cây thì dùng toggle -- phải thiết lập auto-hide="false" để không bị ẩn ở chế độ window -->
+    <ion-menu-toggle auto-hide="false" *ngIf="!item.subs?.length">
+        <!-- Nếu gọi link url thì gọi href link outside -->
+        <ion-item *ngIf="item.type==='url'" class="tree-input-item" href="{{item.url}}">
+            <ion-icon slot="start" [style.font-size]="level>0?'1.3em':'1.5em'" [style.color]="item.icon?'green':'#dfe0fd'" name="{{item.icon?item.icon:'remove'}}"></ion-icon>
+            <ion-label class="ion-text-wrap" [style.font-size]="item.size?item.size:'1em'">{{item.name}}</ion-label>
+        </ion-item>
+        <!-- Nếu gọi kiểu truyền page độc lập url='/home' thì gọi route -->
+        <ion-item *ngIf="item.type==='route'" class="tree-input-item" [routerDirection]="'root'" [routerLink]="[item.url]" [queryParams]="item.options">
+            <ion-icon slot="start" [style.font-size]="level>0?'1.3em':'1.5em'" [style.color]="item.icon?'green':'#dfe0fd'" name="{{item.icon?item.icon:'remove'}}"></ion-icon>
+            <ion-label class="ion-text-wrap" [style.font-size]="item.size?item.size:'1em'">{{item.name}}</ion-label>
+        </ion-item>
+        <!-- Nếu kiểu gọi click để mở trang component truyền tham số options -->
+        <ion-item *ngIf="item.type==='click'" class="tree-input-item" [attr.tappable]="'true'" (click)="onClickLeaf(item, idx, treeData)">
+            <ion-icon slot="start" [style.font-size]="level>0?'1.3em':'1.5em'" [style.color]="item.icon?'green':'#dfe0fd'" name="{{item.icon?item.icon:'remove'}}"></ion-icon>
+            <ion-label class="ion-text-wrap" [style.font-size]="item.size?item.size:'1em'">{{item.name}}</ion-label>
+        </ion-item>
+    </ion-menu-toggle>
+    <!-- Nếu là cành cây thì dùng nút -->
+    <ion-item *ngIf="item.subs?.length" tappable (click)="hideAndShowChildrent(item)">
+        <ion-icon slot="start" style="font-size: 1.5em" [style.color]="item.visible?'darkgoldenrod':'darkblue'" name="{{item.visible?'remove-circle':'add-circle'}}"></ion-icon>
+        <ion-label class="ion-text-wrap" [style.font-size]="item.size?item.size:'1em'">{{item.name}}</ion-label>
+        <ion-icon slot="end" *ngIf="item.subs?.length" [style.color]="item.visible?'darkgoldenrod':'darkblue'" name="{{item.visible?'ios-arrow-up':'ios-arrow-down'}}"></ion-icon>
+    </ion-item>
+
+    <!-- Cây menu đệ quy nhé $event là biến nhận được từ sự kiện xảy ra, chính là dữ liệu truyền từ cấp cha xuống -->
+    <tree-menu [treeData]="item.subs" *ngIf="item.visible" [level]="(level+1)" (onClickItem)="onClickSubItem($event)"></tree-menu>
+
+</div>

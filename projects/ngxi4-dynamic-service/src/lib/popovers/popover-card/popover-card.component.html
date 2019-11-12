@@ -1,0 +1,35 @@
+<!-- Danh sách chọn 1 item và trả kết quả về 1 cái để chọn -->
+<ion-list *ngIf="dynamicForm?.type?dynamicForm.type==='single-choice':true" class="ion-no-margin ion-no-padding">
+
+  <ion-list-header color="{{dynamicForm?.color}}">
+    <ion-label>{{dynamicForm?.title}}</ion-label>
+  </ion-list-header>
+
+  <ion-item *ngFor="let item of dynamicForm?.menu; let idx=index;" tappable color="{{(item?.isChecked?'medium':item?.color)}}" class="item-selected"
+    (click)="selectedSingle(item)">
+    <ion-icon *ngIf="item?.icon" slot="start" name="{{(item?.icon?.name?item?.icon?.name:item?.icon)}}" color="{{(item?.icon?.color?item?.icon?.color:item?.color)}}"></ion-icon>
+    <ion-label>{{(item?.name ? item.name: item?.value)}}</ion-label>
+  </ion-item>
+
+</ion-list>
+
+<!-- Danh sách chọn theo check dùng để chọn nhiều trả về items-->
+<ion-list *ngIf="dynamicForm?.type==='multi-choice'" class="ion-no-margin ion-no-padding">
+
+  <ion-list-header color="{{dynamicForm?.color}}">
+    <ion-label>{{dynamicForm?.title}}</ion-label>
+  </ion-list-header>
+
+  <ion-item *ngFor="let item of dynamicForm?.menu; let idx=index;" tappable
+    color="{{(item?.isChecked?'medium':item?.color)}}" class="item-selected">
+    <ion-checkbox slot="start" color="{{item?.color?item?.color:item?.icon?.color}}" [(ngModel)]="item.isChecked">
+    </ion-checkbox>
+    <ion-label>{{(item?.name ? item.name: item?.value)}}</ion-label>
+  </ion-item>
+
+  <ion-item tappable color="primary" class="item-selected" (click)="selectedMulti(dynamicForm?.menu)">
+    <ion-label style="text-align: center;"> {{ ( dynamicForm?.okText? dynamicForm.okText : 'Chọn') }} </ion-label>
+  </ion-item>
+
+</ion-list>
+

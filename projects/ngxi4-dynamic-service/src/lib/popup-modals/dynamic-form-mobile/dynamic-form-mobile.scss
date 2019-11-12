@@ -1,0 +1,119 @@
+//:host {
+
+	.background-none {
+		--background:none;             //không thiết lập backgroud
+	}
+
+	.background-transparent {
+		background: transparent;       //thiết lập nền trong suốt
+	}
+
+	/* .background-color {
+		background-color: #2d96de;   //thiết lập màu cho nền
+	} */
+
+	.background-image {
+		background-image: url("/assets/imgs/gradient.png");
+		background-position: center;
+		background-repeat: no-repeat;
+		background-size: cover;
+	}
+
+	.background-round {
+		margin: 3px;
+		border-radius: 1.5em;
+	}
+	
+	
+	.background-links {
+		margin: 1px;
+		border-radius: 0.5em;
+	}
+
+	
+	.form-input-item {
+		background-color: #fefefe;   //thiết lập màu cho nền
+		color: #081875;   			 //thiết lập màu cho chữ
+		opacity: 0.95;					   //làm mờ chũ và nền đi một lượng nếu cần là <1 và >0
+		font-size: 1em;
+	}
+
+	.form-button-item {
+		border: solid 0.1em;
+		border-radius: 1.5em;
+	}
+
+
+	.form-title-item {
+		color: white;
+		text-align: center;
+		font-size: 1.4em;
+	}
+
+	// thiết lập cho ẩn nút file upload
+	.file-over {
+		position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 2;
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        cursor: pointer;
+	}
+	
+	// card thể hiện ở welcome
+	.form-welcome-card {
+		margin: 1px;
+		background-color: #fefefe;   //thiết lập màu cho nền
+		color: #081875;   			 //thiết lập màu cho chữ
+		
+		border-radius: 0.5em;
+	}
+	
+	
+	// chế độ này sử dụng đưa ảnh icon theo nội dung
+	.form-welcome-card img {
+		// giới hạn ảnh chỉ lớn nhất có độ cao là chừng này
+		// khi ảnh nhỏ thì nó sẽ hiển thị nhỏ
+		// khung ảnh cũng co lại nhỏ theo
+		// max-height: 250px; // bỏ cái này thì được
+		overflow: hidden;
+	}
+
+	// thiết lập ẩn nút lệnh trên khung hình
+	.card-background-image {
+		position: relative;
+		text-align: right;
+		padding: 5px;
+		// mở ảnh một khung tối thiểu là 200px ban đầu
+		// để hiển thị camera load ảnh lên
+		min-height: 100px; 
+	}
+
+	.card-background-image .card-button {
+		position: absolute;
+		top: 3%;
+		left: 5%;
+		font-size: 50px;
+	}
+
+	// Giới hạn độ cao của ảnh 
+	// cố định một độ cao của ảnh, ảnh có to hay nhỏ
+	// thì chỉ hiển thị trong khu hình này thôi
+	// nó sẽ đồng chỉnh trung tâm của ảnh 
+	// dùng cách này để hiển thị cố định độ cao của card
+
+	// Khi ảnh nhỏ thì ảnh nằm lọt thỏn trong khung
+	// và nền trống thừa trông rất xấu,
+	// nhưng ảnh lớn sẽ không bị méo, mà sẽ làm nền rất đẹp
+	.card-background-image .card-image-height {
+		min-height: 35vh;
+		background-repeat:no-repeat;
+		background-position: center center;
+		background-size: cover;
+	}
+
+	
+	
+//}

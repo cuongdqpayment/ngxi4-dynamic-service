@@ -1,0 +1,116 @@
+<ion-toolbar color="primary" class="card-dynamic-header">
+
+  <ion-buttons slot="start">
+    <ion-button shape="round" fill="outline" (click)="onClickReset()">
+      <ion-icon slot="icon-only" name="md-undo"></ion-icon>
+    </ion-button>
+  </ion-buttons>
+
+  <ion-title>{{(dynamicForm?.okButton?.name? dynamicForm.okButton?.name : 'Cập nhập danh sách')}}</ion-title>
+
+  <ion-buttons slot="primary" *ngIf="!isEditingObjects">
+
+    <!-- Nút lưu danh sách sau khi có ít nhất một bảng ghi -->
+    <ion-button *ngIf="dynamicForm?.$countTotal || dynamicForm?.title !==dynamicFormOrigin?.title" shape="round"
+      fill="outline" (click)="selectedAll()">
+      <ion-icon slot="icon-only" name="save"></ion-icon>
+    </ion-button>
+
+    <!-- Nút đóng cửa sổ không thực thi danh sách này -->
+    <ion-button shape="round" fill="outline" (click)="cancelClick()">
+      <ion-icon slot="icon-only" name="{{(dynamicForm?.cancelButton?.icon? dynamicForm.cancelButton?.icon : 'close')}}">
+      </ion-icon>
+    </ion-button>
+
+  </ion-buttons>
+
+</ion-toolbar>
+
+<ion-list>
+
+  <ion-list-header *ngIf="!dynamicForm?.showEditTitle && dynamicForm?.title">
+    <ion-title>{{dynamicForm?.title}}</ion-title>
+  </ion-list-header>
+
+  <ion-card *ngIf="dynamicForm?.showEditTitle">
+    <ion-item class="background-none background-round form-input-item">
+      <ion-label position="stacked" class="ion-text-wrap" color="primary" style="text-align: justify;">
+        Nhập tiêu đề:
+      </ion-label>
+      <ion-input type="text" placeholder="Tiêu đề của danh sách" [(ngModel)]="dynamicForm.title">
+      </ion-input>
+    </ion-item>
+  </ion-card>
+
+  <div *ngFor="let item of dynamicForm?.items; let idx=index">
+    <ion-item lines="full" color="{{(item?.$created_time?'light':item?.$updated_time?'light':'')}}"
+      [style.opacity]="(item?.$created_time?'0.7':item?.$updated_time?'0.8':'1')">
+
+      <!-- Nếu không có biểu tượng thì đưa số thứ tự của mảng để theo dõi -->
+      <span *ngIf="!item?.$icon && !item?.$avatar && !item?.$image" slot="start"
+        style="border: solid 0.1em; border-radius: 50%;">{{(idx+1)}}</span>
+
+      <ion-icon *ngIf="item?.$icon" [name]="(item?.$icon?.name?item?.$icon?.name:item?.$icon)" slot="start"></ion-icon>
+
+      <ion-avatar *ngIf="item?.$avatar" slot="start">
+        <img [src]="item?.$avatar" />
+      </ion-avatar>
+
+      <ion-thumbnail *ngIf="item?.$image" slot="start">
+        <ion-img [src]="item?.$image"></ion-img>
+      </ion-thumbnail>
+
+      <ion-label>{{item?.$name}}</ion-label>
+
+      <ion-buttons slot="end">
+
+        <ion-button (click)="onClickItem(item,'DELETE', idx)">
+          <ion-icon color="danger" slot="icon-only" name="trash"></ion-icon>
+        </ion-button>
+
+        <ion-button (click)="onClickItem(item,'EDIT')">
+          <ion-icon color="warning" slot="icon-only" name="md-create"></ion-icon>
+        </ion-button>
+
+        <ion-button (click)="onClickItem(item,'ADD')">
+          <ion-icon color="primary" slot="icon-only" name="person-add"></ion-icon>
+        </ion-button>
+
+      </ion-buttons>
+    </ion-item>
+
+    <ion-card *ngIf="item?.visible && objectForm">
+      <card-dynamic-form [dynamicFormInput]="objectForm" (onSelectedFinish)="onSelectedObjectFinish($event, item, idx)">
+      </card-dynamic-form>
+    </ion-card>
+  </div>
+
+  <!-- Lệnh thêm bảng ghi chỉ khi danh sách trống chưa có gì -->
+  <ion-card *ngIf="dynamicForm?.items?.length===0 && dynamicForm?.visible && objectForm">
+    <card-dynamic-form [dynamicCallback]="dynamicCallback" [dynamicFormInput]="objectForm" (onSelectedFinish)="onSelectedObjectFinish($event)">
+    </card-dynamic-form>
+  </ion-card>
+
+  <ion-item class="card-dynamic-header" tappable *ngIf="!dynamicForm?.visible && dynamicForm?.items?.length===0"
+    color="{{(dynamicForm?.addButton?.color? dynamicForm.addButton?.color : 'light')}}"
+    (click)="onClickItem(dynamicForm,'ADD')">
+    <ion-label> {{(dynamicForm?.addButton?.name? dynamicForm.addButton?.name : 'Tạo mới =>')}}</ion-label>
+    <ion-icon slot="end" name="ios-arrow-forward"></ion-icon>
+  </ion-item>
+
+</ion-list>
+
+<!-- Lệnh cuối cùng để thực thi xong chỉ hiển thị khi có ít nhất một bảng ghi thay đổi hoặc có thay đổi về title -->
+<!-- <ion-toolbar *ngIf="dynamicForm?.$countTotal || dynamicForm?.title !==dynamicFormOrigin?.title" color="primary">
+
+  <ion-title>{{(dynamicForm?.okButton?.name? dynamicForm.okButton?.name : 'Cập nhập danh sách')}}</ion-title>
+
+  <ion-buttons slot="primary">
+
+    <ion-button shape="round" fill="outline" (click)="selectedAll()">
+      <ion-icon slot="icon-only" name="send"></ion-icon>
+    </ion-button>
+
+  </ion-buttons>
+
+</ion-toolbar> -->

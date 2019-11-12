@@ -1,0 +1,35 @@
+
+// kích cỡ của card cố định độ cao
+.people-card {
+    height: 250px;
+}
+
+// Cỡ ảnh thực không được vượt quá chiều cao sau
+// Sẽ méo ảnh nếu chiều cao của ảnh cao hơn giá trị dưới
+// card này rất xấu hình
+.people-card img {
+    max-height: 100px;
+    overflow: hidden;
+}
+
+// Vùng ảnh có độ cao tối thiểu phải theo con số ở dưới
+// Các ảnh sẽ lưu ở nền và không bị méo,
+// Được canh chỉnh image nằm giữa
+.people-card .people-card-image-height {
+    min-height: 150px;
+    background-repeat:no-repeat;
+    background-position: center center;
+    background-size: cover;
+}
+
+// thiết lập cho ẩn nút file upload
+.check-choice {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    width: 100%;
+    height: 100%;
+    opacity: 0.2;
+    cursor: pointer;
+}

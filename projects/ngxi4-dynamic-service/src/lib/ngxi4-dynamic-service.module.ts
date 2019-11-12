@@ -4,7 +4,8 @@ import { Ngxi4CommonsService } from './services/ngxi4-common.service';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { IonicModule } from '@ionic/angular';
 import { RequestInterceptor } from './interceptors/requestInterceptor';
-import { Ngxi4CardDynamicFormComponent } from './cards/ngxi4-card-dynamic-form/ngxi4-card-dynamic-form.component';
+import { CardDynamicFormComponent } from './cards/card-dynamic-form/card-dynamic-form.component';
+import { SQLite } from '@ionic-native/sqlite/ngx';
 
 // Cấu hình tham số đầu vào, người dùng khai báo
 export interface Ngxi4Config {
@@ -16,13 +17,14 @@ export const Ngxi4ConfigService = new InjectionToken<Ngxi4Config>('Ngxi4Config')
 @NgModule({
   declarations: [
     // khai báo thành phần
-    Ngxi4CardDynamicFormComponent
+    CardDynamicFormComponent
   ],
   imports: [
     HttpClientModule, // để giao tiếp api
     IonicModule.forRoot()
   ],
   providers: [
+    SQLite,
     // Nhúng bảo mật interceptors
     {
       provide: HTTP_INTERCEPTORS,
@@ -32,7 +34,7 @@ export const Ngxi4ConfigService = new InjectionToken<Ngxi4Config>('Ngxi4Config')
   ],
   exports: [
     // xuất bản thành phần
-    Ngxi4CardDynamicFormComponent
+    CardDynamicFormComponent
   ]
 })
 export class Ngxi4DynamicServiceModule { 

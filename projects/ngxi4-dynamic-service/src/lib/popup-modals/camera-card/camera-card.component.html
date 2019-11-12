@@ -1,0 +1,49 @@
+<ion-header>
+  <ion-toolbar color="tertiary">
+
+    <ion-title>Chụp ảnh</ion-title>
+
+    <ion-buttons slot="primary">
+      <ion-button color="danger" (click)="onClickClose()">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+
+  <ion-toolbar translucent>
+
+    <ion-buttons slot="start">
+      <ion-button (click)="showNextWebcam(true);">
+        <ion-icon slot="icon-only" name="ios-repeat"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
+    <ion-title style="text-align: center;">WEBCAM VIEWER</ion-title>
+
+    <ion-buttons slot="end">
+      <ion-button (click)="triggerSnapshot();">
+        <ion-icon slot="icon-only" name="ios-camera"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
+  </ion-toolbar>
+
+
+  <ion-card style="text-align: center; padding: 5px">
+    <div class="wrapper" (window:resize)="onResize($event)">
+      <webcam *ngIf="showWebcam" [height]="height" [width]="width" [trigger]="triggerObservable" (imageCapture)="handleImage($event)"
+        [allowCameraSwitch]="allowCameraSwitch" [switchCamera]="nextWebcamObservable" [videoOptions]="videoOptions"
+        (cameraSwitched)="cameraWasSwitched($event)" (initError)="handleInitError($event)">
+      </webcam>
+    </div>
+  </ion-card>
+
+  <h4 *ngIf="errors.length > 0">Messages:</h4>
+  <ul *ngFor="let error of errors">
+    <li>{{error | json}}</li>
+  </ul>
+
+</ion-content>

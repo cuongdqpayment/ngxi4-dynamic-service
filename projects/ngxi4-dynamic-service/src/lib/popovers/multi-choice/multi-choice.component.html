@@ -1,0 +1,87 @@
+<ion-header>
+  <ion-toolbar color="tertiary">
+
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+
+    <ion-title>{{dynamicForm?.title}}</ion-title>
+
+    <ion-buttons slot="primary">
+      <ion-button color="danger" (click)="onClickClose()">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <!-- Danh sách chọn điểm danh (người) -->
+  <ion-grid *ngIf="dynamicForm?.type==='people-choice'">
+
+    <ion-row>
+      <ion-col *ngFor="let item of dynamicForm?.menu; let idx=index;" tappable size="6" size-sm="4" size-md="3" size-lg="3"
+        size-xl="3" class="item-selected">
+        <ion-card class="people-card">
+          <div *ngIf="item.image" class="people-card-image-height" [style.background-image]="'url('+item.image+')'">
+          </div>
+          <ion-card-header>
+            <ion-card-subtitle>{{(item?.name ? item.name: item?.value)}}</ion-card-subtitle>
+            {{item.description}}
+          </ion-card-header>
+          <!-- <ion-card-content *ngIf="item.description">
+            {{item.description}}
+          </ion-card-content> -->
+          <ion-checkbox class="check-choice" mode="md" color="{{item?.color?item?.color:'danger'}}" [(ngModel)]="item.isChecked">
+          </ion-checkbox>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+
+  </ion-grid>
+
+  <!-- Danh sách chọn món ăn -->
+  <ion-grid *ngIf="dynamicForm?.type==='card-choice'">
+    <ion-row>
+      <ion-col>
+        ion-col
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <!-- Danh sách chọn chỗ ngồi trong một phòng/toa xe/ xe-->
+  <ion-grid *ngIf="dynamicForm?.type==='seat-choice'">
+    <ion-row>
+      <ion-col>
+        ion-col
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <!-- Danh sách chọn bàn phục vụ -->
+  <ion-grid *ngIf="dynamicForm?.type==='table-choice'">
+    <ion-row>
+      <ion-col>
+        ion-col
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <ion-grid>
+
+    <ion-row>
+      <ion-col style="text-align: center;">
+
+        <ion-button shape="round" fill="outline" (click)="selectedMulti(dynamicForm?.menu)">
+          {{(dynamicForm?.okText? dynamicForm.okText : 'Chọn')}}
+          <ion-icon slot="end" name="send"></ion-icon>
+        </ion-button>
+
+      </ion-col>
+
+    </ion-row>
+  </ion-grid>
+
+</ion-content>

@@ -1,0 +1,403 @@
+<ion-toolbar color="secondary" class="card-dynamic-header">
+
+  <ion-title>{{(dynamicForm?.okButton?.name? dynamicForm.okButton?.name : 'Cập nhập')}}</ion-title>
+
+  <ion-buttons slot="primary" *ngIf="!isEditingObjects">
+
+    <!-- Nút lưu dữ liệu chấp nhận ghi -->
+    <ion-button shape="round" fill="outline" (click)="submitClick()">
+      <ion-icon slot="icon-only" name="{{(dynamicForm?.okButton?.icon? dynamicForm.okButton?.icon : 'save')}}">
+      </ion-icon>
+    </ion-button>
+
+    <!-- Nút đóng cửa sổ không làm gì -->
+    <ion-button shape="round" fill="outline" (click)="cancelClick()">
+      <ion-icon slot="icon-only" name="{{(dynamicForm?.cancelButton?.icon? dynamicForm.cancelButton?.icon : 'close')}}">
+      </ion-icon>
+    </ion-button>
+
+  </ion-buttons>
+
+</ion-toolbar>
+<!-- Các dữ liệu form nhập liệu động, gồm các form nhập liệu và nút xử lý -->
+<ion-list class="background-transparent" *ngFor="let it of dynamicForm?.items">
+
+
+  <!-- Tổ chức một đối tượng để lưu trữ -->
+  <ion-card *ngIf="it?.type == 'object'" class="background-round">
+    <ion-item *ngIf="!it.visible">
+      <ion-icon name="{{(it.icon?it.icon:'person')}}" color="primary" slot="start"></ion-icon>
+      <ion-label class="ion-text-wrap">
+        {{(it?.name? it.name : 'Tên đối tượng')}}
+        <p>
+          <strong>Số trường dữ liệu: </strong>{{(it?.length? it.length: 0)}}
+        </p>
+      </ion-label>
+      <ion-buttons slot="end">
+        <ion-button shape="round" (click)="onClickEditObject(it)">
+          <ion-icon color="secondary" slot="icon-only" name="create"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-item>
+    <!-- dynamic_form = JSON.stringify({name:,$objectForm:{items:[]}}), value = JSON.stringify({}) -->
+    <!-- Giá trị của mỗi đối tượng là chuỗi nhé, value = JSON.stringify({}) -->
+    <card-dynamic-form *ngIf="it.visible" [dynamicFormInput]="it.dynamicForm" [dynamicFormValue]="it.value"
+      (onSelectedFinish)="onSelectedObjectFinish($event,it)"></card-dynamic-form>
+  </ion-card>
+
+  <!-- Element = Một phần tử: là tập cha của object, chứa {name:, object:{}} 
+			phần tử sẽ cho phép sửa name, và kết quả value trả về là {name, object:{}}
+		-->
+  <ion-card *ngIf="it?.type == 'element'" class="background-round">
+
+    <!-- Thẻ đối tượng khi không sửa -->
+    <ion-item *ngIf="!it.visible">
+      <ion-label class="ion-text-wrap">
+        {{(it?.name? it.name : 'Tên đối tượng')}}
+        <p>
+          <strong>Số trường dữ liệu: </strong>{{(it?.length? it.length: 0)}}
+        </p>
+      </ion-label>
+      <ion-buttons slot="end">
+        <ion-button shape="round" (click)="onClickEditElement(it)">
+          <ion-icon color="secondary" slot="icon-only" name="create"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-item>
+
+
+    <!-- Thẻ đối tượng khi sửa thành 2 vùng, 1 vùng tên và 1 vùng object -->
+    <ion-item *ngIf="it.visible">
+      <ion-icon *ngIf="it.icon" name="{{it.icon}}" color="primary" slot="start"></ion-icon>
+      <ion-label position="stacked" class="ion-text-wrap" color="{{(it.invalid?'danger':'')}}"
+        style="text-align: justify;">
+        {{it.hint?it.hint:'Tên của phần tử'}}{{it.validators?'(*)':''}}
+      </ion-label>
+      <ion-input type="text" placeholder="{{it.hint?it.hint:'Tên của phần tử'}}" [(ngModel)]="it.name">
+      </ion-input>
+    </ion-item>
+
+    <!-- Vùng object nhập giá trị -->
+    <!-- dynamic_form = JSON.stringify({name:,$objectForm:{items:[]}}), value = JSON.stringify({name:,object:{}}) -->
+    <card-dynamic-form *ngIf="it.visible" [dynamicFormInput]="it.dynamicForm" [dynamicFormValue]="it.objectValues"
+      (onSelectedFinish)="onSelectedElementFinish($event,it)">
+    </card-dynamic-form>
+
+  </ion-card>
+
+
+  <!-- Tổ chức một danh sách đối tượng nào đó Ví dụ làm danh sách liên kết cho trang home -->
+  <ion-card *ngIf="it?.type == 'elements'" class="background-round">
+    <ion-item *ngIf="!it.visible">
+      <ion-icon name="{{(it.icon?it.icon:'business')}}" color="success" slot="start"></ion-icon>
+      <ion-label class="ion-text-wrap">
+        {{(it?.name? it.name : 'Tên danh sách...')}}
+        <p>
+          <strong>Số bảng ghi: </strong>{{(it?.length? it.length: 0)}}
+        </p>
+      </ion-label>
+      <ion-buttons slot="end">
+        <ion-button shape="round" (click)="onClickEditElements(it)">
+          <ion-icon color="secondary" slot="icon-only" name="create"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-item>
+
+    <ion-item *ngIf="it.visible">
+      <ion-icon *ngIf="it.icon" name="{{it.icon}}" color="primary" slot="start"></ion-icon>
+      <ion-label position="stacked" class="ion-text-wrap" color="{{(it.invalid?'danger':'')}}"
+        style="text-align: justify;">
+        {{it.hint?it.hint:'Tên phần tử (s)'}}{{it.validators?'(*)':''}}
+      </ion-label>
+      <ion-input type="text" placeholder="{{it.hint?it.hint:'Tên phần tử (s)'}}" [(ngModel)]="it.name">
+      </ion-input>
+    </ion-item>
+    <!-- Giá trị, form nhập liệu đều là json-->
+    <card-dynamic-list *ngIf="it.visible" [dynamicFormInput]="it.dynamicForm" [dynamicFormValue]="it.value"
+      (onSelectedFinish)="onSelectedElementsFinish($event,it)"></card-dynamic-list>
+  </ion-card>
+
+  <!-- Tổ chức một danh sách đối tượng nào đó Ví dụ làm danh sách liên kết cho trang home -->
+  <ion-card *ngIf="it?.type == 'list'" class="background-round">
+    <ion-item *ngIf="!it.visible">
+      <ion-icon name="{{(it.icon?it.icon:'business')}}" color="success" slot="start"></ion-icon>
+      <ion-label class="ion-text-wrap">
+        {{(it?.name? it.name : 'Tên danh sách...')}}
+        <p>
+          <strong>Số bảng ghi: </strong>{{(it?.length? it.length: 0)}}
+        </p>
+      </ion-label>
+      <ion-buttons slot="end">
+        <ion-button shape="round" (click)="onClickEditList(it)">
+          <ion-icon color="secondary" slot="icon-only" name="create"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-item>
+    <!-- Giá trị, form nhập liệu đều là json-->
+    <card-dynamic-list *ngIf="it.visible" [dynamicFormInput]="it.dynamicForm" [dynamicFormValue]="it.value"
+      (onSelectedFinish)="onSelectedListFinish($event,it)"></card-dynamic-list>
+  </ion-card>
+
+  <!-- Tổ chức menu chọn có biểu tượng popover -->
+  <ion-item *ngIf="it?.type == 'popover'" class="background-round">
+    <ion-icon *ngIf="it?.isIcon" name="{{(it.isIcon&&it.value?it.value:it.icon?it.icon:'person')}}" color="primary"
+      slot="start">
+    </ion-icon>
+    <ion-label *ngIf="!it?.value && ! it?.values" class="ion-text-wrap">
+      {{(it?.value?it?.value: it?.name? it.name : 'Chọn trong danh sách')}}
+    </ion-label>
+
+    <!-- Giá trị chọn là nhiều -->
+    <span *ngIf="it?.values" class="ion-text-wrap">
+      <ion-button shape="round" fill="outline" *ngFor="let value of it.values; let idx=index;"
+        (click)="onClickDeleteSelected(it.values, idx)">
+        {{value}}
+        <ion-icon color="primary" slot="end" name="close"></ion-icon>
+      </ion-button>
+    </span>
+
+    <!-- Giá trị chọn là 1 -->
+    <span *ngIf="it?.value" class="ion-text-wrap">
+      <ion-button shape="round" fill="outline" (click)="onClickDeleteSelected(it, it.value)">
+        {{it.value}}
+        <ion-icon color="primary" slot="end" name="close"></ion-icon>
+      </ion-button>
+    </span>
+
+    <ion-buttons slot="end">
+      <ion-button shape="round" (click)="onClickPopover($event, it)">
+        <ion-icon color="primary" slot="icon-only" name="more"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-item>
+
+  <!-- QrCode generator Phải là text hoặc dạng base64 hoặc hex với độ dài giới hạn, nếu lớn quá sẽ lỗi-->
+  <ion-grid *ngIf="it?.type == 'qrcode' && it?.value?.length<=2000 ">
+    <ion-row>
+      <ion-col style="text-align: center;" size="12" size-sm="6" size-md="6" size-lg="6" size-xl="6">
+        <ion-card>
+          <ngx-qrcode [qrc-value]="it.value"></ngx-qrcode>
+        </ion-card>
+      </ion-col>
+      <ion-col *ngIf="it.is_show_value" style="text-align: center;" size="12" size-sm="6" size-md="6" size-lg="6"
+        size-xl="6">
+        {{ it.value }}
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <!-- BarCode generator là dạng số và chữ số  -->
+  <ion-grid *ngIf="it?.type == 'barcode' && it?.value?.length<=100 ">
+    <ion-row>
+      <ion-col style="text-align: center;" size="12" size-sm="6" size-md="6" size-lg="6" size-xl="6">
+        <ion-card>
+          <ngx-barcode [bc-value]="it.value" [bc-display-value]="true"></ngx-barcode>
+          <!-- <ion-card-content *ngIf="it.is_show_value">
+              <div>{{ it.value }}</div>
+              </ion-card-content> -->
+        </ion-card>
+      </ion-col>
+      <ion-col *ngIf="it.is_show_value" style="text-align: center;" size="12" size-sm="6" size-md="6" size-lg="6"
+        size-xl="6">
+        {{ it.value }}
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <!-- Thêm thẻ ảnh thumnail -->
+  <ion-item *ngIf="it?.type == 'image'" class="background-round">
+    <ion-thumbnail *ngIf="it.value" tappable slot="start" (click)="showImage(it)">
+      <ion-img [src]="it.value"></ion-img>
+    </ion-thumbnail>
+    <ion-label>{{(it.value?it.name:'Tạo ảnh mới => '+it.name)}}</ion-label>
+    <ion-buttons slot="end">
+      <ion-button color='danger' shape="round" fill="outline" (click)="openCamera(it)">
+        <ion-icon slot="icon-only" name="videocam"></ion-icon>
+      </ion-button>
+      <ion-button color='secondary' shape="round" fill="outline">
+        <input tappable class="file-over" type="file" (change)="imageUploadEvent($event, it)"
+          accept="image/gif, image/jpeg, image/png" />
+        <ion-icon slot="icon-only" name="camera"></ion-icon>
+      </ion-button>
+      <ion-button *ngIf="it.value" color='primary' shape="round" fill="outline" (click)="cropImage(it)">
+        <ion-icon slot="icon-only" name="crop"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-item>
+  <ion-card *ngIf="it?.type == 'image' && it.visible" class='form-welcome-card card-background-image'>
+    <img *ngIf="it.value" [src]="it.value">
+  </ion-card>
+
+  <!-- title with avatar -->
+  <ion-item class="background-none background-color" *ngIf="it?.type == 'avatar'">
+    <ion-avatar slot="start" *ngIf="it.url"><img [src]="it.url"></ion-avatar>
+    <ion-title slot="start" class="form-title-item">{{it.name}}</ion-title>
+  </ion-item>
+
+  <!-- title -->
+  <ion-item class="background-none background-color" *ngIf="it?.type == 'title'">
+    <ion-label class="form-title-item">{{it.name}}</ion-label>
+  </ion-item>
+
+  <!-- form chi tiet -->
+  <ion-list class="background-round" *ngIf="it?.type == 'details'">
+    <ion-item *ngFor="let dt of it.details">
+      <strong slot="start">
+        {{dt.name}}
+      </strong>
+      <ion-label class="ion-text-wrap" *ngIf="dt.pipe_date">
+        {{dt.value | date:dt.pipe_date}}
+      </ion-label>
+      <ion-label class="ion-text-wrap" *ngIf="!dt.pipe_date">
+        {{dt.value}}
+      </ion-label>
+    </ion-item>
+  </ion-list>
+
+
+  <!-- input text inline=default null/fixed/floating/stacked-->
+  <ion-item *ngIf="it?.type == 'text'" class="background-none background-round form-input-item">
+    <ion-icon *ngIf="it.icon" slot="start" color="primary" name="{{it.icon}}"></ion-icon>
+    <ion-label position="stacked" class="ion-text-wrap" color="{{(it.invalid?'danger':'')}}"
+      style="text-align: justify;">
+      {{it.invalid?it.hint:it.name}}{{it.validators?'(*)':''}}</ion-label>
+    <ion-input type="{{it.input_type}}" placeholder="{{it.hint}}" [(ngModel)]="it.value" [disabled]="it.disabled">
+    </ion-input>
+  </ion-item>
+
+  <!-- Thêm captcha hình ảnh kiểu svg text file -->
+  <ion-item *ngIf="it?.type == 'svg'" class="background-none background-round form-input-item">
+    <!-- thêm OTP bằng hình ảnh -->
+    <div slot="start" [innerHTML]="it.svg"></div>
+    <ion-label position="stacked" class="ion-text-wrap" color="{{(it.invalid?'danger':'')}}"
+      style="text-align: justify;">
+      {{it.invalid?it.hint:it.name}}{{it.validators?'(*)':''}}</ion-label>
+    <ion-input type="text" placeholder="{{it.hint}}" [(ngModel)]="it.value"></ion-input>
+  </ion-item>
+
+  <!-- input text-area -->
+  <ion-item *ngIf="it?.type == 'text_area'" class="background-none background-round form-input-item">
+    <ion-icon *ngIf="it.icon" slot="start" color="primary" name="{{it.icon}}"></ion-icon>
+    <ion-label *ngIf="it.invalid" position="floating" color="danger" class="ion-text-wrap" style="text-align: justify;">
+      {{it.hint}}(*)
+    </ion-label>
+    <ion-textarea rows="6" cols="20" placeholder={{it.name?it.name:it.hint}} [(ngModel)]="it.value">
+    </ion-textarea>
+  </ion-item>
+
+  <!-- input password -->
+  <ion-item *ngIf="it?.type == 'password'" class="background-none background-round form-input-item">
+    <ion-icon *ngIf="it.icon" slot="start" color="primary" name="{{it.icon}}"></ion-icon>
+
+    <ion-label *ngIf="it.invalid" position="floating" color="danger" class="ion-text-wrap" style="text-align: justify;">
+      {{it.hint}}(*)
+    </ion-label>
+
+    <ion-input [type]="password_type" placeholder={{it.name?it.name:it.hint}} [(ngModel)]="it.value">
+    </ion-input>
+
+    <ion-icon slot="icon-only" slot="end" color="{{(password_type === 'text'?'secondary':'danger')}}" name="{{eye}}"
+      (click)="togglePasswordMode()"></ion-icon>
+  </ion-item>
+
+  <!-- check box -->
+  <ion-item *ngIf="it?.type === 'check'" class="background-none background-round form-input-item">
+    <ion-icon *ngIf="it.icon" slot="start" color="primary" name="{{it.icon}}"></ion-icon>
+    <ion-label class="ion-text-wrap" style="text-align: justify;">{{it.name?it.name:it.hint}}</ion-label>
+    <ion-checkbox [(ngModel)]="it.value"></ion-checkbox>
+  </ion-item>
+
+  <!-- radio select -->
+  <ion-list *ngIf="it?.type === 'radio'" class="background-none background-round form-input-item">
+    <ion-radio-group allow-empty-selection="true" name="radio-group" [(ngModel)]="it.value">
+
+      <ion-list-header>
+        <ion-icon *ngIf="it.icon" slot="start" color="primary" name="{{it.icon}}"></ion-icon>
+        <ion-label color="primary" class="ion-text-wrap" style="text-align: justify;">{{it.name}}
+        </ion-label>
+      </ion-list-header>
+
+      <ion-item *ngFor="let myRad of it.options">
+        <ion-label color="secondary" class="ion-text-wrap" style="text-align: justify;">{{myRad.name}}
+        </ion-label>
+        <ion-radio slot="start" color="secondary" value="{{myRad.value}}"></ion-radio>
+      </ion-item>
+
+    </ion-radio-group>
+  </ion-list>
+
+  <!-- single select -->
+  <ion-item *ngIf="it?.type === 'select'" class="background-none background-round form-input-item">
+    <ion-icon *ngIf="it.icon" slot="start" color="primary" name="{{it.icon}}"></ion-icon>
+    <ion-label color="{{(it.invalid&&!it.value?'danger':'primary')}}" class="ion-text-wrap"
+      style="text-align: justify;">
+      {{it.invalid&&!it.value?it.hint+'(*)':it.name}}</ion-label>
+    <ion-select [(ngModel)]="it.value" style="background-color: rgb(0, 190, 73); color:whitesmoke; border-radius: 1em;"
+      (ionChange)="onChangeSelect(it)">
+      <ion-select-option *ngFor="let mySet of it.options" value="{{mySet.value}}">{{mySet.name}}
+      </ion-select-option>
+    </ion-select>
+  </ion-item>
+
+  <!-- multiple select -->
+  <ion-item *ngIf="it?.type === 'select_multiple'" class="background-none background-round form-input-item">
+    <ion-icon *ngIf="it.icon" slot="start" color="primary" name="{{it.icon}}"></ion-icon>
+    <ion-label color="primary" class="ion-text-wrap" style="text-align: justify;">{{it.name?it.name:it.hint}}
+    </ion-label>
+    <ion-select [(ngModel)]="it.value" multiple="true"
+      style="background-color: rgb(0, 190, 73); color:whitesmoke; border-radius: 1em;">
+      <ion-select-option *ngFor="let mySet of it.options" value="{{mySet.value}}">{{mySet.name}}
+      </ion-select-option>
+    </ion-select>
+  </ion-item>
+
+  <!-- toggle check -->
+  <ion-item *ngIf="it?.type === 'toggle'" class="background-none background-round form-input-item">
+    <ion-icon *ngIf="it.icon" slot="start" color="primary" name="{{it.icon}}"></ion-icon>
+    <ion-label color="primary" class="ion-text-wrap" style="text-align: justify;">{{it.name?it.name:it.hint}}
+    </ion-label>
+    <ion-toggle color="{{it.color}}" [(ngModel)]="it.value"></ion-toggle>
+  </ion-item>
+
+  <!-- range adjust -->
+  <ion-item *ngIf="it?.type === 'range'" class="background-none background-round form-input-item">
+    <ion-label *ngIf="it.name" color="primary" class="ion-text-wrap" style="text-align: justify;">
+      {{it.name}}
+    </ion-label>
+    <ion-range min="{{it.min}}" max="{{it.max}}" pin="true" snaps="true" color="primary" [(ngModel)]="it.value">
+      <ion-icon *ngIf="it.icon" size="small" slot="start" name="{{it.icon}}"></ion-icon>
+      <ion-icon *ngIf="it.icon" slot="end" name="{{it.icon}}"></ion-icon>
+    </ion-range>
+  </ion-item>
+
+  <!-- rang title with value -->
+  <ion-item *ngIf="it?.type === 'range-text'" class="background-none background-round form-input-item">
+    <ion-range min="{{it.min}}" max="{{it.max}}" snaps="true" color="secondary" [(ngModel)]="it.value">
+      <ion-label slot="start" color="primary" style="font-size: 1.5em;">{{it.name}}</ion-label>
+      <ion-label slot="end" style="background-color: darkblue; color:#ffffff; font-size: 1.5em ; border-radius: 0.5em;">
+        {{it.value}} {{it.hint}}</ion-label>
+    </ion-range>
+  </ion-item>
+
+  <!-- date time-->
+  <ion-item *ngIf="it?.type === 'datetime'" class="background-none background-round form-input-item">
+    <ion-label *ngIf="it.invalid" color="danger">{{it.hint}}(*)</ion-label>
+    <ion-label *ngIf="!it.invalid">{{it.name}}</ion-label>
+    <ion-datetime displayFormat="{{it.display}}" placeholder="{{it.hint}}" pickerFormat="{{it.picker}}"
+      [(ngModel)]="it.value"></ion-datetime>
+  </ion-item>
+
+</ion-list>
+
+<!-- <ion-toolbar color="{{(dynamicForm?.okButton?.color? dynamicForm.okButton?.color : 'tertiary')}}">
+
+  <ion-title>{{(dynamicForm?.okButton?.name? dynamicForm.okButton?.name : 'Cập nhập')}}</ion-title>
+
+  <ion-buttons slot="primary">
+    <ion-button shape="round" fill="outline" (click)="submitClick()">
+      <ion-icon slot="icon-only" name="{{(dynamicForm?.okButton?.icon? dynamicForm.okButton?.icon : 'save')}}">
+      </ion-icon>
+    </ion-button>
+  </ion-buttons>
+
+</ion-toolbar> -->
