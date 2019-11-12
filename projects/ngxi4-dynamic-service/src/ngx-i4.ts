@@ -4,6 +4,7 @@
 
  // xuất bản dịch vụ ra
 export * from './lib/services/ngxi4-auth.service';
+export * from './lib/services/ngxi4-common.service';
 
 // xuất bản các components
 export * from './lib/cards/ngxi4-card-dynamic-form/ngxi4-card-dynamic-form.component';

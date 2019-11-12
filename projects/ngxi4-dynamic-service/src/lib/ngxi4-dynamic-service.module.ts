@@ -1,10 +1,10 @@
 import { NgModule, InjectionToken, ModuleWithProviders } from '@angular/core';
 import { Ngxi4AuthService } from './services/ngxi4-auth.service';
+import { Ngxi4CommonsService } from './services/ngxi4-common.service';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { IonicModule } from '@ionic/angular';
 import { RequestInterceptor } from './interceptors/requestInterceptor';
 import { Ngxi4CardDynamicFormComponent } from './cards/ngxi4-card-dynamic-form/ngxi4-card-dynamic-form.component';
-import { Ngxi4CommonsService } from './services/ngxi4-common.service';
 
 // Cấu hình tham số đầu vào, người dùng khai báo
 export interface Ngxi4Config {

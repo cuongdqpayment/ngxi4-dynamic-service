@@ -12,6 +12,7 @@
     "start": "ng serve",
     "build": "ng build",
     "test": "ng test",
+    "publish": "npm publish --access public",
     "lint": "ng lint",
     "e2e": "ng e2e"
   },

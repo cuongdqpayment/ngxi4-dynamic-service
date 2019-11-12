@@ -44,6 +44,9 @@ ng g library ngxi4-dynamic-service --prefix=ngxi4 --entryFile=ngx-i4
 ng g service services/Ngxi4Auth --project ngxi4-dynamic-service
 ng g service services/Ngxi4Common --project ngxi4-dynamic-service
 
+# Phải khai thêm một dòng ở file ngx-i4.ts
+export * from './lib/services/ngxi4-common.service';
+
 ## Chỉnh sửa thư viện để khai báo các thành phần của ionic4:
 npm i @ionic/angular
 
@@ -56,11 +59,12 @@ ng build
 ## --- Tạo liên kết với npm để cài đặt cho máy nôi bộ ---
 cd dist/ngxi4-dynamic-service
 
+# publish lên npm - login với user - cuongdq(cuongdq.payment@gmail.com)
+npm publish
+
 # liên kết cài nội bộ
 npm link
 
-# publish lên npm - login với user - cuongdq(cuongdq.payment@gmail.com)
-npm publish
 
 # Để sử dụng:
 npm i ngxi4-dynamic-service --save

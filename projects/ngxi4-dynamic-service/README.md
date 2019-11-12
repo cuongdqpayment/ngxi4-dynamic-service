@@ -51,8 +51,8 @@ import { Ngxi4AuthService } from 'ngxi4-dynamic-service';
 export class HomePage implements OnInit{
 
   constructor(
-    private apiAuth: Ngxi4AuthService,
-    private apiCommon: Ngxi4CommonService
+    private apiAuth: Ngxi4AuthService
+    , private apiCommon: Ngxi4CommonsService
     ) {}
 
   ngOnInit() {

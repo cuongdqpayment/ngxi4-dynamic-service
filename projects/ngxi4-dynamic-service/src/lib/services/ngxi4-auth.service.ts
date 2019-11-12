@@ -43,7 +43,7 @@ export class Ngxi4AuthService {
         return rtn;
       })
       .catch(err=>{
-        return err&&err.error?err.error:err;
+        throw err&&err.error?err.error:err;
       });
   }
 
@@ -71,7 +71,7 @@ export class Ngxi4AuthService {
         return rtn;
       })
       .catch(err=>{
-        return err&&err.error?err.error:err;
+        throw err&&err.error?err.error:err;
       });
   }
 
@@ -93,7 +93,7 @@ export class Ngxi4AuthService {
         return rtn;
       })
       .catch(err=>{
-        return err&&err.error?err.error:err;
+        throw err&&err.error?err.error:err;
       });
   }
 
