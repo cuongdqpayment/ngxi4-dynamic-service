@@ -42,6 +42,7 @@ ng g library ngxi4-dynamic-service --prefix=ngxi4 --entryFile=ngx-i4
 
 # Thêm một service cho dự án lib:
 ng g service services/Ngxi4Auth --project ngxi4-dynamic-service
+ng g service services/Ngxi4Common --project ngxi4-dynamic-service
 
 ## Chỉnh sửa thư viện để khai báo các thành phần của ionic4:
 npm i @ionic/angular
@@ -58,8 +59,11 @@ cd dist/ngxi4-dynamic-service
 # liên kết cài nội bộ
 npm link
 
-# publish lên npm
+# publish lên npm - login với user - cuongdq(cuongdq.payment@gmail.com)
 npm publish
+
+# Để sử dụng:
+npm i ngxi4-dynamic-service --save
 
 ## Lệnh npm link sẽ tạo liên kết lệnh trong máy này thôi.
 ## Và sẽ cho phép các dự án khác dùng lệnh:
@@ -85,5 +89,22 @@ npm link ngxi4-dynamic-service
           "options": {
             "preserveSymlinks": true,
 
+
+# Thêm bộ tham số cấu hình đồng nhất ở thư viện trùng với các thành phần của dự án này
+Tìm trong file: ./tsconfig.json và thêm dòng sau vào
+{
+  "compilerOptions": {
+    // ...
+    // paths are relative to `baseUrl` path.
+    "paths": {
+      "@angular/*": [
+        "./node_modules/@angular/*"
+      ],
+      "@ionic/*": [
+        "./node_modules/@ionic/*"
+      ]
+    }
+  }
+}
 
 ## -- Xuất bản npm publish

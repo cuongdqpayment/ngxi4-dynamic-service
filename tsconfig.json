@@ -19,6 +19,13 @@
       "dom"
     ],
     "paths": {
+      // thêm bộ angular phù hợp với bộ angular của package.json ở main project
+      "@angular/*": [
+        "./node_modules/@angular/*"
+      ],
+      "@ionic/*": [
+        "./node_modules/@ionic/*"
+      ],
       "ngxi4-dynamic-service": [
         "dist/ngxi4-dynamic-service"
       ],

@@ -4,6 +4,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { IonicModule } from '@ionic/angular';
 import { RequestInterceptor } from './interceptors/requestInterceptor';
 import { Ngxi4CardDynamicFormComponent } from './cards/ngxi4-card-dynamic-form/ngxi4-card-dynamic-form.component';
+import { Ngxi4CommonsService } from './services/ngxi4-common.service';
 
 // Cấu hình tham số đầu vào, người dùng khai báo
 export interface Ngxi4Config {
@@ -43,6 +44,7 @@ export class Ngxi4DynamicServiceModule {
       providers: [
         // xuất bản dịch vụ
         Ngxi4AuthService,
+        Ngxi4CommonsService,
         // xuất bản tham số ???...
         {
           provide: Ngxi4ConfigService,

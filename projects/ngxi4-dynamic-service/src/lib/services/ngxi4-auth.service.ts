@@ -41,6 +41,9 @@ export class Ngxi4AuthService {
         let rtn: any;
         rtn = data;
         return rtn;
+      })
+      .catch(err=>{
+        return err&&err.error?err.error:err;
       });
   }
 
@@ -66,6 +69,9 @@ export class Ngxi4AuthService {
         let rtn: any;
         rtn = data;
         return rtn;
+      })
+      .catch(err=>{
+        return err&&err.error?err.error:err;
       });
   }
 
@@ -85,6 +91,9 @@ export class Ngxi4AuthService {
         let rtn: any;
         rtn = data;
         return rtn;
+      })
+      .catch(err=>{
+        return err&&err.error?err.error:err;
       });
   }
 
