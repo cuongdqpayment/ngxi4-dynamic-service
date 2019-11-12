@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
 import { ImageCroppedEvent } from 'ngx-image-cropper';
 import { NavParams } from '@ionic/angular';
 import { ImageService } from '../../services/image.service';
-import { Ngxi4CommonsService } from '../../services/ngxi4-common.service';
+import { CommonsService } from '../../services/common.service';
 
 @Component({
   selector: 'app-ionic4-croppie',
@@ -34,7 +34,7 @@ export class Ionic4CroppieComponent implements OnInit {
 
   constructor(
     private navParams: NavParams
-    , private apiCommons: Ngxi4CommonsService
+    , private apiCommons: CommonsService
     , private apiImage: ImageService
   ) { }
 

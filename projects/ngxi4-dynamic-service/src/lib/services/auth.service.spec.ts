@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 
-import { Ngxi4AuthService } from './ngxi4-auth.service';
+import { AuthService } from './auth.service';
 
 describe('Ngxi4AuthService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: Ngxi4AuthService = TestBed.get(Ngxi4AuthService);
+    const service: AuthService = TestBed.get(AuthService);
     expect(service).toBeTruthy();
   });
 });

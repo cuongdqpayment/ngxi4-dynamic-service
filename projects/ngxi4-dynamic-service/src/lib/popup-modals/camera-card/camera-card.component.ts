@@ -2,7 +2,7 @@ import { Component, OnInit, Output, EventEmitter, HostListener } from '@angular/
 import {WebcamImage, WebcamInitError, WebcamUtil} from 'ngx-webcam';
 import { Subject, Observable } from 'rxjs';
 import { NavParams } from '@ionic/angular';
-import { CommonsService } from 'src/app/services/commons.service';
+import { CommonsService } from '../../services/common.service';
 
 @Component({
   selector: 'app-camera-card',

@@ -73,7 +73,7 @@ export class SqliteService {
 
   /**
    * Tạo các bảng dữ liệu từ sheet tables trong file excel
-   * @param {*} tables [{table_name: value, field_name: value, ...}]
+   * @param tables [{table_name: value, field_name: value, ...}]
    */
   createTables(tables) {
 
@@ -159,8 +159,8 @@ export class SqliteService {
 
   /**
    * Tạo dũ liệu cho bảng, từ một mảng dữ liệu json chứa từng bảng ghi
-   * @param {*} tableName 
-   * @param {*} jsonRows {col_name:value,...}
+   * @param tableName 
+   * @param jsonRows {col_name:value,...}
    */
   insertTableData(tableName, jsonRows) {
 
@@ -194,7 +194,7 @@ export class SqliteService {
 
   /**
    * 
-   * @param {*} table 
+   * @param table 
    * var table ={
    *              name: 'LOGIN',
    *              cols: [
@@ -225,7 +225,7 @@ export class SqliteService {
   //insert
   /**
    * 
-   * @param {*} insertTable 
+   * @param insertTable 
    * var insertTable={
    *                  name:'tablename',
    *                  cols:[{
@@ -264,7 +264,7 @@ export class SqliteService {
   //update 
   /**
    * 
-   * @param {*} updateTable
+   * @param updateTable
    *  var updateTable={
    *                  name:'tablename',
    *                  cols:[{
@@ -313,7 +313,7 @@ export class SqliteService {
   //delete
   /**
    * Ham xoa bang ghi
-   * @param {*} id 
+   * @param id 
    */
   delete(deleteTable) {
     let sql = 'DELETE FROM ' + deleteTable.name;
@@ -337,7 +337,7 @@ export class SqliteService {
   //
   /**
    *lenh select, update, delete su dung keu json 
-   * @param {*} selectTable 
+   * @param selectTable 
    */
   select(selectTable) {
     let sql = 'SELECT * FROM ' + selectTable.name;
@@ -372,8 +372,8 @@ export class SqliteService {
   //lay 1 bang ghi dau tien cua select
   /**
    * lay 1 bang ghi
-   * @param {*} sql 
-   * @param {*} params 
+   * @param sql 
+   * @param params 
    */
   getRst(sql, params = []) {
     return this.runSql(sql, params)
@@ -413,8 +413,8 @@ export class SqliteService {
 
   /**
    * Lay tat ca cac bang ghi
-   * @param {*} sql 
-   * @param {*} params 
+   * @param sql 
+   * @param params 
    */
   getRsts(sql, params = []) {
     return this.runSql(sql, params)
@@ -458,8 +458,8 @@ export class SqliteService {
   //cac ham va thu tuc duoc viet duoi nay
   /**
    * Ham thuc thi lenh sql va cac tham so
-   * @param {*} sql 
-   * @param {*} params 
+   * @param sql 
+   * @param params 
    */
   runSql(sql, params = []) {  //Hàm do ta tự đặt tên gồm 2 tham số truyền vào.
     if (this.db) return this.db.executeSql(sql, params);

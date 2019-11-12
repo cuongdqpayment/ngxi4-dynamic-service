@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonsService } from 'src/app/services/commons.service';
 import { ActivatedRoute } from '@angular/router';
 import { NavController } from '@ionic/angular';
 import { NavigationOptions } from '@ionic/angular/dist/providers/nav-controller';
+import { CommonsService } from '../../services/common.service';
 
 @Component({
   selector: 'app-multi-choice',

@@ -10,7 +10,7 @@
  * 
  */
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { CommonsService } from 'src/app/services/commons.service';
+import { CommonsService } from '../../services/common.service';
 
 
 @Component({

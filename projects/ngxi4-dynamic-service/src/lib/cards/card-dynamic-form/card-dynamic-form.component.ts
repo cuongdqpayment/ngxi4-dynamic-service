@@ -27,15 +27,15 @@
  */
 import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { Validators, FormControl } from '@angular/forms';
-import { CameraCardComponent } from 'src/app/popup-modals/camera-card/camera-card.component';
-import { Ionic4CroppieComponent } from 'src/app/popup-modals/ionic4-croppie/ionic4-croppie.component';
-import { CommonsService } from 'src/app/services/commons.service';
-import { AuthService } from 'src/app/services/auth.service';
+import { CommonsService } from '../../services/common.service';
+import { AuthService } from '../../services/auth.service';
 import { DomSanitizer } from '@angular/platform-browser';
-import { SqliteService } from 'src/app/services/sqlite.service';
-import { ImageService } from 'src/app/services/image.service';
+import { SqliteService } from '../../services/sqlite.service';
+import { ImageService } from '../../services/image.service';
 import { PopoverController } from '@ionic/angular';
-import { PopoverCardComponent } from 'src/app/popovers/popover-card/popover-card.component';
+import { PopoverCardComponent } from '../../popovers/popover-card/popover-card.component';
+import { Ionic4CroppieComponent } from '../../popup-modals/ionic4-croppie/ionic4-croppie.component';
+import { CameraCardComponent } from '../../popup-modals/camera-card/camera-card.component';
 
 @Component({
   selector: 'card-dynamic-form',

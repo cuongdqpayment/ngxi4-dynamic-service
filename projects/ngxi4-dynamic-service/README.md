@@ -41,7 +41,7 @@ import { Ngxi4DynamicServiceModule } from 'ngxi4-dynamic-service'
 
 # 3. Use for services in ./home.page.ts
 
-import { Ngxi4AuthService } from 'ngxi4-dynamic-service';
+import { AuthService, CommonsService } from 'ngxi4-dynamic-service';
 
 @Component({
   selector: 'app-home',
@@ -51,8 +51,8 @@ import { Ngxi4AuthService } from 'ngxi4-dynamic-service';
 export class HomePage implements OnInit{
 
   constructor(
-    private apiAuth: Ngxi4AuthService
-    , private apiCommon: Ngxi4CommonsService
+    private apiAuth: AuthService
+    , private apiCommon: CommonsService
     ) {}
 
   ngOnInit() {

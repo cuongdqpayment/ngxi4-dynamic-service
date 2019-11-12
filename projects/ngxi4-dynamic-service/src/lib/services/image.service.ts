@@ -16,7 +16,7 @@
  */
 import { Injectable } from '@angular/core';
 import * as exif from 'exif-js';
-import { Ngxi4AuthService } from './ngxi4-auth.service';
+import { AuthService } from './auth.service';
 
 const orientation_standard = {
   1: 0,
@@ -31,7 +31,7 @@ const orientation_standard = {
 export class ImageService {
 
   constructor(
-    private apiAuth: Ngxi4AuthService
+    private apiAuth: AuthService
   ) { }
 
   /**
@@ -39,12 +39,11 @@ export class ImageService {
    * @param filename 
    */
   encodeFilename(filename: string) {
-    return filename;
-    /* if (filename.lastIndexOf('.') > 0) {
+    if (filename.lastIndexOf('.') > 0) {
       return this.apiAuth.Utf8toHex(filename.slice(0, filename.lastIndexOf('.'))) + '.' + filename.replace(/^.*\./, '')
     } else {
       return this.apiAuth.Utf8toHex(filename)
-    } */
+    }
   }
 
 

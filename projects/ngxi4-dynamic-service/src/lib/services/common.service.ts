@@ -20,7 +20,7 @@ import { EventHandler } from '@ionic/angular/dist/providers/events';
 @Injectable({
   providedIn: 'root'
 })
-export class Ngxi4CommonsService {
+export class CommonsService {
 
   private c = new Map<string, EventHandler[]>();
 

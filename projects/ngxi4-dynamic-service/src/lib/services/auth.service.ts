@@ -3,10 +3,12 @@ import { HttpClient } from '@angular/common/http';
 import { RequestInterceptor } from '../interceptors/requestInterceptor';
 import { Ngxi4Config, Ngxi4ConfigService } from '../ngxi4-dynamic-service.module';
 
+import CryptoJS from "crypto-js"; //cho web ES6 -- xem npm
+
 @Injectable({
   providedIn: 'root'
 })
-export class Ngxi4AuthService {
+export class AuthService {
 
   public token: string;
 
@@ -15,7 +17,7 @@ export class Ngxi4AuthService {
    * Hoặc khai lại đường dẫn lấy từ csdl
    */
   public serviceUrls: any = {
-    AUTH_SERVER: this.config?this.config.authServerUrl:'/'  // api xác thực user, pass và token, api
+    AUTH_SERVER: this.config ? this.config.authServerUrl : '/'  // api xác thực user, pass và token, api
   }
 
   constructor(
@@ -23,6 +25,63 @@ export class Ngxi4AuthService {
     private httpClient: HttpClient,
     private reqInterceptor: RequestInterceptor,
   ) { }
+
+  //-------- CÁC HÀM HỖ TRỢ BẢO MẬT -----------//
+
+  /**
+   * Mã hóa một chiều sha256
+   * Cho chuỗi bất kỳ, kể cả unicode
+   * 
+   * Sử dụng để băm chuỗi mật khẩu lưu vào cơ sở dữ liệu
+   * 
+   * @param unicodeData 
+   */
+  sha256(unicodeData) {
+    var words = CryptoJS.SHA256(unicodeData);
+    var base64 = CryptoJS.enc.Base64.stringify(words);
+    return base64;
+  }
+  /**
+   * Hàm chuyển đổi utf8 --> Hex
+   * @param str 
+   */
+  Utf8toHex(utf8: string) {
+    var words = CryptoJS.enc.Utf8.parse(utf8);
+    var hex = CryptoJS.enc.Hex.stringify(words);
+    return hex;
+  }
+
+
+  /**
+   * Chuyển đổi hex --> utf8
+   * @param hex 
+   */
+  HextoUtf8(hex: string) {
+    var words = CryptoJS.enc.Hex.parse(hex);
+    var utf8 = CryptoJS.enc.Utf8.stringify(words);
+    return utf8;
+  }
+
+
+  /**
+   * Hàm chuyển đổi utf8 --> base64
+   * @param str 
+   */
+  Utf8toBase64(utf8: string) {
+    var words = CryptoJS.enc.Utf8.parse(utf8);
+    var base64 = CryptoJS.enc.Base64.stringify(words);
+    return base64;
+  }
+
+  /**
+   * Chuyển đổi base64 --> utf8
+   * @param base64 
+   */
+  Base64toUtf8(base64: string) {
+    var words = CryptoJS.enc.Base64.parse(base64);
+    var utf8 = CryptoJS.enc.Utf8.stringify(words);
+    return utf8;
+  }
 
   //------- Các hàm tương tác dữ liệu API resful với server ----//
   /**
@@ -42,8 +101,8 @@ export class Ngxi4AuthService {
         rtn = data;
         return rtn;
       })
-      .catch(err=>{
-        throw err&&err.error?err.error:err;
+      .catch(err => {
+        throw err && err.error ? err.error : err;
       });
   }
 
@@ -70,8 +129,8 @@ export class Ngxi4AuthService {
         rtn = data;
         return rtn;
       })
-      .catch(err=>{
-        throw err&&err.error?err.error:err;
+      .catch(err => {
+        throw err && err.error ? err.error : err;
       });
   }
 
@@ -92,9 +151,9 @@ export class Ngxi4AuthService {
         rtn = data;
         return rtn;
       })
-      .catch(err=>{
-        throw err&&err.error?err.error:err;
+      .catch(err => {
+        throw err && err.error ? err.error : err;
       });
   }
-
+  
 }

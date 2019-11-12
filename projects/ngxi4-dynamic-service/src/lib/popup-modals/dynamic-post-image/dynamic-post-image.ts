@@ -17,9 +17,9 @@ import { CroppieOptions } from 'croppie';
 
 
 import { ImageCroppedEvent } from 'ngx-image-cropper';
-import { Ngxi4CommonsService } from '../../services/ngxi4-common.service';
+import { CommonsService } from '../../services/common.service';
 import { ImageService } from '../../services/image.service';
-import { Ngxi4AuthService } from '../../services/ngxi4-auth.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'page-dynamic-post-image',
@@ -87,9 +87,9 @@ export class DynamicPostImagePage {
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
-    private apiCommons: Ngxi4CommonsService,
+    private apiCommons: CommonsService,
     private apiImage: ImageService,
-    private apiAuth: Ngxi4AuthService
+    private apiAuth: AuthService
   ) { }
 
   ngOnInit() {

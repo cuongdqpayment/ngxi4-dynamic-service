@@ -1,11 +1,31 @@
 import { NgModule, InjectionToken, ModuleWithProviders } from '@angular/core';
-import { Ngxi4AuthService } from './services/ngxi4-auth.service';
-import { Ngxi4CommonsService } from './services/ngxi4-common.service';
+import { AuthService } from './services/auth.service';
+import { CommonsService } from './services/common.service';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { IonicModule } from '@ionic/angular';
 import { RequestInterceptor } from './interceptors/requestInterceptor';
 import { CardDynamicFormComponent } from './cards/card-dynamic-form/card-dynamic-form.component';
 import { SQLite } from '@ionic-native/sqlite/ngx';
+import { ApiStorageService } from './services/api-storage.service';
+import { ImageService } from './services/image.service';
+import { SqliteService } from './services/sqlite.service';
+import { ImageCropperModule } from 'ngx-image-cropper';
+import { WebcamModule } from 'ngx-webcam';
+
+import { NgxQRCodeModule } from 'ngx-qrcode2';
+import { NgxBarcodeModule } from 'ngx-barcode';
+import { FormsModule } from '@angular/forms';
+import { StorageServiceModule } from 'angular-webstorage-service';
+import { BrowserModule } from '@angular/platform-browser';
+import { TreeMenu } from './cards/tree-menu/tree-menu';
+import { PopoverCardComponent } from './popovers/popover-card/popover-card.component';
+import { CameraCardComponent } from './popup-modals/camera-card/camera-card.component';
+import { Ionic4CroppieComponent } from './popup-modals/ionic4-croppie/ionic4-croppie.component';
+import { MultiChoiceComponent } from './popovers/multi-choice/multi-choice.component';
+import { DynamicFormMobilePage } from './popup-modals/dynamic-form-mobile/dynamic-form-mobile';
+import { DynamicPostImagePage } from './popup-modals/dynamic-post-image/dynamic-post-image';
+import { CardDynamicListComponent } from './cards/card-dynamic-list/card-dynamic-list.component';
+import { CardMultiCheckComponent } from './cards/card-multi-check/card-multi-check.component';
 
 // Cấu hình tham số đầu vào, người dùng khai báo
 export interface Ngxi4Config {
@@ -17,10 +37,38 @@ export const Ngxi4ConfigService = new InjectionToken<Ngxi4Config>('Ngxi4Config')
 @NgModule({
   declarations: [
     // khai báo thành phần
-    CardDynamicFormComponent
+    
+    // Các components Card chèn vào các trang
+    CardDynamicFormComponent,
+    CardDynamicListComponent,
+    CardMultiCheckComponent,
+    TreeMenu,                 // menu cha con (phân cấp)
+
+    // popover
+    MultiChoiceComponent,
+    PopoverCardComponent,     // menu chọn 1 (lựa chọn setting)
+
+    // Các trang gọi riêng gọi theo kiểu popup hoặc modal
+    // popupModal
+    CameraCardComponent,      // chụp ảnh bằng webcam
+    DynamicFormMobilePage,    // trang form nhập liệu
+    DynamicPostImagePage,      // Trang post ảnh & file & text
+    Ionic4CroppieComponent   // cắt ảnh bằng angular
+
   ],
   imports: [
+    ImageCropperModule, // Đối tượng cắt ảnh cropper
+
+    WebcamModule,       // Dùng để mở webcame lên
+
+    NgxBarcodeModule,  // đói tượng dùng ngx-barcode
+    NgxQRCodeModule,   // dùng ngx-qrcode
+    
+    StorageServiceModule, // module dành cho dịch vụ lưu trữ xuống đĩa
     HttpClientModule, // để giao tiếp api
+
+    BrowserModule,  // thành phần cơ bản của web angular
+    FormsModule,    // thêm thành phần của ngModel
     IonicModule.forRoot()
   ],
   providers: [
@@ -33,8 +81,23 @@ export const Ngxi4ConfigService = new InjectionToken<Ngxi4Config>('Ngxi4Config')
     }
   ],
   exports: [
-    // xuất bản thành phần
-    CardDynamicFormComponent
+   /*  // xuất bản thành phần
+    // Các components Card chèn vào các trang
+    CardDynamicFormComponent,
+    CardDynamicListComponent,
+    CardMultiCheckComponent,
+    TreeMenu,                 // menu cha con (phân cấp)
+
+    // popover
+    MultiChoiceComponent,
+    PopoverCardComponent,     // menu chọn 1 (lựa chọn setting)
+
+    // Các trang gọi riêng gọi theo kiểu popup hoặc modal
+    // popupModal
+    CameraCardComponent,      // chụp ảnh bằng webcam
+    DynamicFormMobilePage,    // trang form nhập liệu
+    DynamicPostImagePage,      // Trang post ảnh & file & text
+    Ionic4CroppieComponent   // cắt ảnh bằng angular */
   ]
 })
 export class Ngxi4DynamicServiceModule { 
@@ -45,8 +108,11 @@ export class Ngxi4DynamicServiceModule {
       ngModule: Ngxi4DynamicServiceModule,
       providers: [
         // xuất bản dịch vụ
-        Ngxi4AuthService,
-        Ngxi4CommonsService,
+        ApiStorageService,
+        AuthService,
+        CommonsService,
+        ImageService,
+        SqliteService,
         // xuất bản tham số ???...
         {
           provide: Ngxi4ConfigService,
