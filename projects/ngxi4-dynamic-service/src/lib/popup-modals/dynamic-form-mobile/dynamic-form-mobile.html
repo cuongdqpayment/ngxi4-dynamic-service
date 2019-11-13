@@ -243,12 +243,12 @@
 		<!-- title with avatar -->
 		<ion-item class="background-none" *ngIf="it?.type == 'avatar'">
 			<ion-avatar slot="start" *ngIf="it.url"><img [src]="it.url"></ion-avatar>
-			<ion-title slot="start" class="form-title-item">{{it.name}}</ion-title>
+			<ion-title slot="start" class="form-title-item" color="{{it.color}}">{{it.name}}</ion-title>
 		</ion-item>
 
 		<!-- title -->
 		<ion-item class="background-none" *ngIf="it?.type == 'title'">
-			<ion-label class="form-title-item">{{it.name}}</ion-label>
+			<ion-label class="form-title-item" color="{{it.color}}">{{it.name}}</ion-label>
 		</ion-item>
 
 		<!-- form chi tiet -->
@@ -257,10 +257,10 @@
 				<strong slot="start">
 					{{dt.name}}
 				</strong>
-				<ion-label class="ion-text-wrap" *ngIf="dt.pipe_date">
+				<ion-label class="ion-text-wrap" color="{{it.color}}" *ngIf="dt.pipe_date">
 					{{dt.value | date:dt.pipe_date}}
 				</ion-label>
-				<ion-label class="ion-text-wrap" *ngIf="!dt.pipe_date">
+				<ion-label class="ion-text-wrap" color="{{it.color}}" *ngIf="!dt.pipe_date">
 					{{dt.value}}
 				</ion-label>
 			</ion-item>
@@ -269,7 +269,7 @@
 
 		<!-- input text inline=default null/fixed/floating/stacked-->
 		<ion-item *ngIf="it?.type == 'text'" class="background-none background-round form-input-item">
-			<ion-icon *ngIf="it.icon" slot="start" color="primary" name="{{it.icon}}"></ion-icon>
+			<ion-icon *ngIf="it.icon" slot="start" color="{{it.color?it.color:'primary'}}" name="{{it.icon}}"></ion-icon>
 			<ion-label position="stacked" class="ion-text-wrap" color="{{(it.invalid?'danger':'')}}"
 				style="text-align: justify;">
 				{{it.invalid?it.hint:it.name}}{{it.validators?'(*)':''}}</ion-label>
@@ -289,7 +289,7 @@
 
 		<!-- input text-area -->
 		<ion-item *ngIf="it?.type == 'text_area'" class="background-none background-round form-input-item">
-			<ion-icon *ngIf="it.icon" slot="start" color="primary" name="{{it.icon}}"></ion-icon>
+			<ion-icon *ngIf="it.icon" slot="start" color="{{it.color?it.color:'primary'}}" name="{{it.icon}}"></ion-icon>
 			<ion-label *ngIf="it.invalid" position="floating" color="danger" class="ion-text-wrap"
 				style="text-align: justify;">
 				{{it.hint}}(*)
@@ -300,7 +300,7 @@
 
 		<!-- input password -->
 		<ion-item *ngIf="it?.type == 'password'" class="background-none background-round form-input-item">
-			<ion-icon *ngIf="it.icon" slot="start" color="primary" name="{{it.icon}}"></ion-icon>
+			<ion-icon *ngIf="it.icon" slot="start" color="{{it.color?it.color:'primary'}}" name="{{it.icon}}"></ion-icon>
 
 			<ion-label *ngIf="it.invalid" position="floating" color="danger" class="ion-text-wrap"
 				style="text-align: justify;">
@@ -316,7 +316,7 @@
 
 		<!-- check box -->
 		<ion-item *ngIf="it?.type === 'check'" class="background-none background-round form-input-item">
-			<ion-icon *ngIf="it.icon" slot="start" color="primary" name="{{it.icon}}"></ion-icon>
+			<ion-icon *ngIf="it.icon" slot="start" color="{{it.color?it.color:'primary'}}" name="{{it.icon}}"></ion-icon>
 			<ion-label class="ion-text-wrap" style="text-align: justify;">{{it.name?it.name:it.hint}}</ion-label>
 			<ion-checkbox [(ngModel)]="it.value"></ion-checkbox>
 		</ion-item>
@@ -342,7 +342,7 @@
 
 		<!-- single select -->
 		<ion-item *ngIf="it?.type === 'select'" class="background-none background-round form-input-item">
-			<ion-icon *ngIf="it.icon" slot="start" color="primary" name="{{it.icon}}"></ion-icon>
+			<ion-icon *ngIf="it.icon" slot="start" color="{{it.color?it.color:'primary'}}" name="{{it.icon}}"></ion-icon>
 			<ion-label color="{{(it.invalid&&!it.value?'danger':'primary')}}" class="ion-text-wrap"
 				style="text-align: justify;">
 				{{it.invalid&&!it.value?it.hint+'(*)':it.name}}</ion-label>
@@ -356,8 +356,8 @@
 
 		<!-- multiple select -->
 		<ion-item *ngIf="it?.type === 'select_multiple'" class="background-none background-round form-input-item">
-			<ion-icon *ngIf="it.icon" slot="start" color="primary" name="{{it.icon}}"></ion-icon>
-			<ion-label color="primary" class="ion-text-wrap" style="text-align: justify;">{{it.name?it.name:it.hint}}
+			<ion-icon *ngIf="it.icon" slot="start" color="{{it.color?it.color:'primary'}}" name="{{it.icon}}"></ion-icon>
+			<ion-label color="{{it.color?it.color:'primary'}}" class="ion-text-wrap" style="text-align: justify;">{{it.name?it.name:it.hint}}
 			</ion-label>
 			<ion-select [(ngModel)]="it.value" multiple="true"
 				style="background-color: rgb(0, 190, 73); color:whitesmoke; border-radius: 1em;">
@@ -368,7 +368,7 @@
 
 		<!-- toggle check -->
 		<ion-item *ngIf="it?.type === 'toggle'" class="background-none background-round form-input-item">
-			<ion-icon *ngIf="it.icon" slot="start" color="primary" name="{{it.icon}}"></ion-icon>
+			<ion-icon *ngIf="it.icon" slot="start" color="{{it.color?it.color:'primary'}}" name="{{it.icon}}"></ion-icon>
 			<ion-label color="primary" class="ion-text-wrap" style="text-align: justify;">{{it.name?it.name:it.hint}}
 			</ion-label>
 			<ion-toggle color="{{it.color}}" [(ngModel)]="it.value"></ion-toggle>
@@ -376,10 +376,10 @@
 
 		<!-- range adjust -->
 		<ion-item *ngIf="it?.type === 'range'" class="background-none background-round form-input-item">
-			<ion-label *ngIf="it.name" color="primary" class="ion-text-wrap" style="text-align: justify;">
+			<ion-label *ngIf="it.name" color="{{it.color?it.color:'primary'}}" class="ion-text-wrap" style="text-align: justify;">
 				{{it.name}}
 			</ion-label>
-			<ion-range min="{{it.min}}" max="{{it.max}}" pin="true" snaps="true" color="primary" [(ngModel)]="it.value">
+			<ion-range min="{{it.min}}" max="{{it.max}}" pin="true" snaps="true" color="{{it.color?it.color:'primary'}}" [(ngModel)]="it.value">
 				<ion-icon *ngIf="it.icon" size="small" slot="start" name="{{it.icon}}"></ion-icon>
 				<ion-icon *ngIf="it.icon" slot="end" name="{{it.icon}}"></ion-icon>
 			</ion-range>
@@ -407,7 +407,7 @@
 		<ion-grid class="ion-no-padding" *ngIf="it?.type == 'button' && !isEditingObjects">
 			<ion-row>
 				<ion-col *ngFor="let myBtn of it.options" style="text-align: center;">
-					<ion-button class="form-button-item" shape="round" (click)="onClick(myBtn)">
+					<ion-button class="form-button-item" color="{{it.color?it.color:''}}" shape="round" (click)="onClick(myBtn)">
 						<ion-icon *ngIf="it.icon" name="{{it.icon}}"></ion-icon>
 						{{myBtn?.name}}
 					</ion-button>
