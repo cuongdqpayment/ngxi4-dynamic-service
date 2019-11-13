@@ -61,29 +61,12 @@ import { PopoverCardComponent } from '../../popovers/popover-card/popover-card.c
 export class DynamicFormMobilePage {
 
   dynamicForm: any = {
-    title: "Đăng ký"
+    title: "Form mẫu"
     //, auto_hidden: false //|| 3000 || true
+    , color: { header:"medium", background:"#2d96de"}
     , buttons: [
       { color: "danger", icon: "close", next: "CLOSE" }
     ]
-
-    , welcome_card: {
-      image: "/assets/imgs/background.jpg",
-      sub_title: "Bắt đầu",
-      title: "Xin chào mừng bạn đến với ứng dụng IONIC 4",
-      content: "Đây là nội dung được chào đón hướng dẫn sử dụng cho chương trình này"
-    }
-
-    , forward_links: {
-      title: "Các tài nguyên",
-      urls: [
-        { name: "Tài liệu ionic", url: "https://ionicframework.com/docs/", icon: "book", color: "medium" }
-        , { name: "Hướng dẫn xây dựng ứng dụng", url: "https://ionicframework.com/docs/building/scaffolding", icon: "build", color: "medium" }
-        , { name: "Thay đổi giao diện hiển thị", url: "https://ionicframework.com/docs/layout/structure", icon: "grid", color: "medium" }
-        , { name: "Các định dạng mẫu cơ bản", url: "https://ionicframework.com/docs/theming/basics", icon: "color-fill", color: "medium" }
-      ]
-    }
-
     , items: [
       { type: "avatar", name: "Thông tin cá nhân avatar", hint: "Avatar", url: "https://www.w3schools.com/howto/img_forest.jpg" }
       , { type: "title", name: "Tiêu đề form" }
@@ -398,32 +381,6 @@ export class DynamicFormMobilePage {
     item.visible = !item.visible;
     this.isEditingObjects = item.visible;
 
-    // giá trị vẫn giữ nguyên không thay đổi
-    // đưa stringJson vào sẽ gán giá trị nhận được trước đó
-
-    /*  let newItem: any;
-     let newValue: any;
- 
-     try {
-       newItem = JSON.parse(item.dynamicForm);
-       newValue = JSON.parse(item.value);
-     } catch (e) { }
- 
-     if (newItem && newItem.items) {
-       newItem.items.forEach(el => {
-         el.value = newValue[el.key]
-       });
-     }
- 
-     item.dynamicForm = JSON.stringify(newItem
-       , (key, value) => {
-         // chuyển đổi hoặc bỏ bớt các trường giả có dấu $ để gán kết quả
-         if (key.indexOf('$') === 0) return undefined;
-         return value
-       }
-       , 2
-       ); // form đối tượng là form gốc
-  */
   }
   /**
    * Sự kiện sau khi thực thi xong Đối tượng

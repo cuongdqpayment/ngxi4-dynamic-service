@@ -57,6 +57,23 @@ export const Ngxi4ConfigService = new InjectionToken<Ngxi4Config>('Ngxi4Config')
     Ionic4CroppieComponent   // cắt ảnh bằng angular
 
   ],
+  entryComponents: [
+    
+    // Các components Card chèn vào các trang
+    CardDynamicFormComponent,
+    CardDynamicListComponent,
+    CardMultiCheckComponent,
+
+    // popover
+    MultiChoiceComponent,
+    PopoverCardComponent,     // menu chọn 1 (lựa chọn setting)
+    
+    // popupModal
+    CameraCardComponent,      // chụp ảnh bằng webcam
+    DynamicFormMobilePage,    // trang form nhập liệu
+    DynamicPostImagePage,      // Trang post ảnh & file & text
+    Ionic4CroppieComponent   // cắt ảnh bằng angular
+  ],
   imports: [
     ImageCropperModule, // Đối tượng cắt ảnh cropper
 

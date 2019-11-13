@@ -1,7 +1,7 @@
-<ion-header *ngIf="dynamicForm.title">
-	<ion-toolbar color="primary">
+<ion-header *ngIf="dynamicForm?.title">
+	<ion-toolbar color="{{(dynamicForm?.color?.header?dynamicForm?.color?.header:'')}}">
 
-		<ion-title>{{dynamicForm.title}}</ion-title>
+		<ion-title>{{dynamicForm?.title}}</ion-title>
 
 		<ion-buttons slot="primary" *ngIf="!isEditingObjects">
 			<ion-button *ngFor="let btn of dynamicForm.buttons" color="{{(btn.color?btn.color:'danger')}}"
@@ -13,7 +13,7 @@
 	</ion-toolbar>
 </ion-header>
 
-<ion-content class="background-none background-color background-image">
+<ion-content class="background-none background-image" [style.background-color]="(dynamicForm?.color?.background?dynamicForm?.color?.background:'#2d96de')">
 
 	<!-- Các dữ liệu form nhập liệu động, gồm các form nhập liệu và nút xử lý -->
 	<ion-list class="background-transparent" *ngFor="let it of dynamicForm.items">
@@ -241,13 +241,13 @@
 		</ion-card>
 
 		<!-- title with avatar -->
-		<ion-item class="background-none background-color" *ngIf="it?.type == 'avatar'">
+		<ion-item class="background-none" *ngIf="it?.type == 'avatar'">
 			<ion-avatar slot="start" *ngIf="it.url"><img [src]="it.url"></ion-avatar>
 			<ion-title slot="start" class="form-title-item">{{it.name}}</ion-title>
 		</ion-item>
 
 		<!-- title -->
-		<ion-item class="background-none background-color" *ngIf="it?.type == 'title'">
+		<ion-item class="background-none" *ngIf="it?.type == 'title'">
 			<ion-label class="form-title-item">{{it.name}}</ion-label>
 		</ion-item>
 
@@ -387,11 +387,11 @@
 
 		<!-- rang title with value -->
 		<ion-item *ngIf="it?.type === 'range-text'" class="background-none background-round form-input-item">
-			<ion-range min="{{it.min}}" max="{{it.max}}" snaps="true" color="secondary" [(ngModel)]="it.value">
-				<ion-label slot="start" color="primary" style="font-size: 1.5em;">{{it.name}}</ion-label>
-				<ion-label slot="end"
-					style="background-color: darkblue; color:#ffffff; font-size: 1.5em ; border-radius: 0.5em;">
-					{{it.value}} {{it.hint}}</ion-label>
+			<ion-range min="{{it.min}}" max="{{it.max}}" snaps="{{it.snaps}}" color="{{(it.color?it.color:'secondary')}}" [(ngModel)]="it.value">
+				<ion-label slot="start" color="primary" [style.font-size]="(it.size?it.size:'1.5em')">{{it.name}}</ion-label>
+				<ion-input slot="end" type="text" [(ngModel)]="it.value" [disabled]="it.disabled" maxlength="5"
+					style="border-radius: 0.5em; background-color: rgb(40, 112, 219); color:whitesmoke; padding: 3px; align-self: center; min-width: 40px; max-width: 60px;">
+				</ion-input>
 			</ion-range>
 		</ion-item>
 

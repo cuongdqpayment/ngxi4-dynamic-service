@@ -68,5 +68,44 @@ export class HomePage implements OnInit{
 
 }
 
+## DynamicFormMobile: 
+
+ * ver 6.0 thêm đối tượng object, element, list
+ * Định nghĩa để trả về value = string: {key,value} | {name:object:{key,value} | {name:,items:[{key,value}]}
+ * Biến isEditingObjects sẽ ẩn các nút lệnh không cho thực thi form nếu đang sửa chữa các phần tử con
+ * 
+ * ver 5.0 Ngày 05/10/2019
+ * Bổ sung crop ảnh, chụp luôn hình ảnh ngay trên form
+ * dữ liệu ảnh trả về là một chuỗi base64 của ảnh, giảm kích thước...
+ * 
+ * Hành động lưu csdl save:
+ * 
+ * // thực thi lệnh lưu csdl client (dành cho app mobile)
+ * btn = {next:'CALLBACK', table:'table_name', wheres:['column_name']}
+ * // sau 1 giây thực thi luôn form
+ * auto_hidden = {next:'CALLBACK', table:'table_name', wheres:['column_name']}
+ * 
+ * // thực thi lệnh post lên cloud
+ * btn = {next:'CALLBACK', url:'https://...', token:true}
+ * 
+ * // đóng luôn
+ * btn = {next:'CLOSE'} 
+ * 
+ * 
+ * ver 4.0 ngày 10/09/2019
+ * Chuyển đổi ionic 4
+ * 
+ * ver 3.1 29/08/2019
+ * Tính năng ajax thay đổi một array các item trong form
+ * bỏ thuộc tính mặt định có nút home, mà phải khai cho nó là true
+ * 
+ * ver 3.0 16/08/2019
+ * Thêm tính năng gọi ajax thay đổi giá trị khi chọn lựa
+ * Xem form administrators cho biến gọi lại là ajax
+ * Truyền lên cả giá trị value = 0 hoặc false 
+ *
+ * ver 2.0
+ * 11/06/2019
+ * chi con lai key,value valid for select
 
 
