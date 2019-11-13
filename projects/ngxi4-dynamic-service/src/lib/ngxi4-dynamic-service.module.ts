@@ -99,7 +99,23 @@ export const Ngxi4ConfigService = new InjectionToken<Ngxi4Config>('Ngxi4Config')
     CameraCardComponent,      // chụp ảnh bằng webcam
     DynamicFormMobilePage,    // trang form nhập liệu
     DynamicPostImagePage,      // Trang post ảnh & file & text
-    Ionic4CroppieComponent   // cắt ảnh bằng angular
+    Ionic4CroppieComponent,   // cắt ảnh bằng angular
+
+    // Xuất bản các module
+    ImageCropperModule, // Đối tượng cắt ảnh cropper
+    WebcamModule,       // Dùng để mở webcame lên
+    NgxBarcodeModule,  // đói tượng dùng ngx-barcode
+    NgxQRCodeModule,   // dùng ngx-qrcode
+
+    StorageServiceModule, // module dành cho dịch vụ lưu trữ xuống đĩa
+    
+    HttpClientModule, // để giao tiếp api
+
+    BrowserModule,   // thành phần cơ bản của web angular
+    FormsModule,     // thêm thành phần của ngModel
+    CommonModule,    // Thêm thành phần cơ bản dùng chung cho ionic và angular các lệnh pipe cơ bản...
+    IonicModule      // thành phần của ionic
+
   ]
 })
 export class Ngxi4DynamicServiceModule { 

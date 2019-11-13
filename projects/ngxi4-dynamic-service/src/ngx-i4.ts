@@ -3,8 +3,11 @@
  */
 
  // xuất bản dịch vụ ra
+ export * from './lib/services/api-storage.service';
 export * from './lib/services/auth.service';
 export * from './lib/services/common.service';
+export * from './lib/services/image.service';
+export * from './lib/services/sqlite.service';
 
 // xuất bản các components
 export * from './lib/cards/card-dynamic-form/card-dynamic-form.component';
