@@ -26,6 +26,30 @@
       "@ionic/*": [
         "./node_modules/@ionic/*"
       ],
+      "angular-webstorage-service":[
+        "./node_modules/angular-webstorage-service/*"
+      ],
+      "croppie": [
+        "./node_modules/croppie/*"
+      ],
+      "crypto-js": [
+        "./node_modules/crypto-js/*"
+      ],
+      "exif-js": [
+        "./node_modules/exif-js/*"
+      ],
+      "ngx-barcode": [
+        "./node_modules/ngx-barcode/*"
+      ],
+      "ngx-image-cropper": [
+        "./node_modules/ngx-image-cropper/*"
+      ],
+      "ngx-qrcode2": [
+        "./node_modules/ngx-qrcode2/*"
+      ],
+      "ngx-webcam": [
+        "./node_modules/ngx-webcam/*"
+      ],
       "ngxi4-dynamic-service": [
         "dist/ngxi4-dynamic-service"
       ],
