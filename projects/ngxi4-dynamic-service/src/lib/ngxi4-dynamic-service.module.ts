@@ -19,7 +19,6 @@ import { NgxQRCodeModule } from 'ngx-qrcode2';
 import { NgxBarcodeModule } from 'ngx-barcode';
 import { FormsModule } from '@angular/forms';
 import { StorageServiceModule } from 'angular-webstorage-service';
-import { BrowserModule } from '@angular/platform-browser';
 import { CardDynamicFormComponent } from './cards/card-dynamic-form/card-dynamic-form.component';
 import { CardDynamicListComponent } from './cards/card-dynamic-list/card-dynamic-list.component';
 import { CardMultiCheckComponent } from './cards/card-multi-check/card-multi-check.component';
@@ -83,9 +82,13 @@ export const Ngxi4ConfigService = new InjectionToken<Ngxi4Config>('Ngxi4Config')
     NgxQRCodeModule,   // dùng ngx-qrcode
  
     StorageServiceModule, // module dành cho dịch vụ lưu trữ xuống đĩa
+
     HttpClientModule, // để giao tiếp api
 
-    BrowserModule,   // thành phần cơ bản của web angular
+    // 3 module chỉ import 1 lần ở cấp cao nhất
+    // , không import lần thứ 2 nếu không sẽ báo lỗi
+    // BrowserModule, BrowserAnimationsModule, HttpClientModule,
+
     FormsModule,     // thêm thành phần của ngModel
     CommonModule,    // Thêm thành phần cơ bản dùng chung cho ionic và angular các lệnh pipe cơ bản...
     IonicModule      // thành phần của ionic
@@ -118,20 +121,11 @@ export const Ngxi4ConfigService = new InjectionToken<Ngxi4Config>('Ngxi4Config')
     DynamicPostImagePage,      // Trang post ảnh & file & text
     Ionic4CroppieComponent,   // cắt ảnh bằng angular
 
-    // Xuất bản các module
+    // Xuất bản các module để sử tái sử dụng riêng lẻ
     ImageCropperModule, // Đối tượng cắt ảnh cropper
     WebcamModule,       // Dùng để mở webcame lên
     NgxBarcodeModule,  // đói tượng dùng ngx-barcode
-    NgxQRCodeModule,   // dùng ngx-qrcode
-
-    StorageServiceModule, // module dành cho dịch vụ lưu trữ xuống đĩa
-    
-    HttpClientModule, // để giao tiếp api
-
-    BrowserModule,   // thành phần cơ bản của web angular
-    FormsModule,     // thêm thành phần của ngModel
-    CommonModule,    // Thêm thành phần cơ bản dùng chung cho ionic và angular các lệnh pipe cơ bản...
-    IonicModule      // thành phần của ionic
+    NgxQRCodeModule   // dùng ngx-qrcode
 
   ]
 })

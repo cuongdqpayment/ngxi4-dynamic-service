@@ -109,3 +109,8 @@ export class HomePage implements OnInit{
  * chi con lai key,value valid for select
 
 
+## Version 17
+
+Không import 2 module BrowserModule, BrowserAnimationsModule
+// 3 module chỉ import 1 lần ở cấp cao nhất nếu không sẽ bị báo lỗi
+// BrowserModule, BrowserAnimationsModule, HttpClientModule,

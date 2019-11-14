@@ -70,6 +70,8 @@ export class DynamicFormMobilePage {
     , items: [
       { type: "avatar", name: "Thông tin cá nhân avatar", hint: "Avatar", url: "https://www.w3schools.com/howto/img_forest.jpg" }
       , { type: "title", name: "Tiêu đề form" }
+      , { type: "qrcode", name: "Mã QrCode", value:"https://c3.mobifone.vn" }
+      , { type: "barcode", name: "Mã BarCode", value:"0903500888" }
       , { type: "hidden", key: "id", value: "abc" } //truyen gia tri 
       , { type: "check", key: "check_ok", name: "Check hay không chọn?", value: true }
       , { type: "range", key: "range_number", name: "", icon: "contrast", value: 50, min: 0, max: 100 }
@@ -89,9 +91,10 @@ export class DynamicFormMobilePage {
       , { type: "text_area", key: "text_area", name: "Nội dung nhập", hint: "Nhập nhiều dòng" }
 
       // version 6.0 dùng thêm đối tượng
-      // , { type: "object", key: "new_object", name: "Tên đối tượng cố định không sửa", hint: "là dynamicForm" }
-      // , { type: "element", key: "new_element", name: "Tên phần tử", hint: "là dynamicForm" }
-      // , { type: "list", key: "list", name: "Tên của danh sách", hint: "là dynamicForm" }
+      , { type: "object", key: "new_object", name: "Tên đối tượng cố định không sửa", hint: "là dynamicForm" }
+      , { type: "element", key: "new_element", name: "Tên phần tử", hint: "là dynamicForm" }
+      , { type: "list", key: "new_list", name: "Tên của danh sách", hint: "là dynamicForm" }
+      , { type: "elements", key: "new_elements", name: "Tên của danh sách phần tử", hint: "là dynamicForm" }
 
 
       , {

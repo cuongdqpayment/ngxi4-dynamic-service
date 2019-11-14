@@ -152,13 +152,12 @@
 		<!-- QrCode generator Phải là text hoặc dạng base64 hoặc hex với độ dài giới hạn, nếu lớn quá sẽ lỗi-->
 		<ion-grid *ngIf="it?.type == 'qrcode' && it?.value?.length<=2000 ">
 			<ion-row>
-				<ion-col style="text-align: center;" size="12" size-sm="6" size-md="6" size-lg="6" size-xl="6">
+				<ion-col style="text-align: center;" size="12">
 					<ion-card>
 						<ngx-qrcode [qrc-value]="it.value"></ngx-qrcode>
 					</ion-card>
 				</ion-col>
-				<ion-col *ngIf="it.is_show_value" style="text-align: center;" size="12" size-sm="6" size-md="6"
-					size-lg="6" size-xl="6">
+				<ion-col *ngIf="it.is_show_value" style="text-align: center;" size="12">
 					{{ it.value }}
 				</ion-col>
 			</ion-row>
@@ -167,7 +166,7 @@
 		<!-- BarCode generator là dạng số và chữ số  -->
 		<ion-grid *ngIf="it?.type == 'barcode' && it?.value?.length<=100 ">
 			<ion-row>
-				<ion-col style="text-align: center;" size="12" size-sm="6" size-md="6" size-lg="6" size-xl="6">
+				<ion-col style="text-align: center;" size="12">
 					<ion-card>
 						<ngx-barcode [bc-value]="it.value" [bc-display-value]="true"></ngx-barcode>
 						<!-- <ion-card-content *ngIf="it.is_show_value">
@@ -175,8 +174,7 @@
 					  </ion-card-content> -->
 					</ion-card>
 				</ion-col>
-				<ion-col *ngIf="it.is_show_value" style="text-align: center;" size="12" size-sm="6" size-md="6"
-					size-lg="6" size-xl="6">
+				<ion-col *ngIf="it.is_show_value" style="text-align: center;">
 					{{ it.value }}
 				</ion-col>
 			</ion-row>
