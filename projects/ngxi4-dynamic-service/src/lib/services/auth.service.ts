@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { RequestInterceptor } from '../interceptors/requestInterceptor';
 import { Ngxi4Config, Ngxi4ConfigService } from '../ngxi4-dynamic-service.module';
 
+import SimpleCrypto from "simple-crypto-js"; //cho web ES6
 import CryptoJS from "crypto-js"; //cho web ES6 -- xem npm
 
 @Injectable({
@@ -86,6 +87,38 @@ export class AuthService {
     var utf8 = CryptoJS.enc.Utf8.stringify(words);
     return utf8;
   }
+
+
+  // Hai hàm mã hóa dữ liệu theo crypto như dưới máy chủ
+  /**
+     *  
+     * Mã hóa dữ liệu bằng thuật toán cryto
+     * Với mật khẩu mã hóa người dùng tự đặt,
+     * 
+     * 
+     * @param textData 
+     * @param password 
+     */
+    encryptTextCypto(textData: string, password: string) {
+      var simpleCrypto = new SimpleCrypto(password);
+      return simpleCrypto.encrypt(textData);
+    }
+  
+    /**
+     * 
+     * giải mã dữ liệu bằng crypto
+     * 
+     * @param strEncrypted 
+     * @param password 
+     */
+    decryptTextCrypto(strEncrypted: string, password: string) {
+      try {
+        let simpleCrypto = new SimpleCrypto(password);
+        return simpleCrypto.decrypt(strEncrypted);
+      } catch (e) { }
+      //trường hợp giải mã bị lỗi thì trả về một số random nhé
+      return "KX2TTPuf/WHdxeDeGSyFzpNQLRmnrkdWaF55XRfkYSUokJDR/PxHxIYswsjNYiD454rHScaEmBXszrYnou/eeQ=="; //số ngẫu nhiên
+    }
 
   //------- Các hàm tương tác dữ liệu API resful với server ----//
   /**
