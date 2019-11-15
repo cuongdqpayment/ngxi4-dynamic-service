@@ -16,8 +16,12 @@ export class AuthService {
    * Biến toàn cục để lấy đường dẫn
    * Hoặc khai lại đường dẫn lấy từ csdl
    */
-  public serviceUrls: any = {
-    AUTH_SERVER: this.config ? this.config.authServerUrl : '/'  // api xác thực user, pass và token, api
+  public serviceUrls = {
+    AUTH_SERVER: this.config ? this.config.AUTH_SERVER : '/admin',           // api xác thực user, pass và token, api
+    MEDIA_SERVER: this.config ? this.config.MEDIA_SERVER : '/media',         // api xác thực user, pass và token, api
+    SOCKET_SERVER: this.config ? this.config.SOCKET_SERVER : '/socket',       // api xác thực user, pass và token, api
+    RESOURCE_SERVER: this.config ? this.config.RESOURCE_SERVER : '/resource',   // api xác thực user, pass và token, api
+    NEWS_SERVER: this.config ? this.config.NEWS_SERVER : '/news'            // api xác thực user, pass và token, api
   }
 
   constructor(

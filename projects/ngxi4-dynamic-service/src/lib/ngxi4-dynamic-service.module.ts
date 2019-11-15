@@ -31,7 +31,11 @@ import { Ionic4CroppieComponent } from './popup-modals/ionic4-croppie/ionic4-cro
 
 // Cấu hình tham số đầu vào, người dùng khai báo
 export interface Ngxi4Config {
-  authServerUrl: string;  // ví dụ: đường dẫn cơ sở của dịch vụ xác thực
+  AUTH_SERVER: string;       //  Máy chủ xác thực
+  MEDIA_SERVER: string;      //  Máy chủ đa phương tiện
+  RESOURCE_SERVER: string;   //  Máy chủ tài nguyên ứng dụng
+  SOCKET_SERVER: string;     //  Máy chủ socket
+  NEWS_SERVER: string;       //  Máy chủ tin tức mạng xã hội 
 }
 // Dịch vụ tiêm tham số xuống cho các dịch vụ bên dưới
 export const Ngxi4ConfigService = new InjectionToken<Ngxi4Config>('Ngxi4Config');
