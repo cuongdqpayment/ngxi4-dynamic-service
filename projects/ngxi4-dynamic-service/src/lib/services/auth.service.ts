@@ -99,26 +99,26 @@ export class AuthService {
      * @param textData 
      * @param password 
      */
-    encryptTextCypto(textData: string, password: string) {
-      var simpleCrypto = new SimpleCrypto(password);
-      return simpleCrypto.encrypt(textData);
-    }
-  
-    /**
-     * 
-     * giải mã dữ liệu bằng crypto
-     * 
-     * @param strEncrypted 
-     * @param password 
-     */
-    decryptTextCrypto(strEncrypted: string, password: string) {
-      try {
-        let simpleCrypto = new SimpleCrypto(password);
-        return simpleCrypto.decrypt(strEncrypted);
-      } catch (e) { }
-      //trường hợp giải mã bị lỗi thì trả về một số random nhé
-      return "KX2TTPuf/WHdxeDeGSyFzpNQLRmnrkdWaF55XRfkYSUokJDR/PxHxIYswsjNYiD454rHScaEmBXszrYnou/eeQ=="; //số ngẫu nhiên
-    }
+  encryptTextCypto(textData: string, password: string) {
+    var simpleCrypto = new SimpleCrypto(password);
+    return simpleCrypto.encrypt(textData);
+  }
+
+  /**
+   * 
+   * giải mã dữ liệu bằng crypto
+   * 
+   * @param strEncrypted 
+   * @param password 
+   */
+  decryptTextCrypto(strEncrypted: string, password: string) {
+    try {
+      let simpleCrypto = new SimpleCrypto(password);
+      return simpleCrypto.decrypt(strEncrypted);
+    } catch (e) { }
+    //trường hợp giải mã bị lỗi thì trả về một số random nhé
+    return "KX2TTPuf/WHdxeDeGSyFzpNQLRmnrkdWaF55XRfkYSUokJDR/PxHxIYswsjNYiD454rHScaEmBXszrYnou/eeQ=="; //số ngẫu nhiên
+  }
 
   //------- Các hàm tương tác dữ liệu API resful với server ----//
   /**
@@ -192,5 +192,5 @@ export class AuthService {
         throw err && err.error ? err.error : err;
       });
   }
-  
+
 }

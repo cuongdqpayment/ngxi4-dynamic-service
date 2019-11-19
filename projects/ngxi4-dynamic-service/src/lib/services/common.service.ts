@@ -14,8 +14,9 @@
  * 
  */
 import { Injectable } from '@angular/core';
-import { ModalController, AlertController, LoadingController, ToastController } from '@ionic/angular';
+import { ModalController, AlertController, LoadingController, ToastController, PopoverController } from '@ionic/angular';
 import { EventHandler } from '@ionic/angular/dist/providers/events';
+import { resolve } from 'url';
 
 @Injectable({
   providedIn: 'root'
@@ -29,6 +30,7 @@ export class CommonsService {
     , private alertCtrl: AlertController
     , private loadingCtrl: LoadingController
     , private toastCtrl: ToastController
+    , private popoverCtrl: PopoverController
   ) { }
 
 
@@ -485,6 +487,59 @@ orderArrayObjects = (arr:Array<any>, keys: Array<string> | string) => {
       }, 2000);
     }
   }
+
+
+  /**
+   * show popover menu
+   * 
+   * @param ev 
+   * @param formMenu 
+   * @param componentProps 
+   * {
+        type: 'single-choice',
+        title: "Setting",
+        color: "secondary",
+        menu: settingsMenu
+      }
+   */
+  presentPopover(ev: any
+                , formMenu: any
+                , componentProps: 
+                  {
+                    type: string,
+                    title: string,
+                    color: string,
+                    menu: any []
+                  }
+  ) 
+  {
+    return new Promise(async (resolve, reject)=>{
+
+      const popover = await this.popoverCtrl.create({
+        component: formMenu,
+        componentProps: componentProps,
+        event: ev,
+        animated: true,
+        showBackdrop: true
+      });
+  
+      // after select menu return with value
+      popover.onDidDismiss()
+        .then(rtnData => {
+          if (rtnData && rtnData.data) {
+            // data return with value
+            resolve(rtnData.data);
+          }
+        })
+        .catch(err => {
+          reject(err)
+        });
+
+      return await popover.present();
+    })
+  }
+
+
 
   /**
    * Hàm đợi số giây để tiếp tục thực thi bước tiếp theo
