@@ -28,6 +28,9 @@ import { CameraCardComponent } from './popup-modals/camera-card/camera-card.comp
 import { DynamicFormMobilePage } from './popup-modals/dynamic-form-mobile/dynamic-form-mobile';
 import { DynamicPostImagePage } from './popup-modals/dynamic-post-image/dynamic-post-image';
 import { Ionic4CroppieComponent } from './popup-modals/ionic4-croppie/ionic4-croppie.component';
+import { NewlinePipe } from './pipes/new-line';
+import { ArrayPipe } from './pipes/array-pipe';
+import { SafePipe } from './pipes/safe-pipe';
 
 // Cấu hình tham số đầu vào, người dùng khai báo
 export interface Ngxi4Config {
@@ -42,6 +45,12 @@ export const Ngxi4ConfigService = new InjectionToken<Ngxi4Config>('Ngxi4Config')
  
 @NgModule({
   declarations: [
+    
+    // Các pipe dữ liệu không chèn ở entry
+    NewlinePipe,
+    ArrayPipe,
+    SafePipe,
+
     // khai báo thành phần
     // Các components Card chèn vào các trang
     CardDynamicFormComponent,
@@ -108,6 +117,11 @@ export const Ngxi4ConfigService = new InjectionToken<Ngxi4Config>('Ngxi4Config')
   ],
   exports: [
     // xuất bản thành phần
+
+    // Các pipe dữ liệu không chèn ở entry
+    NewlinePipe,
+    ArrayPipe,
+    SafePipe,
     
     // Các components Card chèn vào các trang
     CardDynamicFormComponent,

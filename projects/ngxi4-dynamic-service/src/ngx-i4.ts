@@ -22,6 +22,11 @@ export * from './lib/popup-modals/dynamic-form-mobile/dynamic-form-mobile';
 export * from './lib/popup-modals/dynamic-post-image/dynamic-post-image';
 export * from './lib/popup-modals/ionic4-croppie/ionic4-croppie.component';
 
+// xuất bản các pipes để sử dụng bên trong
+export * from './lib/pipes/array-pipe';
+export * from './lib/pipes/safe-pipe';
+export * from './lib/pipes/new-line';
+
 
 // xuất bản module
 export * from './lib/ngxi4-dynamic-service.module';

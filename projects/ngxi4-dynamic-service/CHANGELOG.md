@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.0.22
+
+add 3 pipes: | newline | safe | count_checked
+
 ## 0.0.21
 
 Make help to use

@@ -11,12 +11,17 @@ npm install ngxi4-dynamic-service --save
 
 - Run npm to install include extra javascript.
 ```sh
-  npm install croppie crypto-js exif-js simple-crypto-js --save
+npm install croppie crypto-js exif-js simple-crypto-js --save
 ```
 
 - install include extra components, service, providers.
 ```sh
 npm install angular-webstorage-service ngx-barcode ngx-image-cropper ngx-qrcode2 ngx-webcam --save
+```
+
+- install include @ionic/native
+```sh
+npm install @ionic-native/sqlite  --save
 ```
 
 ## Use:
@@ -170,7 +175,7 @@ export class HomePage implements OnInit{
 }
 ```
 
-# 5 use popupModal Component for input value and post json_data ex: login.page.ts:
+# 5. use popupModal Component for input value and post json_data ex: login.page.ts:
 
 ``` js
 
@@ -277,7 +282,7 @@ export class LoginPage implements OnInit {
   
   ```
 
-# 6 Popover menu ex: settings or multi selected:
+# 6. Popover menu ex: settings or multi selected:
 
 ``` js
 import { CommonsService } from 'ngxi4-dynamic-service';
@@ -361,7 +366,7 @@ async settings(ev: any) {
 }
 ```
 
-# 7 Form dynamic data sample :
+# 7. Form dynamic data sample :
 
 ``` js
 let form = 
@@ -467,5 +472,12 @@ let form =
 
 ```
 
+# 8. Các pipes mặt định sử dụng gồm
 
+``` html
 
+  content | newline | safe
+
+  [{array.isChecked?}] | count_checked
+
+```
