@@ -481,3 +481,13 @@ let form =
   [{array.isChecked?}] | count_checked
 
 ```
+
+# 9. Thêm hàm kiểm tra môi trường web và thiết bị
+
+``` js
+  // Đây là môi trường di động (web và thiết bị)
+  this.apiCommons.isMobile();
+
+  // đây là môi trường thiết bị (sử dụng cordova và mobile)
+  this.apiCommons.isDevice();
+```

@@ -14,9 +14,9 @@
  * 
  */
 import { Injectable } from '@angular/core';
-import { ModalController, AlertController, LoadingController, ToastController, PopoverController } from '@ionic/angular';
+import { ModalController, AlertController, LoadingController, ToastController, PopoverController, Platform } from '@ionic/angular';
 import { EventHandler } from '@ionic/angular/dist/providers/events';
-import { resolve } from 'url';
+
 
 @Injectable({
   providedIn: 'root'
@@ -31,6 +31,7 @@ export class CommonsService {
     , private loadingCtrl: LoadingController
     , private toastCtrl: ToastController
     , private popoverCtrl: PopoverController
+    , private platform: Platform
   ) { }
 
 
@@ -102,33 +103,33 @@ export class CommonsService {
 
 
 
-//----- Các hàm chuyển đổi cây có cấu trúc như oracle... --//
-/**
- * Sắp xếp thứ tự theo alphabe tiếng việt, quốc tế
- * @param arr 
- * @param key 
- */
-orderArrayObjects = (arr:Array<any>, keys: Array<string> | string) => {
-  return arr.sort(
+  //----- Các hàm chuyển đổi cây có cấu trúc như oracle... --//
+  /**
+   * Sắp xếp thứ tự theo alphabe tiếng việt, quốc tế
+   * @param arr 
+   * @param key 
+   */
+  orderArrayObjects = (arr: Array<any>, keys: Array<string> | string) => {
+    return arr.sort(
       function (a, b) {
-          if (Array.isArray(keys)){
-              // Nếu có nhiều key thì duyệt và so sánh từng key
-              let idx = 0;
-              // Lấy key đầu tiên, nếu == thì xét tiếp key tiếp theo
-              let orderReturn = Intl.Collator().compare(a[keys[idx]], b[keys[idx]]);
-              while (orderReturn===0 && idx<=keys.length) { //bug fix 08/11/2019 Lỗi vòng lặp vô hạn
-                  idx++;
-                  orderReturn = Intl.Collator().compare(a[keys[idx]], b[keys[idx]]);
-                  console.log('orderReturn',orderReturn);
-              }
-              // trường hợp > hoặc < thì nhảy ra ko cần so sánh tiếp làm gì
-              return orderReturn;
-          }else{
-              // Nếu chỉ có một keys thì so sánh ngay
-              return Intl.Collator().compare(a[keys], b[keys]);
+        if (Array.isArray(keys)) {
+          // Nếu có nhiều key thì duyệt và so sánh từng key
+          let idx = 0;
+          // Lấy key đầu tiên, nếu == thì xét tiếp key tiếp theo
+          let orderReturn = Intl.Collator().compare(a[keys[idx]], b[keys[idx]]);
+          while (orderReturn === 0 && idx <= keys.length) { //bug fix 08/11/2019 Lỗi vòng lặp vô hạn
+            idx++;
+            orderReturn = Intl.Collator().compare(a[keys[idx]], b[keys[idx]]);
+            console.log('orderReturn', orderReturn);
           }
+          // trường hợp > hoặc < thì nhảy ra ko cần so sánh tiếp làm gì
+          return orderReturn;
+        } else {
+          // Nếu chỉ có một keys thì so sánh ngay
+          return Intl.Collator().compare(a[keys], b[keys]);
+        }
       })
-}
+  }
 
   /**
   * Tự tính trọng số thành phần, gán trọng số cha, trọng số con, và trọng số so với root
@@ -160,7 +161,7 @@ orderArrayObjects = (arr:Array<any>, keys: Array<string> | string) => {
         //Tính tổng thành phần của cùng cấp này
         let sumWeight = parents.map((o) => { return o[weightKey] }).reduce((a, b) => a + b, 0)
 
-        parents.forEach((el,idx) => {
+        parents.forEach((el, idx) => {
 
           //Tỷ trọng % thành phần
           el.$weight_percent = el[weightKey] / sumWeight;
@@ -503,17 +504,16 @@ orderArrayObjects = (arr:Array<any>, keys: Array<string> | string) => {
       }
    */
   presentPopover(ev: any
-                , formMenu: any
-                , componentProps: 
-                  {
-                    type: string,
-                    title: string,
-                    color: string,
-                    menu: any []
-                  }
-  ) 
-  {
-    return new Promise(async (resolve, reject)=>{
+    , formMenu: any
+    , componentProps:
+      {
+        type: string,
+        title: string,
+        color: string,
+        menu: any[]
+      }
+  ) {
+    return new Promise(async (resolve, reject) => {
 
       const popover = await this.popoverCtrl.create({
         component: formMenu,
@@ -522,7 +522,7 @@ orderArrayObjects = (arr:Array<any>, keys: Array<string> | string) => {
         animated: true,
         showBackdrop: true
       });
-  
+
       // after select menu return with value
       popover.onDidDismiss()
         .then(rtnData => {
@@ -551,6 +551,20 @@ orderArrayObjects = (arr:Array<any>, keys: Array<string> | string) => {
         resolve()
       }, milisecond);
     })
+  }
+
+  /**
+   * Kiểm tra là môi trường di động
+   */
+  isMobile(){
+    return this.platform.is('mobile');
+  }
+
+  /**
+   * Kiểm tra đây là môi trường thiết bị (không phải web)
+   */
+  isDevice(){
+    return this.platform.is('cordova') && this.platform.is('mobile');
   }
 
 }

@@ -28,7 +28,7 @@ export class AuthService {
   constructor(
     @Inject(Ngxi4ConfigService) private config: Ngxi4Config,
     private httpClient: HttpClient,
-    private reqInterceptor: RequestInterceptor,
+    private reqInterceptor: RequestInterceptor
   ) { }
 
   //-------- CÁC HÀM HỖ TRỢ BẢO MẬT -----------//
