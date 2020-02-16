@@ -83,24 +83,80 @@ import { Ngxi4DynamicServiceModule } from 'ngxi4-dynamic-service'
 # 3. user some card for input in html page then add in ./<page>.page.html:
 
 ``` html
-<card-dynamic-form 
-[dynamicFormInput]="dynamicFormInput"
-[dynamicFormValue]="dynamicFormValue"
-[dynamicCallback]="dynamicCallback"
-(onSelectedFinish)="onSelectedFinish($event)"
-></card-dynamic-form>
+<ion-content>
+    <card-dynamic-form 
+    [dynamicFormInput]="dynamicFormInput"
+    [dynamicFormValue]="dynamicFormValue"
+    [dynamicCallback]="dynamicCallback"
+    (onSelectedFinish)="onSelectedFinish($event)"
+    ></card-dynamic-form>
 
-<card-dynamic-list
-[dynamicFormInput]="dynamicFormInput"
-[dynamicFormValue]="dynamicFormValue"
-[dynamicCallback]="dynamicCallback"
-(onSelectedFinish)="onSelectedFinish($event)"
-></card-dynamic-list>
+    <card-dynamic-list
+    [dynamicFormInput]="dynamicFormInput"
+    [dynamicFormValue]="dynamicFormValue"
+    [dynamicCallback]="dynamicCallback"
+    (onSelectedFinish)="onSelectedFinish($event)"
+    ></card-dynamic-list>
 
-<card-multi-check
-[dynamicForm]="dynamicForm"
-(onSelectedFinish)="onSelectedFinish($event)"
-></card-multi-check>
+    <card-multi-check
+    [dynamicForm]="dynamicForm"
+    (onSelectedFinish)="onSelectedFinish($event)"
+    ></card-multi-check>
+</ion-content>
+```
+
+- With:
+
+``` ts
+export class IdeaPage implements OnInit {
+  // form cần tạo chèn ở đây:
+  dynamicFormInput: string = JSON.stringify({ // Form mẫu hiển thị nhập liệu tạo đối tượng jon_data
+    okButton: { icon: "save", name: "Thêm mới", color: "secondary", next: "CALLBACK", command: "ADD" }
+    ,
+    cancelButton: { icon: "close", next: "CLOSE" }
+    ,
+    items: [
+      // Danh sách các trường nhập liệu
+      // có thể gán luôn giá trị mặc định value:'xyz'
+      { type: "text", key: "name", name: "Tên hiển thị(*)", hint: "Nhập tên hiển thị trên list", input_type: "text", icon: "information-circle", validators: [{ required: true }] }
+      , { type: "text", key: "value", name: "giá trị", hint: "Nhập tên giá trị", input_type: "number", icon: "information-circle" }
+      , { type: "image", key: "image", name: "Ảnh hiển thị", hint: "Chọn ảnh" }
+    ]
+  })
+
+  // Giá trị mặt định ở đây
+  // với properties là giá trị của trường key ở form
+  dynamicFormValue: any = JSON.stringify(
+    {
+      name: 'Dccc',
+      value: '122'
+    }
+  );
+
+  // Hàm gọi lại khi thay đổi giá trị select để thay đổi giá trị trên form
+  dynamicCallback = (ajaxItem)=>{
+    return new Promise(resolve=>{
+      ajaxReturn = {key:'nameOfKey', 
+      property_name:'name of property', 
+      new_data:'new value of property',
+       ...$del_key,  // xóa thuộc tính key
+       ...$edit_key, // sửa key mới
+       ...$new_key   // tạo thuộc tính key mới key = $new_key
+       }
+      // or 
+      // ajaxReturns = [{...ajaxReturn}]
+
+      resolve(ajaxReturn);
+    })
+  }
+
+
+  // Hàm khai báo nhận kết quả xử lý trả về của form khi kết thúc
+  onSelectedFinish(event){
+    
+  }
+
+}
 ```
 
 # 4. Use for services/providers in ./<page>.page.ts

@@ -6,9 +6,9 @@
  * ex:
  * Input: 
  * dynamicForm = { // Form mẫu hiển thị nhập liệu tạo đối tượng jon_data
-        okButton = { icon:"save", name: "Thêm mới", color:"secondary", next: "CALLBACK", command: "ADD" }
+        okButton: { icon:"save", name: "Thêm mới", color:"secondary", next: "CALLBACK", command: "ADD" }
         ,
-        cancelButton = {  icon:"close", next: "CLOSE" }
+        cancelButton: {  icon:"close", next: "CLOSE" }
         ,  
         items: [
             // Danh sách các trường nhập liệu
