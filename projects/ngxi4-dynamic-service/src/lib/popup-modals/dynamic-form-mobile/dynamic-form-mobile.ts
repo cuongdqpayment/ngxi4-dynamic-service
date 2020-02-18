@@ -602,7 +602,7 @@ export class DynamicFormMobilePage {
       parent: this, // để gọi tắt cửa sổ
     })
       .then(data => {
-        console.log('ảnh nhận được: ', data ? data.length : undefined);
+        // console.log('ảnh nhận được: ', data ? data.length : undefined);
         item.value = data ? data : item.value;
       })
 
