@@ -13,7 +13,8 @@
 	</ion-toolbar>
 </ion-header>
 
-<ion-content class="background-none background-image" [style.background-color]="(dynamicForm?.color?.background?dynamicForm?.color?.background:'#2d96de')">
+<ion-content class="background-none background-image"
+	[style.background-color]="(dynamicForm?.color?.background?dynamicForm?.color?.background:'#2d96de')">
 
 	<!-- Các dữ liệu form nhập liệu động, gồm các form nhập liệu và nút xử lý -->
 	<ion-list class="background-transparent" *ngFor="let it of dynamicForm.items">
@@ -214,6 +215,33 @@
 
 		</ion-card>
 
+
+		<!-- browse file for upload -->
+		<ion-item *ngIf="it?.type == 'upload-files'" class="background-none">
+			<ion-button slot="start" color="medium" fill="solid" shape="round" style="text-transform:none!important;">
+				<input class="file-over" type="file" multiple="{{it.multiple}}" (change)="uploadFilesEvent($event)"
+					accept="{{it.accept}}" />
+				<ion-icon slot="start" name="attach"></ion-icon>
+				{{it.name}}
+			</ion-button>
+			<ion-label class="ion-text-wrap" *ngIf="uploadingFiles?.length>0">
+				<span *ngFor="let file of uploadingFiles; let idx=index;">
+					<ion-button *ngIf="!file.isImage" color="secondary" (click)="onClickRemoveFile(idx)" fill="outline"
+						shape="round" style="text-transform:none!important;">
+						{{file.name}}
+						<ion-icon slot="end" name="close"></ion-icon>
+					</ion-button>
+					<div *ngIf="file.isImage" class="image-upload-size">
+						<img src="{{file.image}}">
+						<div class='close-button' tappable>
+							<ion-icon slot="icon-only" name="close" color="medium" (click)="onClickRemoveFile(idx)">
+							</ion-icon>
+						</div>
+					</div>
+				</span>
+			</ion-label>
+		</ion-item>
+
 		<!-- Thêm thẻ ảnh thumnail -->
 		<ion-item *ngIf="it?.type == 'image'" class="background-round">
 			<ion-thumbnail tappable slot="start" (click)="showImage(it)">
@@ -267,7 +295,8 @@
 
 		<!-- input text inline=default null/fixed/floating/stacked-->
 		<ion-item *ngIf="it?.type == 'text'" class="background-none background-round form-input-item">
-			<ion-icon *ngIf="it.icon" slot="start" color="{{it.color?it.color:'primary'}}" name="{{it.icon}}"></ion-icon>
+			<ion-icon *ngIf="it.icon" slot="start" color="{{it.color?it.color:'primary'}}" name="{{it.icon}}">
+			</ion-icon>
 			<ion-label position="stacked" class="ion-text-wrap" color="{{(it.invalid?'danger':'')}}"
 				style="text-align: justify;">
 				{{it.invalid?it.hint:it.name}}{{it.validators?'(*)':''}}</ion-label>
@@ -287,7 +316,8 @@
 
 		<!-- input text-area -->
 		<ion-item *ngIf="it?.type == 'text_area'" class="background-none background-round form-input-item">
-			<ion-icon *ngIf="it.icon" slot="start" color="{{it.color?it.color:'primary'}}" name="{{it.icon}}"></ion-icon>
+			<ion-icon *ngIf="it.icon" slot="start" color="{{it.color?it.color:'primary'}}" name="{{it.icon}}">
+			</ion-icon>
 			<ion-label *ngIf="it.invalid" position="floating" color="danger" class="ion-text-wrap"
 				style="text-align: justify;">
 				{{it.hint}}(*)
@@ -298,7 +328,8 @@
 
 		<!-- input password -->
 		<ion-item *ngIf="it?.type == 'password'" class="background-none background-round form-input-item">
-			<ion-icon *ngIf="it.icon" slot="start" color="{{it.color?it.color:'primary'}}" name="{{it.icon}}"></ion-icon>
+			<ion-icon *ngIf="it.icon" slot="start" color="{{it.color?it.color:'primary'}}" name="{{it.icon}}">
+			</ion-icon>
 
 			<ion-label *ngIf="it.invalid" position="floating" color="danger" class="ion-text-wrap"
 				style="text-align: justify;">
@@ -314,7 +345,8 @@
 
 		<!-- check box -->
 		<ion-item *ngIf="it?.type === 'check'" class="background-none background-round form-input-item">
-			<ion-icon *ngIf="it.icon" slot="start" color="{{it.color?it.color:'primary'}}" name="{{it.icon}}"></ion-icon>
+			<ion-icon *ngIf="it.icon" slot="start" color="{{it.color?it.color:'primary'}}" name="{{it.icon}}">
+			</ion-icon>
 			<ion-label class="ion-text-wrap" style="text-align: justify;">{{it.name?it.name:it.hint}}</ion-label>
 			<ion-checkbox [(ngModel)]="it.value"></ion-checkbox>
 		</ion-item>
@@ -340,7 +372,8 @@
 
 		<!-- single select -->
 		<ion-item *ngIf="it?.type === 'select'" class="background-none background-round form-input-item">
-			<ion-icon *ngIf="it.icon" slot="start" color="{{it.color?it.color:'primary'}}" name="{{it.icon}}"></ion-icon>
+			<ion-icon *ngIf="it.icon" slot="start" color="{{it.color?it.color:'primary'}}" name="{{it.icon}}">
+			</ion-icon>
 			<ion-label color="{{(it.invalid&&!it.value?'danger':'primary')}}" class="ion-text-wrap"
 				style="text-align: justify;">
 				{{it.invalid&&!it.value?it.hint+'(*)':it.name}}</ion-label>
@@ -354,8 +387,10 @@
 
 		<!-- multiple select -->
 		<ion-item *ngIf="it?.type === 'select_multiple'" class="background-none background-round form-input-item">
-			<ion-icon *ngIf="it.icon" slot="start" color="{{it.color?it.color:'primary'}}" name="{{it.icon}}"></ion-icon>
-			<ion-label color="{{it.color?it.color:'primary'}}" class="ion-text-wrap" style="text-align: justify;">{{it.name?it.name:it.hint}}
+			<ion-icon *ngIf="it.icon" slot="start" color="{{it.color?it.color:'primary'}}" name="{{it.icon}}">
+			</ion-icon>
+			<ion-label color="{{it.color?it.color:'primary'}}" class="ion-text-wrap" style="text-align: justify;">
+				{{it.name?it.name:it.hint}}
 			</ion-label>
 			<ion-select [(ngModel)]="it.value" multiple="true"
 				style="background-color: rgb(0, 190, 73); color:whitesmoke; border-radius: 1em;">
@@ -366,7 +401,8 @@
 
 		<!-- toggle check -->
 		<ion-item *ngIf="it?.type === 'toggle'" class="background-none background-round form-input-item">
-			<ion-icon *ngIf="it.icon" slot="start" color="{{it.color?it.color:'primary'}}" name="{{it.icon}}"></ion-icon>
+			<ion-icon *ngIf="it.icon" slot="start" color="{{it.color?it.color:'primary'}}" name="{{it.icon}}">
+			</ion-icon>
 			<ion-label color="primary" class="ion-text-wrap" style="text-align: justify;">{{it.name?it.name:it.hint}}
 			</ion-label>
 			<ion-toggle color="{{it.color}}" [(ngModel)]="it.value"></ion-toggle>
@@ -374,10 +410,12 @@
 
 		<!-- range adjust -->
 		<ion-item *ngIf="it?.type === 'range'" class="background-none background-round form-input-item">
-			<ion-label *ngIf="it.name" color="{{it.color?it.color:'primary'}}" class="ion-text-wrap" style="text-align: justify;">
+			<ion-label *ngIf="it.name" color="{{it.color?it.color:'primary'}}" class="ion-text-wrap"
+				style="text-align: justify;">
 				{{it.name}}
 			</ion-label>
-			<ion-range min="{{it.min}}" max="{{it.max}}" pin="true" snaps="true" color="{{it.color?it.color:'primary'}}" [(ngModel)]="it.value">
+			<ion-range min="{{it.min}}" max="{{it.max}}" pin="true" snaps="true" color="{{it.color?it.color:'primary'}}"
+				[(ngModel)]="it.value">
 				<ion-icon *ngIf="it.icon" size="small" slot="start" name="{{it.icon}}"></ion-icon>
 				<ion-icon *ngIf="it.icon" slot="end" name="{{it.icon}}"></ion-icon>
 			</ion-range>
@@ -385,8 +423,10 @@
 
 		<!-- rang title with value -->
 		<ion-item *ngIf="it?.type === 'range-text'" class="background-none background-round form-input-item">
-			<ion-range min="{{it.min}}" max="{{it.max}}" snaps="{{it.snaps}}" color="{{(it.color?it.color:'secondary')}}" [(ngModel)]="it.value">
-				<ion-label slot="start" color="primary" [style.font-size]="(it.size?it.size:'1.5em')">{{it.name}}</ion-label>
+			<ion-range min="{{it.min}}" max="{{it.max}}" snaps="{{it.snaps}}"
+				color="{{(it.color?it.color:'secondary')}}" [(ngModel)]="it.value">
+				<ion-label slot="start" color="primary" [style.font-size]="(it.size?it.size:'1.5em')">{{it.name}}
+				</ion-label>
 				<ion-input slot="end" type="text" [(ngModel)]="it.value" [disabled]="it.disabled" maxlength="5"
 					style="border-radius: 0.5em; background-color: rgb(40, 112, 219); color:whitesmoke; padding: 3px; align-self: center; min-width: 40px; max-width: 60px;">
 				</ion-input>
@@ -405,7 +445,8 @@
 		<ion-grid class="ion-no-padding" *ngIf="it?.type == 'button' && !isEditingObjects">
 			<ion-row>
 				<ion-col *ngFor="let myBtn of it.options" style="text-align: center;">
-					<ion-button class="form-button-item" color="{{it.color?it.color:''}}" shape="round" (click)="onClick(myBtn)">
+					<ion-button class="form-button-item" color="{{it.color?it.color:''}}" shape="round"
+						(click)="onClick(myBtn)">
 						<ion-icon *ngIf="it.icon" name="{{it.icon}}"></ion-icon>
 						{{myBtn?.name}}
 					</ion-button>

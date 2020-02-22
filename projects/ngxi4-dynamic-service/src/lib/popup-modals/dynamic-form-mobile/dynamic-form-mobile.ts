@@ -1,4 +1,8 @@
 /**
+ * ver 6.1 bổ sung upload file ảnh và các file bất kỳ
+ * Ngày 23/02/2020
+ * Thực thi đẩy lên file nguyên bản, không chỉnh sửa
+ * 
  * ver 6.0 thêm đối tượng object, element, list
  * Định nghĩa để trả về value = string: {key,value} | {name:object:{key,value} | {name:,items:[{key,value}]}
  * Biến isEditingObjects sẽ ẩn các nút lệnh không cho thực thi form nếu đang sửa chữa các phần tử con
@@ -63,15 +67,15 @@ export class DynamicFormMobilePage {
   dynamicForm: any = {
     title: "Form mẫu"
     //, auto_hidden: false //|| 3000 || true
-    , color: { header:"medium", background:"#2d96de"}
+    , color: { header: "medium", background: "#2d96de" }
     , buttons: [
       { color: "danger", icon: "close", next: "CLOSE" }
     ]
     , items: [
       { type: "avatar", name: "Thông tin cá nhân avatar", hint: "Avatar", url: "https://www.w3schools.com/howto/img_forest.jpg" }
       , { type: "title", name: "Tiêu đề form" }
-      , { type: "qrcode", name: "Mã QrCode", value:"https://c3.mobifone.vn" }
-      , { type: "barcode", name: "Mã BarCode", value:"0903500888" }
+      , { type: "qrcode", name: "Mã QrCode", value: "https://c3.mobifone.vn" }
+      , { type: "barcode", name: "Mã BarCode", value: "0903500888" }
       , { type: "hidden", key: "id", value: "abc" } //truyen gia tri 
       , { type: "check", key: "check_ok", name: "Check hay không chọn?", value: true }
       , { type: "range", key: "range_number", name: "", icon: "contrast", value: 50, min: 0, max: 100 }
@@ -80,7 +84,8 @@ export class DynamicFormMobilePage {
       , { type: "radio", key: "select_radio", name: "Chọn radio cái nào", icon: "call", value: 2, options: [{ name: "Tùy chọn 1", value: 1 }, { name: "Tùy chọn 2", value: 2 }] }
       , { type: "select", key: "select_1", name: "Chọn 1 cái nào", value: 2, options: [{ name: "Tùy chọn 1", value: 1 }, { name: "Tùy chọn 2", value: 2 }] }
       , { type: "select_multiple", key: "select_n", name: "Chọn nhiều cái nào", value: 2, options: [{ name: "Tùy chọn 1", value: 1 }, { name: "Tùy chọn 2", value: 2 }] }
-      , { type: "image", name: "Ảnh cá nhân", hint: "image viewer", url: "https://www.w3schools.com/howto/img_forest.jpg" }
+      , { type: "image-viewer", name: "Ảnh hiển thị camera", hint: "image viewer", url: "https://www.w3schools.com/howto/img_forest.jpg" }
+      , { type: "image", name: "Ảnh crop base64", hint: "image viewer", url: "https://www.w3schools.com/howto/img_forest.jpg" }
       , { type: "text", key: "username", disabled: true, name: "username", hint: "Số điện thoại di động 9 số bỏ số 0 ở đầu", input_type: "userName", icon: "information-circle", validators: [{ required: true, min: 9, max: 9, pattern: "^[0-9]*$" }] }
       , { type: "password", key: "password", name: "password", hint: "Mật khẩu phải có chữ hoa, chữ thường, ký tự đặc biệt, số", input_type: "password", icon: "information-circle", validators: [{ required: true, min: 6, max: 20 }] }
       , { type: "text", key: "name", name: "Họ và tên", input_type: "text", icon: "person" }
@@ -95,8 +100,18 @@ export class DynamicFormMobilePage {
       , { type: "element", key: "new_element", name: "Tên phần tử", hint: "là dynamicForm" }
       , { type: "list", key: "new_list", name: "Tên của danh sách", hint: "là dynamicForm" }
       , { type: "elements", key: "new_elements", name: "Tên của danh sách phần tử", hint: "là dynamicForm" }
-
-
+      
+      
+      // ver 6.1 dùng thêm kiểu upload file
+      , { type: "upload-files"
+          , name: "Chọn file excel"
+          , multiple: "single"
+          , accept:`image/gif, image/jpeg, image/png
+                                        , application/pdf
+                                        , .txt, .md
+                                        , .csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel
+                                        , application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document`
+        }
       , {
         type: "svg", name: "Nhập đúng captcha", hint: "Vui lòng nhập đúng captcha hình bên", validators: [{ required: true, min: 4, max: 4 }],
         data: "<svg xmlns='http://www.w3.org/2000/svg' width='150' height='50' viewBox='0,0,150,50'>\
@@ -138,11 +153,11 @@ export class DynamicFormMobilePage {
         type: "button"
         , options: [
           { name: "Reset", next: "RESET" }
-          , { name: "Exit", next: "EXIT" }
           , { name: "Close", next: "CLOSE" }
           , { name: "Home", next: "HOME" }
-          , { name: "Back", next: "CALLBACK" }
-          , { name: "Continue", next: "CONTINUE" }
+          , { name: "insert sqlite", next: "CALLBACK", table: "table_name" }
+          , { name: "update sqlite", next: "CALLBACK", table: "table_name", wheres: ["id"] }
+          , { name: "Upload files", next: "CALLBACK", url: "./ionic/", type: "FORM-DATA", token: true }
           , { name: "Register", next: "CALLBACK", url: "./ionic/", command: "USER_LOGIN_REDIRECT" }
           , { name: "LOGIN", next: "NEXT", url: "./ionic/", command: "USER_CHECK_EXISTS", token: true }
         ]
@@ -174,6 +189,9 @@ export class DynamicFormMobilePage {
   // Biến ghi mảng ds kết quả load vào trước khi gọi thực thi từng lệnh
   jsonImportList: any;
 
+
+  // Mảng lưu trữ file upload cần thiết
+  uploadingFiles: any = [];
 
   constructor(
     private apiCommons: CommonsService
@@ -538,9 +556,30 @@ export class DynamicFormMobilePage {
   }
   // ----- END Thực thi các hàm danh sách ----//
 
+  // --- upload file start ----
+  // Sự kiện khi người dùng chọn file lên để upload
+  uploadFilesEvent(evt) {
+    if (!evt.target || !evt.target.files || !evt.target.files.length) return
+    for (let file of evt.target.files) {
+      if (file.type.indexOf('image') >= 0) {
+        file.isImage = true;
+        const fr = new FileReader();
+        fr.onloadend = (loadEvent) => {
+          file.image = fr.result;
+        };
+        fr.readAsDataURL(file);
+      }
+      if (!this.uploadingFiles.find(x => x.name === file.name))
+        this.uploadingFiles.push(file)
+    }
+  }
 
+  // thực thi xóa file đã chọn
+  onClickRemoveFile(idx) {
+    this.uploadingFiles.splice(idx, 1);
+  }
 
-
+  // ----------- upload file end --------------------
   /**
    * Upload file lên để crop
    * Lấy các tham số về file
@@ -808,41 +847,95 @@ export class DynamicFormMobilePage {
       //Nếu có đường dẫn url thì thực hiện post dữ liệu lên luôn
       if (btn.url) { // post lên cloud
 
-        this.apiCommons.showLoader('Đang xử lý dữ liệu trên cloud....')
+        if (btn.type === "FORM-DATA") {
+          this.apiCommons.showLoader('Đang đẩy dữ liệu FORM-DATA trên cloud....')
 
-        //console.log('kq',json_data);
-        this.apiAuth.postDynamicJson(btn.url, json_data, btn.token)
-          .then(resp => {
+          let form_data: FormData = new FormData();
+          // json_data chứa cặp key, value thôi
+          for (let key in json_data) {
+            let value = json_data[key] !== undefined ? json_data[key] : '';
+            form_data.append(key, value);
+          }
 
-
-            btn.next_data = {
-              button: btn, //chuyen dieu khien nut cho ben ngoai
-              response_data: resp ? resp : {}   //dữ liệu data từ máy chủ trả về là json hoặc gì đó
-              //, nếu không thì giả một đối tượng
+          // trường hợp khai báo tham số attach_file thì biến uploadingFiles chứa file
+          if (this.uploadingFiles.length > 0) {
+            let i = 0;
+            for (let file of this.uploadingFiles) {
+              form_data.append('file_' + i++, file, file.filename);
             }
-            //console.log('data token --> next btn', btn);
-            this.next(btn);
+          }
 
-            this.apiCommons.hideLoader();
+          this.apiAuth.postDynamicFormData(btn.url, form_data, btn.token)
+            .then(resp => {
 
-          })
-          .catch(err => {
-            //Có 2 loại lỗi xãy ra,
-            //1. Do máy chủ không tồn tại hoặc máy chủ bị sự cố, thì trả về bản tin Không thể post
-            //2. Do lập trình trả về code không phải là 200, 
-            // đọc message sẽ biết người lập trình máy chủ muốn nhắn gì
-            btn.next_data = {
-              button: btn, //chuyen dieu khien nut cho ben ngoai
-              error: err && err.error ? err.error : err,  //lỗi trả nguyên trạng
-              message: err && err.error && err.error.message ? err.error.message : ('Không thể POST đến ' + btn.url), //message thông báo
-              json_data: json_data //chuỗi json gửi lên máy chủ
-            }
 
-            this.next(btn);
+              btn.next_data = {
+                button: btn, //chuyen dieu khien nut cho ben ngoai
+                response_data: resp ? resp : {}   //dữ liệu data từ máy chủ trả về là json hoặc gì đó
+                //, nếu không thì giả một đối tượng
+              }
+              //console.log('data token --> next btn', btn);
+              this.next(btn);
 
-            this.apiCommons.hideLoader();
+              this.apiCommons.hideLoader();
 
-          });
+            })
+            .catch(err => {
+              //Có 2 loại lỗi xãy ra,
+              //1. Do máy chủ không tồn tại hoặc máy chủ bị sự cố, thì trả về bản tin Không thể post
+              //2. Do lập trình trả về code không phải là 200, 
+              // đọc message sẽ biết người lập trình máy chủ muốn nhắn gì
+              btn.next_data = {
+                button: btn, //chuyen dieu khien nut cho ben ngoai
+                error: err && err.error ? err.error : err,  //lỗi trả nguyên trạng
+                message: err && err.error && err.error.message ? err.error.message : ('Không thể POST đến ' + btn.url), //message thông báo
+                json_data: json_data //chuỗi json gửi lên máy chủ
+              }
+
+              this.next(btn);
+
+              this.apiCommons.hideLoader();
+
+            });
+
+        } else {
+
+          this.apiCommons.showLoader('Đang xử lý dữ liệu trên cloud....')
+
+          //console.log('kq',json_data);
+          this.apiAuth.postDynamicJson(btn.url, json_data, btn.token)
+            .then(resp => {
+
+
+              btn.next_data = {
+                button: btn, //chuyen dieu khien nut cho ben ngoai
+                response_data: resp ? resp : {}   //dữ liệu data từ máy chủ trả về là json hoặc gì đó
+                //, nếu không thì giả một đối tượng
+              }
+              //console.log('data token --> next btn', btn);
+              this.next(btn);
+
+              this.apiCommons.hideLoader();
+
+            })
+            .catch(err => {
+              //Có 2 loại lỗi xãy ra,
+              //1. Do máy chủ không tồn tại hoặc máy chủ bị sự cố, thì trả về bản tin Không thể post
+              //2. Do lập trình trả về code không phải là 200, 
+              // đọc message sẽ biết người lập trình máy chủ muốn nhắn gì
+              btn.next_data = {
+                button: btn, //chuyen dieu khien nut cho ben ngoai
+                error: err && err.error ? err.error : err,  //lỗi trả nguyên trạng
+                message: err && err.error && err.error.message ? err.error.message : ('Không thể POST đến ' + btn.url), //message thông báo
+                json_data: json_data //chuỗi json gửi lên máy chủ
+              }
+
+              this.next(btn);
+
+              this.apiCommons.hideLoader();
+
+            });
+        }
 
       } else if (btn.table) {
         // Lưu xuống đĩa -- mobile app (thêm ver 5.0)

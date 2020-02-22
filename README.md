@@ -54,15 +54,23 @@ npm i @ionic/angular
 ng g component cards/Ngxi4CardDynamicForm --project ngxi4-dynamic-service
 
 ## 5. Xây dựng thư viện
+```sh
+# Để xuất bản một phiên bản mới, phải sửa chuỗi `"version": "2.0.0"` tăng lên 1 version
+#  trong package.json của thư viện
 ng build
+```
 
-## --- Tạo liên kết với npm để cài đặt cho máy nôi bộ ---
+# Thay đổi thư mục của thư viện để xuất bản thư viện hoặc tạo liên kết npm
+```sh
 cd dist/ngxi4-dynamic-service
+```
 
 # publish lên npm - login với user - cuongdq(cuongdq.payment@gmail.com)
+```sh
 npm publish
+```
 
-# liên kết cài nội bộ
+# Tạo liên kết với npm để cài đặt cho máy nôi bộ 
 npm link
 
 

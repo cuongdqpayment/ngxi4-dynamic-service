@@ -471,6 +471,16 @@ let form =
       , { type: "list", key: "new_list", name: "Tên của danh sách", hint: "là dynamicForm" }
       , { type: "elements", key: "new_elements", name: "Tên của danh sách phần tử", hint: "là dynamicForm" }
 
+      // ver 6.1 dùng thêm kiểu upload file
+      , { type: "upload-files"
+          , name: "Chọn file excel"
+          , multiple: "single"
+          , accept:`image/gif, image/jpeg, image/png
+                                        , application/pdf
+                                        , .txt, .md
+                                        , .csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel
+                                        , application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document`
+        }
 
       , {
         type: "svg", name: "Nhập đúng captcha", hint: "Vui lòng nhập đúng captcha hình bên", validators: [{ required: true, min: 4, max: 4 }],
@@ -514,11 +524,11 @@ let form =
         type: "button"
         , options: [
           { name: "Reset", next: "RESET" }
-          , { name: "Exit", next: "EXIT" }
           , { name: "Close", next: "CLOSE" }
           , { name: "Home", next: "HOME" }
-          , { name: "Back", next: "CALLBACK" }
-          , { name: "Continue", next: "CONTINUE" }
+          , { name: "insert sqlite", next: "CALLBACK", table: "table_name"}
+          , { name: "update sqlite", next: "CALLBACK", table: "table_name", wheres:["id"]}
+          , { name: "Upload files", next: "CALLBACK", url: "./ionic/", type: "FORM-DATA", token: true}
           , { name: "Register", next: "CALLBACK", url: "./ionic/", command: "USER_LOGIN_REDIRECT" }
           , { name: "LOGIN", next: "NEXT", url: "./ionic/", command: "USER_CHECK_EXISTS", token: true }
         ]
@@ -546,4 +556,51 @@ let form =
 
   // đây là môi trường thiết bị (sử dụng cordova và mobile)
   this.apiCommons.isDevice();
+```
+
+
+# 10. Sử dụng trong share.module.ts
+```ts
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { IonicModule } from '@ionic/angular';
+import { FormsModule } from '@angular/forms';
+import { TimeAgoPipe } from 'time-ago-pipe';
+import { IdeaCardComponent } from './components/idea-card/idea-card.component';
+import {AutosizeModule} from 'ngx-autosize';
+
+@NgModule({
+    imports: [
+        CommonModule,
+        FormsModule,
+        AutosizeModule,
+        IonicModule
+    ],
+    declarations: [
+        // Các pipe dữ liệu không chèn ở entry
+        IdeaCardComponent,
+        TimeAgoPipe
+    ],
+    exports: [
+        // Phải khai báo xuất bản ra mới sử dụng được nhé
+        IdeaCardComponent,
+        AutosizeModule,
+        TimeAgoPipe
+    ]
+})
+export class SharedModule { }
+```
+
+# Khai báo trong các app.module.ts để sử dụng 
+```ts
+@NgModule({
+  ...
+  imports: [
+    ...
+    Ngxi4DynamicServiceModule.forRoot(), //app.module.ts
+    // Ngxi4DynamicServiceModule,        //xyz.module.ts
+    SharedModule,
+    ...
+  ],
+  ...
 ```
