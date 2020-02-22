@@ -204,6 +204,33 @@
     </ion-row>
   </ion-grid>
 
+
+  <!-- browse file for upload -->
+  <ion-item *ngIf="it?.type == 'upload-files'" class="background-none">
+    <ion-button slot="start" color="medium" fill="solid" shape="round" style="text-transform:none!important;">
+      <input class="file-over" type="file" multiple="{{it.multiple}}" (change)="uploadFilesEvent($event)"
+        accept="{{it.accept}}" />
+      <ion-icon slot="start" name="attach"></ion-icon>
+      {{it.name}}
+    </ion-button>
+    <ion-label class="ion-text-wrap" *ngIf="uploadingFiles?.length>0">
+      <span *ngFor="let file of uploadingFiles; let idx=index;">
+        <ion-button *ngIf="!file.isImage" color="secondary" (click)="onClickRemoveFile(idx)" fill="outline"
+          shape="round" style="text-transform:none!important;">
+          {{file.name}}
+          <ion-icon slot="end" name="close"></ion-icon>
+        </ion-button>
+        <div *ngIf="file.isImage" class="image-upload-size">
+          <img src="{{file.image}}">
+          <div class='close-button' tappable>
+            <ion-icon slot="icon-only" name="close" color="medium" (click)="onClickRemoveFile(idx)">
+            </ion-icon>
+          </div>
+        </div>
+      </span>
+    </ion-label>
+  </ion-item>
+
   <!-- Thêm thẻ ảnh thumnail -->
   <ion-item *ngIf="it?.type == 'image'" class="background-round">
     <ion-thumbnail *ngIf="it.value" tappable slot="start" (click)="showImage(it)">

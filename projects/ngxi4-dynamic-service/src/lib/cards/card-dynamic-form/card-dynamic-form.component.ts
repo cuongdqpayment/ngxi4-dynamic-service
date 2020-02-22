@@ -66,6 +66,8 @@ export class CardDynamicFormComponent implements OnInit {
   croppedImage: any = '';      //ảnh nhận từ cropped
   //crop ảnh
 
+  // Mảng lưu trữ file upload cần thiết
+  uploadingFiles: any = [];
 
   isEditingObjects: boolean = false;
 
@@ -154,12 +156,12 @@ export class CardDynamicFormComponent implements OnInit {
               let elementsValue = JSON.parse(el.value);
               // gán tên phần tử từ elementValue
               el.name = elementsValue && elementsValue.name ? elementsValue.name : el.name;
-              
+
               let listValue = elementsValue && elementsValue.items ? elementsValue.items : [];
               //console.log('giá trị elements',el.value);
               el.length = listValue.length;
               el.listValues = JSON.stringify(listValue); // là một mãng dữ liệu
-              
+
             } catch (error) { }
           }
         }
@@ -351,6 +353,33 @@ export class CardDynamicFormComponent implements OnInit {
     }
 
   }
+
+
+  // --- upload file start ----
+  // Sự kiện khi người dùng chọn file lên để upload
+  uploadFilesEvent(evt) {
+    if (!evt.target || !evt.target.files || !evt.target.files.length) return
+    for (let file of evt.target.files) {
+      if (file.type.indexOf('image') >= 0) {
+        file.isImage = true;
+        const fr = new FileReader();
+        fr.onloadend = (loadEvent) => {
+          file.image = fr.result;
+        };
+        fr.readAsDataURL(file);
+      }
+      if (!this.uploadingFiles.find(x => x.name === file.name))
+        this.uploadingFiles.push(file)
+    }
+  }
+
+  // thực thi xóa file đã chọn
+  onClickRemoveFile(idx) {
+    this.uploadingFiles.splice(idx, 1);
+  }
+
+  // ----------- upload file end --------------------
+
   /**
    * Upload file lên để crop
    * Lấy các tham số về file
@@ -727,41 +756,95 @@ export class CardDynamicFormComponent implements OnInit {
       //Nếu có đường dẫn url thì thực hiện post dữ liệu lên luôn
       if (btn.url) { // post lên cloud
 
-        this.apiCommons.showLoader('Đang xử lý dữ liệu trên cloud....')
+        if (btn.type === "FORM-DATA") {
+          this.apiCommons.showLoader('Đang đẩy dữ liệu FORM-DATA trên cloud....')
 
-        //console.log('kq',json_data);
-        this.apiAuth.postDynamicJson(btn.url, json_data, btn.token)
-          .then(resp => {
+          let form_data: FormData = new FormData();
+          // json_data chứa cặp key, value thôi
+          for (let key in json_data) {
+            let value = json_data[key] !== undefined ? json_data[key] : '';
+            form_data.append(key, value);
+          }
 
-
-            btn.next_data = {
-              button: btn, //chuyen dieu khien nut cho ben ngoai
-              response_data: resp ? resp : {}   //dữ liệu data từ máy chủ trả về là json hoặc gì đó
-              //, nếu không thì giả một đối tượng
+          // trường hợp khai báo tham số attach_file thì biến uploadingFiles chứa file
+          if (this.uploadingFiles.length > 0) {
+            let i = 0;
+            for (let file of this.uploadingFiles) {
+              form_data.append('file_' + i++, file, file.filename);
             }
-            //console.log('data token --> next btn', btn);
-            this.next(btn);
+          }
 
-            this.apiCommons.hideLoader();
+          this.apiAuth.postDynamicFormData(btn.url, form_data, btn.token)
+            .then(resp => {
 
-          })
-          .catch(err => {
-            //Có 2 loại lỗi xãy ra,
-            //1. Do máy chủ không tồn tại hoặc máy chủ bị sự cố, thì trả về bản tin Không thể post
-            //2. Do lập trình trả về code không phải là 200, 
-            // đọc message sẽ biết người lập trình máy chủ muốn nhắn gì
-            btn.next_data = {
-              button: btn, //chuyen dieu khien nut cho ben ngoai
-              error: err && err.error ? err.error : err,  //lỗi trả nguyên trạng
-              message: err && err.error && err.error.message ? err.error.message : ('Không thể POST đến ' + btn.url), //message thông báo
-              json_data: json_data //chuỗi json gửi lên máy chủ
-            }
 
-            this.next(btn);
+              btn.next_data = {
+                button: btn, //chuyen dieu khien nut cho ben ngoai
+                response_data: resp ? resp : {}   //dữ liệu data từ máy chủ trả về là json hoặc gì đó
+                //, nếu không thì giả một đối tượng
+              }
+              //console.log('data token --> next btn', btn);
+              this.next(btn);
 
-            this.apiCommons.hideLoader();
+              this.apiCommons.hideLoader();
 
-          });
+            })
+            .catch(err => {
+              //Có 2 loại lỗi xãy ra,
+              //1. Do máy chủ không tồn tại hoặc máy chủ bị sự cố, thì trả về bản tin Không thể post
+              //2. Do lập trình trả về code không phải là 200, 
+              // đọc message sẽ biết người lập trình máy chủ muốn nhắn gì
+              btn.next_data = {
+                button: btn, //chuyen dieu khien nut cho ben ngoai
+                error: err && err.error ? err.error : err,  //lỗi trả nguyên trạng
+                message: err && err.error && err.error.message ? err.error.message : ('Không thể POST đến ' + btn.url), //message thông báo
+                json_data: json_data //chuỗi json gửi lên máy chủ
+              }
+
+              this.next(btn);
+
+              this.apiCommons.hideLoader();
+
+            });
+
+        } else {
+
+          this.apiCommons.showLoader('Đang xử lý dữ liệu trên cloud....')
+
+          //console.log('kq',json_data);
+          this.apiAuth.postDynamicJson(btn.url, json_data, btn.token)
+            .then(resp => {
+
+
+              btn.next_data = {
+                button: btn, //chuyen dieu khien nut cho ben ngoai
+                response_data: resp ? resp : {}   //dữ liệu data từ máy chủ trả về là json hoặc gì đó
+                //, nếu không thì giả một đối tượng
+              }
+              //console.log('data token --> next btn', btn);
+              this.next(btn);
+
+              this.apiCommons.hideLoader();
+
+            })
+            .catch(err => {
+              //Có 2 loại lỗi xãy ra,
+              //1. Do máy chủ không tồn tại hoặc máy chủ bị sự cố, thì trả về bản tin Không thể post
+              //2. Do lập trình trả về code không phải là 200, 
+              // đọc message sẽ biết người lập trình máy chủ muốn nhắn gì
+              btn.next_data = {
+                button: btn, //chuyen dieu khien nut cho ben ngoai
+                error: err && err.error ? err.error : err,  //lỗi trả nguyên trạng
+                message: err && err.error && err.error.message ? err.error.message : ('Không thể POST đến ' + btn.url), //message thông báo
+                json_data: json_data //chuỗi json gửi lên máy chủ
+              }
+
+              this.next(btn);
+
+              this.apiCommons.hideLoader();
+
+            });
+        }
 
       } else if (btn.table) {
         // Lưu xuống đĩa -- mobile app (thêm ver 5.0)
