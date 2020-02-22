@@ -114,6 +114,22 @@
 		background-size: cover;
 	}
 
+	.image-upload-size{
+		position: relative;
+		max-width: 200px;
+		margin: 2px;
+		padding: 3px;
+		border-radius: 0.5em;
+		border-style: solid;
+		border-color: black;
+		border-width: 1px;
+	}
 	
+	.image-upload-size .close-button {
+		position: absolute;
+		top: 2%;
+		left: 80%;
+		font-size: 30px;
+	}
 	
 //}
