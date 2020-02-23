@@ -105,7 +105,7 @@ export class DynamicFormMobilePage {
       // ver 6.1 dùng thêm kiểu upload file
       , { type: "upload-files"
           , name: "Chọn file excel"
-          , multiple: "single"
+          , multiple: undefined
           , accept:`image/gif, image/jpeg, image/png
                                         , application/pdf
                                         , .txt, .md
