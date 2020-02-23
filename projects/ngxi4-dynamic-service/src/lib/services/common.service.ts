@@ -540,6 +540,13 @@ export class CommonsService {
   }
 
 
+  // Đóng cửa sổ popup menu popover
+  async dismissPopover() {
+    try {
+      await this.popoverCtrl.dismiss();
+    } catch{ }
+  }
+
 
   /**
    * Hàm đợi số giây để tiếp tục thực thi bước tiếp theo
@@ -556,14 +563,14 @@ export class CommonsService {
   /**
    * Kiểm tra là môi trường di động
    */
-  isMobile(){
+  isMobile() {
     return this.platform.is('mobile');
   }
 
   /**
    * Kiểm tra đây là môi trường thiết bị (không phải web)
    */
-  isDevice(){
+  isDevice() {
     return this.platform.is('cordova') && this.platform.is('mobile');
   }
 

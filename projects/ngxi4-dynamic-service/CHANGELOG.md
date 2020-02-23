@@ -1,5 +1,7 @@
 # Changelog
 
+# 2.0.4 add this.apiCommons.dismissPopover()
+
 # 2.0.3 
 Date: 23/02/2020
 for upload file(s) FORM-DATA
