@@ -122,7 +122,7 @@ Tìm trong file: ./tsconfig.json và thêm dòng sau vào
 ## -- Xuất bản npm publish
 ```sh
 npm login
-# user - namedq@shorthand login với user - namedq(nameshort.payment@g)
+# user - namedq@Shorthand login với user - namedq(nameshort.payment@g)
 ng build
 cd dist/ngxi4-dynamic-service
 npm publish
