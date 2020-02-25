@@ -466,9 +466,9 @@ export class CardDynamicFormComponent implements OnInit {
               //nếu trả về là mãng thì duyệt mảng, 
               ajaxReturn.forEach(el => {
                 // thay thế giá trị của các thuộc tính như trả về
-                this.replaceValueForm(el);
+                if (el) this.replaceValueForm(el);
               })
-            } else {
+            } else if (ajaxReturn) {
               // thay thế giá trị thuộc tính cần thay đổi theo
               this.replaceValueForm(ajaxReturn);
             }

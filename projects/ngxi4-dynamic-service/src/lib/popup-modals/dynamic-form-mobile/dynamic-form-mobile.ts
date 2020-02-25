@@ -100,18 +100,19 @@ export class DynamicFormMobilePage {
       , { type: "element", key: "new_element", name: "Tên phần tử", hint: "là dynamicForm" }
       , { type: "list", key: "new_list", name: "Tên của danh sách", hint: "là dynamicForm" }
       , { type: "elements", key: "new_elements", name: "Tên của danh sách phần tử", hint: "là dynamicForm" }
-      
-      
+
+
       // ver 6.1 dùng thêm kiểu upload file
-      , { type: "upload-files"
-          , name: "Chọn file excel"
-          , multiple: undefined
-          , accept:`image/gif, image/jpeg, image/png
+      , {
+        type: "upload-files"
+        , name: "Chọn file excel"
+        , multiple: undefined
+        , accept: `image/gif, image/jpeg, image/png
                                         , application/pdf
                                         , .txt, .md
                                         , .csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel
                                         , application/msword, application/vnd.openxmlformats-officedocument.wordprocessingml.document`
-        }
+      }
       , {
         type: "svg", name: "Nhập đúng captcha", hint: "Vui lòng nhập đúng captcha hình bên", validators: [{ required: true, min: 4, max: 4 }],
         data: "<svg xmlns='http://www.w3.org/2000/svg' width='150' height='50' viewBox='0,0,150,50'>\
@@ -664,9 +665,9 @@ export class DynamicFormMobilePage {
               //nếu trả về là mãng thì duyệt mãng, 
               ajaxReturn.forEach(el => {
                 //còn trả về là object thì như cũ
-                this.replaceValueForm(el);
+                if (el) this.replaceValueForm(el);
               })
-            } else {
+            } else if (ajaxReturn) {
               this.replaceValueForm(ajaxReturn);
             }
           }

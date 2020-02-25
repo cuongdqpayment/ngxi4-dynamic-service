@@ -1,5 +1,7 @@
 # Changelog
 
+# 2.0.5 fix bug change value on selected
+
 # 2.0.4 add this.apiCommons.dismissPopover()
 
 # 2.0.3 
