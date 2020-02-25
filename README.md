@@ -65,7 +65,7 @@ ng build
 cd dist/ngxi4-dynamic-service
 ```
 
-# publish lên npm - login với user - cuongdq(cuongdq.payment@gmail.com)
+# publish lên npm - login với user - namedq(xxxyq.payment@g)
 ```sh
 npm publish
 ```
@@ -120,3 +120,11 @@ Tìm trong file: ./tsconfig.json và thêm dòng sau vào
 }
 
 ## -- Xuất bản npm publish
+```sh
+npm login
+# user - namedq@shorthand login với user - namedq(nameshort.payment@g)
+ng build
+cd dist/ngxi4-dynamic-service
+npm publish
+cd ../../
+```
