@@ -888,8 +888,8 @@ export class DynamicFormMobilePage {
               // đọc message sẽ biết người lập trình máy chủ muốn nhắn gì
               btn.next_data = {
                 button: btn, //chuyen dieu khien nut cho ben ngoai
-                error: err && err.error ? err.error : err,  //lỗi trả nguyên trạng
-                message: err && err.error && err.error.message ? err.error.message : ('Không thể POST đến ' + btn.url), //message thông báo
+                error: err,  //lỗi trả nguyên trạng
+                message: err && err.message ? err.message : err && err.error & err.error.message ? err.error.message : ('Không thể POST đến ' + btn.url), //message thông báo
                 json_data: json_data //chuỗi json gửi lên máy chủ
               }
 
@@ -927,7 +927,7 @@ export class DynamicFormMobilePage {
               btn.next_data = {
                 button: btn, //chuyen dieu khien nut cho ben ngoai
                 error: err && err.error ? err.error : err,  //lỗi trả nguyên trạng
-                message: err && err.error && err.error.message ? err.error.message : ('Không thể POST đến ' + btn.url), //message thông báo
+                message: err && err.message ? err.message : err && err.error & err.error.message ? err.error.message : ('Không thể POST đến ' + btn.url), //message thông báo
                 json_data: json_data //chuỗi json gửi lên máy chủ
               }
 
@@ -971,7 +971,7 @@ export class DynamicFormMobilePage {
               btn.next_data = {
                 button: btn, //chuyen dieu khien nut cho ben ngoai
                 error: err && err.error ? err.error : err,  //lỗi trả nguyên trạng
-                message: err && err.error && err.error.message ? err.error.message : ('Không thể POST đến ' + btn.url), //message thông báo
+                message: err && err.message ? err.message : err && err.error & err.error.message ? err.error.message : ('Không thể POST đến ' + btn.url), //message thông báo
                 json_data: json_data //chuỗi json gửi lên máy chủ
               }
 
@@ -980,7 +980,7 @@ export class DynamicFormMobilePage {
               this.apiCommons.hideLoader();
 
               this.apiCommons.showToast('Lỗi cập nhập csdl<br>'
-                + (err && err.error && err.error.message ? err.error.message : JSON.stringify(err, null, 2))
+                + (err && err.message ? err.message : err && err.error & err.error.message ? err.error.message  : JSON.stringify(err, null, 2))
                 , null, 'danger');
 
             });
@@ -1010,7 +1010,7 @@ export class DynamicFormMobilePage {
               btn.next_data = {
                 button: btn, //chuyen dieu khien nut cho ben ngoai
                 error: err && err.error ? err.error : err,  //lỗi trả nguyên trạng
-                message: err && err.error && err.error.message ? err.error.message : ('Không thể POST đến ' + btn.url), //message thông báo
+                message: err && err.message ? err.message : err && err.error & err.error.message ? err.error.message : ('Không thể POST đến ' + btn.url), //message thông báo
                 json_data: json_data //chuỗi json gửi lên máy chủ
               }
 
@@ -1019,7 +1019,7 @@ export class DynamicFormMobilePage {
               this.apiCommons.hideLoader();
 
               this.apiCommons.showToast('Lỗi chèn dữ liệu<br>'
-                + (err && err.error && err.error.message ? err.error.message : JSON.stringify(err, null, 2))
+                + (err && err.message ? err.message : err && err.error & err.error.message ? err.error.message  : JSON.stringify(err, null, 2))
                 , null, 'danger');
 
             });

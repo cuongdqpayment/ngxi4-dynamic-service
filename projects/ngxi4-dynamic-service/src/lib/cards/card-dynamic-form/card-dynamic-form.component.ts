@@ -797,7 +797,7 @@ export class CardDynamicFormComponent implements OnInit {
               btn.next_data = {
                 button: btn, //chuyen dieu khien nut cho ben ngoai
                 error: err && err.error ? err.error : err,  //lỗi trả nguyên trạng
-                message: err && err.error && err.error.message ? err.error.message : ('Không thể POST đến ' + btn.url), //message thông báo
+                message: err && err.message ? err.message : err && err.error & err.error.message ? err.error.message : ('Không thể POST đến ' + btn.url), //message thông báo
                 json_data: json_data //chuỗi json gửi lên máy chủ
               }
 
@@ -835,7 +835,7 @@ export class CardDynamicFormComponent implements OnInit {
               btn.next_data = {
                 button: btn, //chuyen dieu khien nut cho ben ngoai
                 error: err && err.error ? err.error : err,  //lỗi trả nguyên trạng
-                message: err && err.error && err.error.message ? err.error.message : ('Không thể POST đến ' + btn.url), //message thông báo
+                message: err && err.message ? err.message : err && err.error & err.error.message ? err.error.message : ('Không thể POST đến ' + btn.url), //message thông báo
                 json_data: json_data //chuỗi json gửi lên máy chủ
               }
 
@@ -879,7 +879,7 @@ export class CardDynamicFormComponent implements OnInit {
               btn.next_data = {
                 button: btn, //chuyen dieu khien nut cho ben ngoai
                 error: err && err.error ? err.error : err,  //lỗi trả nguyên trạng
-                message: err && err.error && err.error.message ? err.error.message : ('Không thể POST đến ' + btn.url), //message thông báo
+                message: err && err.message ? err.message : err && err.error & err.error.message ? err.error.message : ('Không thể POST đến ' + btn.url), //message thông báo
                 json_data: json_data //chuỗi json gửi lên máy chủ
               }
 
@@ -888,7 +888,7 @@ export class CardDynamicFormComponent implements OnInit {
               this.apiCommons.hideLoader();
 
               this.apiCommons.showToast('Lỗi cập nhập csdl<br>'
-                + (err && err.error && err.error.message ? err.error.message : JSON.stringify(err, null, 2))
+                + (err && err.message ? err.message : err && err.error & err.error.message ? err.error.message  : JSON.stringify(err, null, 2))
                 , null, 'danger');
 
             });
@@ -918,7 +918,7 @@ export class CardDynamicFormComponent implements OnInit {
               btn.next_data = {
                 button: btn, //chuyen dieu khien nut cho ben ngoai
                 error: err && err.error ? err.error : err,  //lỗi trả nguyên trạng
-                message: err && err.error && err.error.message ? err.error.message : ('Không thể POST đến ' + btn.url), //message thông báo
+                message: err && err.message ? err.message : err && err.error & err.error.message ? err.error.message : ('Không thể POST đến ' + btn.url), //message thông báo
                 json_data: json_data //chuỗi json gửi lên máy chủ
               }
 
@@ -927,7 +927,7 @@ export class CardDynamicFormComponent implements OnInit {
               this.apiCommons.hideLoader();
 
               this.apiCommons.showToast('Lỗi chèn dữ liệu<br>'
-                + (err && err.error && err.error.message ? err.error.message : JSON.stringify(err, null, 2))
+                + (err && err.message ? err.message : err && err.error & err.error.message ? err.error.message  : JSON.stringify(err, null, 2))
                 , null, 'danger');
 
             });
