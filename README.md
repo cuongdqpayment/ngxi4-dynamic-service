@@ -132,3 +132,9 @@ cd dist/ngxi4-dynamic-service
 npm publish
 cd ../../
 ```
+
+## Để sử dụng trong các dự án:
+```sh
+npm i ngxi4-dynamic-service@latest --save
+# Đồng thời cài đầy đủ các thư viện yêu cầu cho các card, dynmic như trong readme của thư viện
+```
