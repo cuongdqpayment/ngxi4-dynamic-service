@@ -53,7 +53,7 @@ npm i @ionic/angular
 # Thêm một thành phần cho dự án lib:
 ng g component cards/Ngxi4CardDynamicForm --project ngxi4-dynamic-service
 
-## 5. Xây dựng thư viện
+## 5. Dịch thư viện để dùng cho các dự án khác
 ```sh
 # Để xuất bản một phiên bản mới, phải sửa chuỗi `"version": "2.0.0"` tăng lên 1 version
 #  trong package.json của thư viện
@@ -65,21 +65,25 @@ ng build
 cd dist/ngxi4-dynamic-service
 ```
 
-# publish lên npm - login với user - namedq(xxxyq.payment@g)
+# publish lên npm - login với user - namedq(xxxyq.payment@g/sht38)
 ```sh
 npm publish
 ```
 
 # Tạo liên kết với npm để cài đặt cho máy nôi bộ 
+```sh
 npm link
-
+```
 
 # Để sử dụng:
-npm i ngxi4-dynamic-service --save
-
+```sh
+npm i ngxi4-dynamic-service@latest --save
+```
 ## Lệnh npm link sẽ tạo liên kết lệnh trong máy này thôi.
 ## Và sẽ cho phép các dự án khác dùng lệnh:
+```sh
 npm link ngxi4-dynamic-service
+```
 # kết quả như lệnh npm i ngxi4-dynamic-service
 # do thư viện chưa publish
 
@@ -122,7 +126,7 @@ Tìm trong file: ./tsconfig.json và thêm dòng sau vào
 ## -- Xuất bản npm publish
 ```sh
 npm login
-# user - namedq@Shorthand login với user - namedq(nameshort.payment@g)
+# user - namedq@Shrthand login với user - namedq(nameshort.payment@g)
 ng build
 cd dist/ngxi4-dynamic-service
 npm publish

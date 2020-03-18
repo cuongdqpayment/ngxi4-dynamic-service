@@ -1,5 +1,7 @@
 # Changelog
 
+# 2.0.7 fix Readme for selected menu and ajax call
+
 # 2.0.6 fix message
 
 # 2.0.5 fix bug change value on selected

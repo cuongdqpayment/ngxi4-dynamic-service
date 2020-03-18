@@ -5,9 +5,10 @@
     <ion-label>{{dynamicForm?.title}}</ion-label>
   </ion-list-header>
 
-  <ion-item *ngFor="let item of dynamicForm?.menu; let idx=index;" tappable color="{{(item?.isChecked?'medium':item?.color)}}" class="item-selected"
-    (click)="selectedSingle(item)">
-    <ion-icon *ngIf="item?.icon" slot="start" name="{{(item?.icon?.name?item?.icon?.name:item?.icon)}}" color="{{(item?.icon?.color?item?.icon?.color:item?.color)}}"></ion-icon>
+  <ion-item *ngFor="let item of dynamicForm?.menu; let idx=index;" tappable
+    color="{{(item?.isChecked?'medium':item?.color)}}" class="item-selected" (click)="selectedSingle(item)">
+    <ion-icon *ngIf="item?.icon" slot="start" name="{{(item?.icon?.name?item?.icon?.name:item?.icon)}}"
+      color="{{(item?.icon?.color?item?.icon?.color:item?.color)}}"></ion-icon>
     <ion-label>{{(item?.name ? item.name: item?.value)}}</ion-label>
   </ion-item>
 
@@ -32,4 +33,3 @@
   </ion-item>
 
 </ion-list>
-

@@ -105,7 +105,7 @@ import { Ngxi4DynamicServiceModule } from 'ngxi4-dynamic-service'
 </ion-content>
 ```
 
-- With:
+- With callback for card (for dynamic form see in if (req.ajax)):
 
 ``` ts
 export class IdeaPage implements OnInit {
@@ -310,8 +310,18 @@ export class LoginPage implements OnInit {
         this.apiCommons.presentAlert('Error:<br>' + (res.message ? res.message : "Error Unknow: " + JSON.stringify(res.error, null, 2)));
 
       } else if (res.ajax) {
-        // callback for ajax replace form when select
-        
+        // callback for ajax replace form when select {key:'nameOfKey', value:"expected value change"}
+          ajaxReturn = {key:'nameOfKey', 
+          property_name:'name of property ex: value', 
+          new_data:'new value of property_name',
+          //or $del_key,  // xóa thuộc tính key
+          //or $edit_key, // sửa key mới
+          //or $new_key   // tạo thuộc tính key mới key = $new_key
+          }
+          // or 
+          // ajaxReturns = [{...ajaxReturn}]
+          resolve(ajaxReturn);
+          return;
       } else if (res.response_data) {
         // Data return when server response or sqlite app respone
         // next="CALLBACK", url="http://..." [,token: true | wzI...]
@@ -357,6 +367,7 @@ async settings(ev: any) {
       {
         name: "Send sms"
         , value: "SEND-SMS"
+        , isChecked: true // Giá trị đã chọn mặc định trước đó
         , icon: {
           name: "mail"
           , color: "primary"
@@ -386,7 +397,7 @@ async settings(ev: any) {
       ev
       ,PopoverCardComponent
       ,{
-        type: 'single-choice',
+        type: 'single-choice', // or 'multi-choice'
         title: "Setting",
         color: "secondary",
         menu: settingsMenu
@@ -422,7 +433,7 @@ async settings(ev: any) {
 }
 ```
 
-# 7. Form dynamic data sample :
+# 7. Data sample for Form dynamic or Card dynamic :
 
 ``` js
 let form = 
@@ -538,7 +549,7 @@ let form =
 
 ```
 
-# 8. Các pipes mặt định sử dụng gồm
+# 8. Include pipes default to use in this lib
 
 ``` html
 
@@ -548,7 +559,7 @@ let form =
 
 ```
 
-# 9. Thêm hàm kiểm tra môi trường web và thiết bị
+# 9. add check device for viewer
 
 ``` js
   // Đây là môi trường di động (web và thiết bị)
@@ -559,16 +570,8 @@ let form =
 ```
 
 
-# 10. Sử dụng trong share.module.ts
+# 10. Sử dụng trong share.module.ts để dùng chung cho tất cả các trang khi khai các thư viện ngoài như TimeAgoPipe,...
 ```ts
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { IonicModule } from '@ionic/angular';
-import { FormsModule } from '@angular/forms';
-import { TimeAgoPipe } from 'time-ago-pipe';
-import { IdeaCardComponent } from './components/idea-card/idea-card.component';
-import {AutosizeModule} from 'ngx-autosize';
-
 @NgModule({
     imports: [
         CommonModule,
@@ -591,7 +594,7 @@ import {AutosizeModule} from 'ngx-autosize';
 export class SharedModule { }
 ```
 
-# Khai báo trong các app.module.ts để sử dụng 
+# Define in app.module.ts to use this lib
 ```ts
 @NgModule({
   ...
@@ -603,4 +606,18 @@ export class SharedModule { }
     ...
   ],
   ...
+```
+
+# Declare in <pages>.module.ts to use card and pipe
+```ts
+@NgModule({
+  imports: [
+    ...
+    Ngxi4DynamicServiceModule, // dùng card và pipe trong .html
+    ...
+  ],
+  declarations: [
+    ...
+  ]
+})
 ```
