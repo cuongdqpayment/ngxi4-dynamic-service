@@ -1,4 +1,7 @@
 /**
+ * 
+ * 
+ * 
  * ver 4.0 ngày 20/09/2019
  * 
  * Dịch vụ này sử dụng để gọi các hàm dùng chung ionic4 như:
@@ -561,10 +564,11 @@ export class CommonsService {
   }
 
   /**
-   * Kiểm tra là môi trường di động
+   * Trả về môi trường di động là độ rộng của màn hình <576
    */
   isMobile() {
-    return this.platform.is('mobile');
+    // return this.platform.is('mobile');
+    return this.platform.width()< 576
   }
 
   /**
