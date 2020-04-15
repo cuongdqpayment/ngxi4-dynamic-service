@@ -18,11 +18,13 @@ export class AuthService {
    * Hoặc khai lại đường dẫn lấy từ csdl
    */
   public serviceUrls = {
-    AUTH_SERVER: this.config ? this.config.AUTH_SERVER : '/admin',           // api xác thực user, pass và token, api
-    MEDIA_SERVER: this.config ? this.config.MEDIA_SERVER : '/media',         // api xác thực user, pass và token, api
-    SOCKET_SERVER: this.config ? this.config.SOCKET_SERVER : '/socket',       // api xác thực user, pass và token, api
-    RESOURCE_SERVER: this.config ? this.config.RESOURCE_SERVER : '/resource',   // api xác thực user, pass và token, api
-    NEWS_SERVER: this.config ? this.config.NEWS_SERVER : '/news'            // api xác thực user, pass và token, api
+    AUTH_SERVER: this.config ? this.config.AUTH_SERVER : '/admin',            // api xác thực user, pass và token, api
+    MEDIA_SERVER: this.config ? this.config.MEDIA_SERVER : '/media',          // Máy chủ đa phương tiện lưu file
+    SOCKET_SERVER: this.config ? this.config.SOCKET_SERVER : '/socket',       // Máy chủ trao đổi socket chat, notify
+    RESOURCE_SERVER: this.config ? this.config.RESOURCE_SERVER : '/resource', // máy chủ tài nguyên (ứng dụng chính)
+    NEWS_SERVER: this.config ? this.config.NEWS_SERVER : '/news',             // máy chủ tin tức (lưu trữ tin tức)
+    CHATBOT_SERVER: this.config ? this.config.CHATBOT_SERVER : '/chatbot',    // máy chủ chatbot ()
+    NLP_SERVER: this.config ? this.config.NLP_SERVER : '/nlp'                 // xử lý ngôn ngữ tự nhiên
   }
 
   constructor(

@@ -1,5 +1,7 @@
 # Changelog
 
+# 2.0.9 add delay for reference 
+
 # 2.0.8 isMobile for with of window in platform
 
 # 2.0.7 fix Readme for selected menu and ajax call

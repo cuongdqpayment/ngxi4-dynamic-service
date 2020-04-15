@@ -39,6 +39,8 @@ export interface Ngxi4Config {
   RESOURCE_SERVER: string;   //  Máy chủ tài nguyên ứng dụng
   SOCKET_SERVER: string;     //  Máy chủ socket
   NEWS_SERVER: string;       //  Máy chủ tin tức mạng xã hội 
+  CHATBOT_SERVER: string;    //  máy chủ chatbot ()
+  NLP_SERVER: string;        //  xử lý ngôn ngữ tự nhiên
 }
 // Dịch vụ tiêm tham số xuống cho các dịch vụ bên dưới
 export const Ngxi4ConfigService = new InjectionToken<Ngxi4Config>('Ngxi4Config');

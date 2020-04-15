@@ -554,13 +554,20 @@ export class CommonsService {
   /**
    * Hàm đợi số giây để tiếp tục thực thi bước tiếp theo
    * @param milisecond 
+   * @param objRef      // là biến tham chiếu (dạng object đợi thời gian có dữ liệu thì sẽ thoát sớm hơn số giây trễ đó)
    */
-  delay(milisecond) {
+  delay(milisecond, objRef?) {
     return new Promise<any>((resolve, reject) => {
       setTimeout(() => {
         resolve()
       }, milisecond);
+      // nếu dữ liệu là biến con trỏ có thì sẽ thoát nhanh sau 1/3 giây sẽ cho đi luôn
+      setInterval(() => {
+        if (objRef) resolve()
+      }, 300)
     })
+
+
   }
 
   /**
@@ -568,7 +575,7 @@ export class CommonsService {
    */
   isMobile() {
     // return this.platform.is('mobile');
-    return this.platform.width()< 576
+    return this.platform.width() < 576
   }
 
   /**

@@ -126,7 +126,8 @@ Tìm trong file: ./tsconfig.json và thêm dòng sau vào
 ## -- Xuất bản npm publish
 ```sh
 npm login
-# user - namedq@Shrthand login với user - namedq(nameshort.payment@g)
+# user - namedq@Shrthand login với user - namedq(namedq.pay@g)
+# change version on package.json for publish
 ng build
 cd dist/ngxi4-dynamic-service
 npm publish
