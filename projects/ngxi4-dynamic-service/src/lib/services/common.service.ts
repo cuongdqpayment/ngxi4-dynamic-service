@@ -553,18 +553,25 @@ export class CommonsService {
 
   /**
    * Hàm đợi số giây để tiếp tục thực thi bước tiếp theo
-   * @param milisecond 
-   * @param objRef      // là biến tham chiếu (dạng object đợi thời gian có dữ liệu thì sẽ thoát sớm hơn số giây trễ đó)
+   * @param milisecond  số milligiây đợi thì thoát xong
+   * @param objRef  là biến tham chiếu (dạng object đợi thời gian có dữ liệu thì sẽ thoát sớm hơn số giây trễ đó)
    */
   delay(milisecond, objRef?) {
     return new Promise<any>((resolve, reject) => {
+
+      // đợi đến khi thời gian timeout thì thoát
       setTimeout(() => {
         resolve()
       }, milisecond);
+
       // nếu dữ liệu là biến con trỏ có thì sẽ thoát nhanh sau 1/3 giây sẽ cho đi luôn
-      setInterval(() => {
-        if (objRef) resolve()
-      }, 300)
+      let intervlTimeout =
+        setInterval(() => {
+          if (objRef) {
+            resolve()
+            clearInterval(intervlTimeout)
+          }
+        }, 300)
     })
 
 
