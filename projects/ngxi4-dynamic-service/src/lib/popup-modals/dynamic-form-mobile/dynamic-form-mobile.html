@@ -371,12 +371,12 @@
 		</ion-list>
 
 		<!-- single select -->
-		<ion-item *ngIf="it?.type === 'select'" class="background-none background-round form-input-item">
+		<ion-item *ngIf="it?.type === 'select-origin'" class="background-none background-round form-input-item">
 			<ion-icon *ngIf="it.icon" slot="start" color="{{it.color?it.color:'primary'}}" name="{{it.icon}}">
 			</ion-icon>
 			<ion-label color="{{(it.invalid&&!it.value?'danger':'primary')}}" class="ion-text-wrap"
 				style="text-align: justify;">
-				{{it.invalid&&!it.value?it.hint+'(*)':it.name}}</ion-label>
+				{{it.invalid&&!it.value?(it.hint||it.name)+'(*)':it.name}}</ion-label>
 			<ion-select [(ngModel)]="it.value"
 				style="background-color: rgb(0, 190, 73); color:whitesmoke; border-radius: 1em;"
 				(ionChange)="onChangeSelect(it)">
@@ -385,12 +385,26 @@
 			</ion-select>
 		</ion-item>
 
+		<!-- single select theo tìm kiếm -->
+		<div *ngIf="it.type == 'select'" class="background-none background-round form-input-item">
+			<ion-item class="background-none background-round form-input-item">
+				<ion-icon *ngIf="it.icon" slot="start" color="{{it.color?it.color:'primary'}}" name="{{it.icon}}">
+				</ion-icon>
+				<ion-label color="{{(it.invalid&&!it.value?'danger':'primary')}}" class="ion-text-wrap"
+					style="text-align: justify;">
+					{{it.invalid&&!it.value?(it.hint||it.name)+'(*)':it.name}}:</ion-label>
+			</ion-item>
+			<ng-multiselect-dropdown [placeholder]="it.name" [data]="it.options"
+				[(ngModel)]="it.selected_values" [settings]="defaultSingleSelectSettings">
+			</ng-multiselect-dropdown>
+		</div>
+
 		<!-- multiple select -->
-		<ion-item *ngIf="it?.type === 'select_multiple'" class="background-none background-round form-input-item">
+		<ion-item *ngIf="it?.type === 'select-multiple-origin'" class="background-none background-round form-input-item">
 			<ion-icon *ngIf="it.icon" slot="start" color="{{it.color?it.color:'primary'}}" name="{{it.icon}}">
 			</ion-icon>
 			<ion-label color="{{it.color?it.color:'primary'}}" class="ion-text-wrap" style="text-align: justify;">
-				{{it.name?it.name:it.hint}}
+				{{it.name||it.hint}}
 			</ion-label>
 			<ion-select [(ngModel)]="it.value" multiple="true"
 				style="background-color: rgb(0, 190, 73); color:whitesmoke; border-radius: 1em;">
@@ -398,6 +412,20 @@
 				</ion-select-option>
 			</ion-select>
 		</ion-item>
+
+		<!-- multiple select cho tìm kiếm, lọc và chọn -->
+		<div *ngIf="it.type == 'select_multiple'" class="background-none background-round form-input-item">
+			<ion-item>
+				<ion-icon *ngIf="it.icon" slot="start" color="{{it.color?it.color:'primary'}}" name="{{it.icon}}">
+				</ion-icon>
+				<ion-label color="{{it.color?it.color:'primary'}}" class="ion-text-wrap" style="text-align: justify;">
+					{{it.invalid&&!it.value?(it.hint?it.hint:it.name)+'(*)':it.name}}:
+				</ion-label>
+			</ion-item>
+			<ng-multiselect-dropdown [placeholder]="it.name" [data]="it.options"
+				[(ngModel)]="it.selected_values" [settings]="defaultMultiSelectSettings">
+			</ng-multiselect-dropdown>
+		</div>
 
 		<!-- toggle check -->
 		<ion-item *ngIf="it?.type === 'toggle'" class="background-none background-round form-input-item">

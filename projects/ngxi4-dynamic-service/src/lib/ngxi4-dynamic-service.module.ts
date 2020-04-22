@@ -31,6 +31,7 @@ import { Ionic4CroppieComponent } from './popup-modals/ionic4-croppie/ionic4-cro
 import { NewlinePipe } from './pipes/new-line';
 import { ArrayPipe } from './pipes/array-pipe';
 import { SafePipe } from './pipes/safe-pipe';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 
 // Cấu hình tham số đầu vào, người dùng khai báo
 export interface Ngxi4Config {
@@ -99,6 +100,8 @@ export const Ngxi4ConfigService = new InjectionToken<Ngxi4Config>('Ngxi4Config')
     StorageServiceModule, // module dành cho dịch vụ lưu trữ xuống đĩa
 
     HttpClientModule, // để giao tiếp api
+
+    NgMultiSelectDropDownModule.forRoot(),
 
     // 3 module chỉ import 1 lần ở cấp cao nhất
     // , không import lần thứ 2 nếu không sẽ báo lỗi

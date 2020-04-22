@@ -1,4 +1,6 @@
 /**
+ * 7.0 chuyển đổi chọn single và multi select by search
+ * 
  * Sử dụng để nhúng vào bất kỳ trang nào để tạo một đối tượng bất kỳ
  * Cấu trúc của một đối tượng là trường dữ liệu và giá trị của trường đó là gì
  * Kết quả trả về một json_data = đối tượng đó = {key:value}
@@ -36,6 +38,7 @@ import { PopoverController } from '@ionic/angular';
 import { PopoverCardComponent } from '../../popovers/popover-card/popover-card.component';
 import { Ionic4CroppieComponent } from '../../popup-modals/ionic4-croppie/ionic4-croppie.component';
 import { CameraCardComponent } from '../../popup-modals/camera-card/camera-card.component';
+import { IDropdownSettings } from 'ng-multiselect-dropdown';
 
 @Component({
   selector: 'card-dynamic-form',
@@ -51,6 +54,25 @@ export class CardDynamicFormComponent implements OnInit {
   @Input() dynamicCallback: any; // ham goi lai khai bao o trang root gui (neu co)
   // @Input() onChangeSelected = new EventEmitter(); // trả về chọn giá trị
   @Output() onSelectedFinish = new EventEmitter(); // Trả kết quả danh sách về nơi gọi nó sau khi thay đổi xong
+
+  defaultSingleSelectSettings: IDropdownSettings = {
+    singleSelection: true,             // chỉ chọn được 1
+    enableCheckAll: false,             // không hiển thị nút checkall 
+    idField: 'value',                  // trường lấy id
+    textField: 'name',                 // trường lấy tên
+    itemsShowLimit: 1,                 // tối đa hiển thị trên ô
+    allowSearchFilter: true            // hiển thị nút tìm kiếm
+  }
+
+  defaultMultiSelectSettings: IDropdownSettings = {
+    singleSelection: false,             // cho phép chọn nhiều
+    idField: 'value',                   // trường lấy id
+    textField: 'name',                  // trường lấy tên
+    selectAllText: 'Chọn tất cả',       // tên gọi chọn tất cả
+    unSelectAllText: 'Bỏ chọn tất cả',  // tên gọi không chọn
+    itemsShowLimit: 3,                  // tối đa hiển thị trên ô
+    allowSearchFilter: true             // hiển thị nút tìm kiếm
+  }
 
   dynamicForm: any;       // truyền vào là object
 
@@ -102,6 +124,32 @@ export class CardDynamicFormComponent implements OnInit {
           idx: idx,
           value: el.value
         });
+
+        // chuyển đổi kiểu chọn nhiều
+        if (el.type === 'select_multiple') {
+          // gán thiết lập từ bên ngoài nếu có
+          this.defaultMultiSelectSettings = el.settings || this.defaultMultiSelectSettings;
+          el.selected_values = el.selected_values || [];
+          if (el.value && Array.isArray(el.value)
+            && el.options && Array.isArray(el.options)
+          ) { // mảng giá trị value như options của multiselected
+            el.value.forEach(e => {
+              el.selected_values = el.selected_values.concat(el.options.filter(x => '' + x[this.defaultMultiSelectSettings.idField] === '' + e))
+            });
+          }
+        }
+
+        // chuyển đổi kiểu chọn nhiều
+        if (el.type === 'select') {
+          // gán thiết lập từ bên ngoài nếu có
+          this.defaultSingleSelectSettings = el.settings || this.defaultSingleSelectSettings;
+          el.selected_values = el.selected_values || [];
+          if (el.value && !Array.isArray(el.value)
+            && el.options && Array.isArray(el.options)
+          ) {
+            el.selected_values = el.selected_values.concat(el.options.filter(x => '' + x[this.defaultMultiSelectSettings.idField] === '' + el.value))
+          }
+        }
 
         if (el.type === 'svg') {
           el.svg = this.sanitizer.bypassSecurityTrustHtml(el.data);
@@ -199,6 +247,26 @@ export class CardDynamicFormComponent implements OnInit {
             el.value = '';
           } else {
             el.value = this.initValues.find(x => x.idx == idx).value;
+            if (el.type === 'select_multiple') {
+              //gán giá trị đã chọn trước
+              el.selected_values = el.selected_values || [];
+              if (el.value && Array.isArray(el.value)
+                && el.options && Array.isArray(el.options)
+              ) { // mảng giá trị value như options của multiselected
+                el.value.forEach(e => {
+                  el.selected_values = el.selected_values.concat(el.options.filter(x => '' + x[this.defaultMultiSelectSettings.idField] === '' + e))
+                });
+              }
+            }
+            if (el.type === 'select') {
+              //gán giá trị đã chọn trước
+              el.selected_values = el.selected_values || [];
+              if (el.value && !Array.isArray(el.value)
+                && el.options && Array.isArray(el.options)
+              ) {
+                el.selected_values = el.selected_values.concat(el.options.filter(x => '' + x[this.defaultMultiSelectSettings.idField] === '' + el.value))
+              }
+            }
           }
         }
       })
@@ -722,6 +790,16 @@ export class CardDynamicFormComponent implements OnInit {
       //kiểm tra validate không
       //và tạo giá trị cho object json_data
       this.dynamicForm.items.some(el => {
+
+        // chuyển đổi giá trị trước khi xử lý cho đối tượng
+        if (el.type === 'select_multiple' && el.selected_values)
+          el.value = el.selected_values.map(o => o[this.defaultMultiSelectSettings.idField])
+        // chuyển đổi giá trị trước khi xử lý cho đối tượng
+        if (el.type === 'select' && el.selected_values) {
+          let values = el.selected_values.map(o => o[this.defaultMultiSelectSettings.idField])
+          el.value = values && values.length > 0 ? values[0] : undefined
+        }
+
         let validatorFns = [];
         if (el.validators) {
           el.validators.forEach(req => {
@@ -888,7 +966,7 @@ export class CardDynamicFormComponent implements OnInit {
               this.apiCommons.hideLoader();
 
               this.apiCommons.showToast('Lỗi cập nhập csdl<br>'
-                + (err && err.message ? err.message : err && err.error & err.error.message ? err.error.message  : JSON.stringify(err, null, 2))
+                + (err && err.message ? err.message : err && err.error & err.error.message ? err.error.message : JSON.stringify(err, null, 2))
                 , null, 'danger');
 
             });
@@ -927,7 +1005,7 @@ export class CardDynamicFormComponent implements OnInit {
               this.apiCommons.hideLoader();
 
               this.apiCommons.showToast('Lỗi chèn dữ liệu<br>'
-                + (err && err.message ? err.message : err && err.error & err.error.message ? err.error.message  : JSON.stringify(err, null, 2))
+                + (err && err.message ? err.message : err && err.error & err.error.message ? err.error.message : JSON.stringify(err, null, 2))
                 , null, 'danger');
 
             });

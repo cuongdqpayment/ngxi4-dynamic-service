@@ -1,4 +1,6 @@
 /**
+ * 7.0 Chuyển đổi chọn single và multi select bằng tìm kiếm lọc, và chọn tất cả
+ * 
  * ver 6.1 bổ sung upload file ảnh và các file bất kỳ
  * Ngày 23/02/2020
  * Thực thi đẩy lên file nguyên bản, không chỉnh sửa
@@ -57,12 +59,34 @@ import { Ionic4CroppieComponent } from '../ionic4-croppie/ionic4-croppie.compone
 import { CameraCardComponent } from '../camera-card/camera-card.component';
 import { PopoverCardComponent } from '../../popovers/popover-card/popover-card.component';
 
+import { IDropdownSettings } from 'ng-multiselect-dropdown';
+
 @Component({
   selector: 'page-dynamic-form-mobile',
   templateUrl: './dynamic-form-mobile.html',
   styleUrls: ['./dynamic-form-mobile.scss']
 })
+
 export class DynamicFormMobilePage {
+
+  defaultSingleSelectSettings: IDropdownSettings = {
+    singleSelection: true,             // chỉ chọn được 1
+    enableCheckAll: false,             // không hiển thị nút checkall 
+    idField: 'value',                  // trường lấy id
+    textField: 'name',                 // trường lấy tên
+    itemsShowLimit: 1,                 // tối đa hiển thị trên ô
+    allowSearchFilter: true            // hiển thị nút tìm kiếm
+  }
+
+  defaultMultiSelectSettings: IDropdownSettings = {
+    singleSelection: false,             // cho phép chọn nhiều
+    idField: 'value',                   // trường lấy id
+    textField: 'name',                  // trường lấy tên
+    selectAllText: 'Chọn tất cả',       // tên gọi chọn tất cả
+    unSelectAllText: 'Bỏ chọn tất cả',  // tên gọi không chọn
+    itemsShowLimit: 3,                  // tối đa hiển thị trên ô
+    allowSearchFilter: true             // hiển thị nút tìm kiếm
+  }
 
   dynamicForm: any = {
     title: "Form mẫu"
@@ -82,8 +106,26 @@ export class DynamicFormMobilePage {
       , { type: "range-text", key: "range_text", name: "Kéo chọn", icon: "contrast", value: 50, min: 0, max: 100 }
       , { type: "toggle", key: "check_toggle", name: "Chọn hay không chọn Toggle?", icon: "call" }
       , { type: "radio", key: "select_radio", name: "Chọn radio cái nào", icon: "call", value: 2, options: [{ name: "Tùy chọn 1", value: 1 }, { name: "Tùy chọn 2", value: 2 }] }
-      , { type: "select", key: "select_1", name: "Chọn 1 cái nào", value: 2, options: [{ name: "Tùy chọn 1", value: 1 }, { name: "Tùy chọn 2", value: 2 }] }
-      , { type: "select_multiple", key: "select_n", name: "Chọn nhiều cái nào", value: 2, options: [{ name: "Tùy chọn 1", value: 1 }, { name: "Tùy chọn 2", value: 2 }] }
+      , { type: "select-origin", key: "select_1", name: "Chọn 1 cái nào", value: 2, options: [{ name: "Tùy chọn 1", value: 1 }, { name: "Tùy chọn 2", value: 2 }] }
+      , { type: "select-multiple-origin", key: "select_n", name: "Chọn nhiều cái nào", value: 2, options: [{ name: "Tùy chọn 1", value: 1 }, { name: "Tùy chọn 2", value: 2 }] }
+      , {
+        type: "select"
+        , key: "select_1"
+        , name: "Hãy chọn và cho phép lọc"
+        , value: 1              // biến đã map ra value rồi
+        , selected_values: []   // biến lấy theo mảng đối tượng
+        , settings: this.defaultSingleSelectSettings
+        , options: [{ name: "Tùy chọn 1", value: 1 }, { name: "Tùy chọn 2", value: 2 }]
+      }
+      , {
+        type: "select_multiple"
+        , key: "select_x"
+        , name: "Hãy chọn và cho phép lọc"
+        , value: [1, 2]         // biến đã map ra value rồi
+        , selected_values: []   // biến lấy theo mảng đối tượng
+        , settings: this.defaultMultiSelectSettings
+        , options: [{ name: "Tùy chọn 1", value: 1 }, { name: "Tùy chọn 2", value: 2 }]
+      }
       , { type: "image-viewer", name: "Ảnh hiển thị camera", hint: "image viewer", url: "https://www.w3schools.com/howto/img_forest.jpg" }
       , { type: "image", name: "Ảnh crop base64", hint: "image viewer", url: "https://www.w3schools.com/howto/img_forest.jpg" }
       , { type: "text", key: "username", disabled: true, name: "username", hint: "Số điện thoại di động 9 số bỏ số 0 ở đầu", input_type: "userName", icon: "information-circle", validators: [{ required: true, min: 9, max: 9, pattern: "^[0-9]*$" }] }
@@ -249,6 +291,32 @@ export class DynamicFormMobilePage {
           value: el.value
         });
 
+        // chuyển đổi kiểu chọn nhiều
+        if (el.type === 'select_multiple') {
+          // gán thiết lập từ bên ngoài nếu có
+          this.defaultMultiSelectSettings = el.settings || this.defaultMultiSelectSettings;
+          el.selected_values = el.selected_values || [];
+          if (el.value && Array.isArray(el.value)
+            && el.options && Array.isArray(el.options)
+          ) { // mảng giá trị value như options của multiselected
+            el.value.forEach(e => {
+              el.selected_values = el.selected_values.concat(el.options.filter(x => '' + x[this.defaultMultiSelectSettings.idField] === '' + e))
+            });
+          }
+        }
+
+        // chuyển đổi kiểu chọn nhiều
+        if (el.type === 'select') {
+          // gán thiết lập từ bên ngoài nếu có
+          this.defaultSingleSelectSettings = el.settings || this.defaultSingleSelectSettings;
+          el.selected_values = el.selected_values || [];
+          if (el.value && !Array.isArray(el.value)
+            && el.options && Array.isArray(el.options)
+          ) {
+            el.selected_values = el.selected_values.concat(el.options.filter(x => '' + x[this.defaultMultiSelectSettings.idField] === '' + el.value))
+          }
+        }
+
         // chuyển đổi kiểu dữ liệu svg để hiển thị ảnh kiểu text html lấy được
         if (el.type === 'svg') {
           el.svg = this.sanitizer.bypassSecurityTrustHtml(el.data);
@@ -354,6 +422,26 @@ export class DynamicFormMobilePage {
             el.value = '';
           } else {
             el.value = this.initValues.find(x => x.idx == idx).value;
+            if (el.type === 'select_multiple') {
+              //gán giá trị đã chọn trước
+              el.selected_values = el.selected_values || [];
+              if (el.value && Array.isArray(el.value)
+                && el.options && Array.isArray(el.options)
+              ) { // mảng giá trị value như options của multiselected
+                el.value.forEach(e => {
+                  el.selected_values = el.selected_values.concat(el.options.filter(x => '' + x[this.defaultMultiSelectSettings.idField] === '' + e))
+                });
+              }
+            }
+            if (el.type === 'select') {
+              //gán giá trị đã chọn trước
+              el.selected_values = el.selected_values || [];
+              if (el.value && !Array.isArray(el.value)
+                && el.options && Array.isArray(el.options)
+              ) {
+                el.selected_values = el.selected_values.concat(el.options.filter(x => '' + x[this.defaultMultiSelectSettings.idField] === '' + el.value))
+              }
+            }
           }
         }
       })
@@ -814,6 +902,16 @@ export class DynamicFormMobilePage {
       //kiểm tra validate không
       //và tạo giá trị cho object json_data
       this.dynamicForm.items.some(el => {
+
+        // chuyển đổi giá trị trước khi xử lý cho đối tượng
+        if (el.type === 'select_multiple' && el.selected_values)
+          el.value = el.selected_values.map(o => o[this.defaultMultiSelectSettings.idField])
+        // chuyển đổi giá trị trước khi xử lý cho đối tượng
+        if (el.type === 'select' && el.selected_values) {
+          let values = el.selected_values.map(o => o[this.defaultMultiSelectSettings.idField])
+          el.value = values && values.length > 0 ? values[0] : undefined
+        }
+
         let validatorFns = [];
         if (el.validators) {
           el.validators.forEach(req => {
@@ -980,7 +1078,7 @@ export class DynamicFormMobilePage {
               this.apiCommons.hideLoader();
 
               this.apiCommons.showToast('Lỗi cập nhập csdl<br>'
-                + (err && err.message ? err.message : err && err.error & err.error.message ? err.error.message  : JSON.stringify(err, null, 2))
+                + (err && err.message ? err.message : err && err.error & err.error.message ? err.error.message : JSON.stringify(err, null, 2))
                 , null, 'danger');
 
             });
@@ -1019,7 +1117,7 @@ export class DynamicFormMobilePage {
               this.apiCommons.hideLoader();
 
               this.apiCommons.showToast('Lỗi chèn dữ liệu<br>'
-                + (err && err.message ? err.message : err && err.error & err.error.message ? err.error.message  : JSON.stringify(err, null, 2))
+                + (err && err.message ? err.message : err && err.error & err.error.message ? err.error.message : JSON.stringify(err, null, 2))
                 , null, 'danger');
 
             });

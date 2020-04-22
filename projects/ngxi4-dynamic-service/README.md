@@ -17,6 +17,8 @@ npm install croppie crypto-js exif-js simple-crypto-js --save
 - install include extra components, service, providers.
 ```sh
 npm install angular-webstorage-service ngx-barcode ngx-image-cropper ngx-qrcode2 ngx-webcam --save
+# version "ng-multiselect-dropdown": "^0.2.10"
+npm i ng-multiselect-dropdown@latest
 ```
 
 - install include @ionic/native
@@ -464,8 +466,28 @@ let form =
       , { type: "range-text", key: "range_text", name: "Kéo chọn", icon: "contrast", value: 50, min: 0, max: 100 }
       , { type: "toggle", key: "check_toggle", name: "Chọn hay không chọn Toggle?", icon: "call" }
       , { type: "radio", key: "select_radio", name: "Chọn radio cái nào", icon: "call", value: 2, options: [{ name: "Tùy chọn 1", value: 1 }, { name: "Tùy chọn 2", value: 2 }] }
-      , { type: "select", key: "select_1", name: "Chọn 1 cái nào", value: 2, options: [{ name: "Tùy chọn 1", value: 1 }, { name: "Tùy chọn 2", value: 2 }] }
-      , { type: "select_multiple", key: "select_n", name: "Chọn nhiều cái nào", value: 2, options: [{ name: "Tùy chọn 1", value: 1 }, { name: "Tùy chọn 2", value: 2 }] }
+      
+      , { type: "select-origin", key: "select_1", name: "Chọn 1 cái nào", value: 2, options: [{ name: "Tùy chọn 1", value: 1 }, { name: "Tùy chọn 2", value: 2 }] }
+      , { type: "select-multiple-origin", key: "select_n", name: "Chọn nhiều cái nào", value: 2, options: [{ name: "Tùy chọn 1", value: 1 }, { name: "Tùy chọn 2", value: 2 }] }
+      , {
+        type: "select"
+        , key: "select_1"
+        , name: "Hãy chọn và cho phép lọc"
+        , value: 1              // biến đã map ra value rồi
+        , selected_values: []   // biến lấy theo mảng đối tượng
+        , settings: this.defaultSingleSelectSettings
+        , options: [{ name: "Tùy chọn 1", value: 1 }, { name: "Tùy chọn 2", value: 2 }]
+      }
+      , {
+        type: "select_multiple"
+        , key: "select_x"
+        , name: "Hãy chọn và cho phép lọc"
+        , value: [1, 2]         // biến đã map ra value rồi
+        , selected_values: []   // biến lấy theo mảng đối tượng
+        , settings: this.defaultMultiSelectSettings
+        , options: [{ name: "Tùy chọn 1", value: 1 }, { name: "Tùy chọn 2", value: 2 }]
+      }
+
       , { type: "image", name: "Ảnh cá nhân", hint: "image viewer", url: "https://www.w3schools.com/howto/img_forest.jpg" }
       , { type: "text", key: "username", disabled: true, name: "username", hint: "Số điện thoại di động 9 số bỏ số 0 ở đầu", input_type: "userName", icon: "information-circle", validators: [{ required: true, min: 9, max: 9, pattern: "^[0-9]*$" }] }
       , { type: "password", key: "password", name: "password", hint: "Mật khẩu phải có chữ hoa, chữ thường, ký tự đặc biệt, số", input_type: "password", icon: "information-circle", validators: [{ required: true, min: 6, max: 20 }] }
