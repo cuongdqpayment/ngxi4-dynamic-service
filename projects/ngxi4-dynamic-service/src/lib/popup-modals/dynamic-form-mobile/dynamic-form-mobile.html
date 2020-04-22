@@ -386,21 +386,20 @@
 		</ion-item>
 
 		<!-- single select theo tìm kiếm -->
-		<div *ngIf="it.type == 'select'" class="background-none background-round form-input-item">
-			<ion-item class="background-none background-round form-input-item">
-				<ion-icon *ngIf="it.icon" slot="start" color="{{it.color?it.color:'primary'}}" name="{{it.icon}}">
-				</ion-icon>
-				<ion-label color="{{(it.invalid&&!it.value?'danger':'primary')}}" class="ion-text-wrap"
-					style="text-align: justify;">
-					{{it.invalid&&!it.value?(it.hint||it.name)+'(*)':it.name}}:</ion-label>
-			</ion-item>
-			<ng-multiselect-dropdown [placeholder]="it.name" [data]="it.options"
+		<ion-item *ngIf="it.type == 'select'" class="background-none background-round form-input-item">
+			<ion-icon *ngIf="it.icon" slot="start" color="{{it.color?it.color:'primary'}}" name="{{it.icon}}">
+			</ion-icon>
+			<ion-label color="{{(it.invalid&&!it.value?'danger':'primary')}}" class="ion-text-wrap"
+				style="text-align: justify;">
+				{{it.invalid&&!it.value?(it.hint||it.name)+'(*)':it.name}}:</ion-label>
+			<ng-multiselect-dropdown slot="end" [placeholder]="it.name" [data]="it.options"
 				[(ngModel)]="it.selected_values" [settings]="defaultSingleSelectSettings">
 			</ng-multiselect-dropdown>
-		</div>
+		</ion-item>
 
 		<!-- multiple select -->
-		<ion-item *ngIf="it?.type === 'select-multiple-origin'" class="background-none background-round form-input-item">
+		<ion-item *ngIf="it?.type === 'select-multiple-origin'"
+			class="background-none background-round form-input-item">
 			<ion-icon *ngIf="it.icon" slot="start" color="{{it.color?it.color:'primary'}}" name="{{it.icon}}">
 			</ion-icon>
 			<ion-label color="{{it.color?it.color:'primary'}}" class="ion-text-wrap" style="text-align: justify;">
@@ -422,8 +421,8 @@
 					{{it.invalid&&!it.value?(it.hint?it.hint:it.name)+'(*)':it.name}}:
 				</ion-label>
 			</ion-item>
-			<ng-multiselect-dropdown [placeholder]="it.name" [data]="it.options"
-				[(ngModel)]="it.selected_values" [settings]="defaultMultiSelectSettings">
+			<ng-multiselect-dropdown [placeholder]="it.name" [data]="it.options" [(ngModel)]="it.selected_values"
+				[settings]="defaultMultiSelectSettings">
 			</ng-multiselect-dropdown>
 		</div>
 
