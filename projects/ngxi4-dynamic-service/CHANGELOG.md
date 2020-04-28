@@ -1,5 +1,7 @@
 # Changelog
 
+# 3.0.4 add more api server
+ 
 # 3.0.3 add "ng-multiselect-dropdown": "^0.2.10" 
 
 # 2.0.9 & 2.1.0 add delay for reference 

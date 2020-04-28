@@ -42,6 +42,21 @@ export interface Ngxi4Config {
   NEWS_SERVER: string;       //  Máy chủ tin tức mạng xã hội 
   CHATBOT_SERVER: string;    //  máy chủ chatbot ()
   NLP_SERVER: string;        //  xử lý ngôn ngữ tự nhiên
+
+  CRM_SERVER: string;
+  BIGDATA_SERVER: string;
+
+  LOCATION_SERVER: string;
+  SITE_SERVER: string;
+  REPORT_SERVER: string;
+  SMS_SERVER: string;
+  PUBLIC_SERVER: string;
+  
+  STAFFS_SERVER: string;     //  Quản lý nhân sự - cơ cấu tổ chức - chức danh - nhân sự
+  PROCESS_SERVER: string;    //  Quản lý Quy trình
+  WORK_SERVER: string;       //  Quản lý Công việc
+  REQUEST_SERVER: string;    //  Quản lý yêu cầu
+  ASSET_SERVER: string;      //  Quản lý tài sản
 }
 // Dịch vụ tiêm tham số xuống cho các dịch vụ bên dưới
 export const Ngxi4ConfigService = new InjectionToken<Ngxi4Config>('Ngxi4Config');
