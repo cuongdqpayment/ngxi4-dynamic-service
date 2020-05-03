@@ -1,6 +1,6 @@
 /**
  * 
- * 
+ * ver 5.0 ngày 03/05/2020 bổ sung hàm mảng, và fix bug delay
  * 
  * ver 4.0 ngày 20/09/2019
  * 
@@ -103,6 +103,58 @@ export class CommonsService {
       }
     });
   }
+
+  // hàm chuyển đổi ký tự sang số cột trong bảng tính excel để cấu hình cột cho dễ nhớ
+  // console.log(['A', 'AA', 'AB', 'ZZ'].map(convertColExcel2Number)); // [1, 27, 28, 702]
+  convertColExcel2Number = (val: string): number => {
+    var base = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', i, j, result = 0;
+    for (i = 0, j = val.length - 1; i < val.length; i += 1, j -= 1) {
+      result += Math.pow(base.length, j) * (base.indexOf(val[i]) + 1);
+    }
+    return result;
+  };
+
+  // hàm chuyển đổi ngược lại từ mã cột sang ký tự
+  convertColExcel2String = (num: number): string => {
+    for (var ret = '', a = 1, b = 26; (num -= a) >= 0; a = b, b *= 26) {
+      ret = String.fromCharCode(Math.floor((num % b) / a) + 65) + ret;
+    }
+    return ret;
+  };
+
+  // lấy giá trị thật nếu là công thức của excel
+  getValueFormula(obj) {
+    if (obj === null || obj === undefined) return null
+    if (typeof obj === 'object') return obj.result
+    return obj
+  }
+
+
+  // các hàm chuyển đổi mảng và đối tượng
+  /**
+ * Chuyển đổi một mảng sang một đối tượng
+ * Sử dụng để unique theo key và gán vào html một cách nhanh nhất
+ * ex: arr = [{id:1,value:223},{id:2,value:433}]
+ * => {1:{id:1,value:223},2:{id:2,value:433}}
+*/
+  convertArrayToObject(arrOfObj, distinctKey) {
+    return arrOfObj.reduce((obj, item) => (obj[distinctKey ? item[distinctKey] : item] = item, obj), {});
+  }
+
+  /**
+  * Chuyển đổi một mảng sang mảng đối tượng nếu id dùng chung
+  * Sử dụng để unique theo key và gán vào html một cách nhanh nhất
+  *  * ex: arr = [{map:15, id:1, value:223},{map:15, id:2, value:433}]
+ * => {"15":[{map:15, id:1, value:223},{map:15, id:2, value:433}]}
+  */
+  convertArrayToObjects(array, key) {
+    return array.reduce((obj, item) => {
+      let items = obj[item[key]] ? obj[item[key]].concat([item]) : [item];
+      obj[item[key]] = items
+      return obj
+    }, {})
+  };
+
 
 
 
@@ -554,27 +606,19 @@ export class CommonsService {
   /**
    * Hàm đợi số giây để tiếp tục thực thi bước tiếp theo
    * @param milisecond  số milligiây đợi thì thoát xong
-   * @param objRef  là biến tham chiếu (dạng object đợi thời gian có dữ liệu thì sẽ thoát sớm hơn số giây trễ đó)
+   * @param data  là biến tham chiếu (dạng object đợi thời gian có dữ liệu thì sẽ thoát sớm hơn số giây trễ đó)
    */
-  delay(milisecond, objRef?) {
+  delay(milisecond, data?) {
     return new Promise<any>((resolve, reject) => {
-
-      // đợi đến khi thời gian timeout thì thoát
-      setTimeout(() => {
-        resolve()
-      }, milisecond);
-
-      // nếu dữ liệu là biến con trỏ có thì sẽ thoát nhanh sau 1/3 giây sẽ cho đi luôn
-      let intervlTimeout =
-        setInterval(() => {
-          if (objRef) {
-            resolve()
-            clearInterval(intervlTimeout)
-          }
-        }, 300)
+      let startTime = Date.now();
+      let intervalObj = setInterval(() => {
+        if ((data && data.length) || (Date.now() - startTime > milisecond)) {
+          resolve()
+          clearInterval(intervalObj);
+          intervalObj = null;
+        }
+      }, 1000)
     })
-
-
   }
 
   /**
