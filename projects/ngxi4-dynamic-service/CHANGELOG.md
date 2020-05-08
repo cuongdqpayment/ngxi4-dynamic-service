@@ -1,5 +1,7 @@
 # Changelog
 
+# 3.0.6 excel convert col string to number, array to object and array to objects
+
 # 3.0.5 add common and bug fix delay
 
 # 3.0.4 add more api server
