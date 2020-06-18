@@ -16,7 +16,7 @@ npm install croppie crypto-js exif-js simple-crypto-js --save
 
 - install include extra components, service, providers.
 ```sh
-npm install angular-webstorage-service ngx-barcode ngx-image-cropper ngx-qrcode2 ngx-webcam --save
+npm install angular-webstorage-service ngx-barcode@0.2.4 ngx-image-cropper ngx-qrcode2@0.0.9 ngx-webcam@0.2.6 --save
 # version "ng-multiselect-dropdown": "^0.2.10"
 npm i ng-multiselect-dropdown@latest
 ```
