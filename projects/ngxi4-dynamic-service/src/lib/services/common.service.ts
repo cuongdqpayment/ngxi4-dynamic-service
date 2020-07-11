@@ -104,7 +104,7 @@ export class CommonsService {
     });
   }
 
-  
+
   // hàm chuyển đổi ký tự sang số cột trong bảng tính excel để cấu hình cột cho dễ nhớ
   // console.log(['A', 'AA', 'AB', 'ZZ'].map(convertColExcel2Number)); // [1, 27, 28, 702]
   convertColExcel2Number = (val: string): number => {
@@ -128,7 +128,7 @@ export class CommonsService {
     if (obj === null || obj === undefined) return null
     if (typeof obj === 'object') {
       // xử lý chuyển đổi chỉ lấy text thôi
-      if (obj.richText) return obj.richText.map(o=>o["text"]).join("")
+      if (obj.richText) return obj.richText.map(o => o["text"]).join("")
       // lấy giá trị bằng biểu thức function
       return obj.result
     }
@@ -162,7 +162,7 @@ export class CommonsService {
       return obj
     }, {})
   };
-  
+
 
 
 
@@ -510,7 +510,7 @@ export class CommonsService {
    * Hiển thị câu thông báo toast 
    * 
    */
-  showToast(msg: string, duration?: number, color?: string, position?: 'middle' | 'bottom' | 'top') {
+  showToast(msg: string, duration?: number | 0 | 1000 | 2000 | 3000 | 5000, color?: string | 'danger' | 'primary' | 'secondary' | 'success' | 'warning', position?: 'middle' | 'bottom' | 'top') {
     return new Promise<any>(resolve => {
       this.toastCtrl.create({
         message: msg,
